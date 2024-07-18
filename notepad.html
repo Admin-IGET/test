@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Notepad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        textarea {
+            width: 80vw;
+            height: 60vh;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTML Notepad</h1>
+        <textarea id="notepad" placeholder="Start typing..."></textarea>
+        <div class="buttons">
+            <button onclick="saveFile()">Save</button>
+            <label for="fileInput">Load</label>
+            <input type="file" id="fileInput" onchange="loadFile()">
+        </div>
+    </div>
+    <script>
+        function saveFile() {
+            const text = document.getElementById('notepad').value;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const anchor = document.createElement('a');
+            anchor.download = 'note.txt';
+            anchor.href = window.URL.createObjectURL(blob);
+            anchor.click();
+        }
+
+        function loadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                document.getElementById('notepad').value = e.target.result;
+            };
+
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
