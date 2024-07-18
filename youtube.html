@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Search and Play</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        #search-container {
+            margin-bottom: 20px;
+        }
+        #videos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .video {
+            width: 320px;
+            height: 180px;
+        }
+    </style>
+</head>
+<body>
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Search for videos...">
+        <button onclick="searchVideos()">Search</button>
+    </div>
+    <div id="videos"></div>
+
+    <script>
+        const apiKey = 'AIzaSyCa5gFI3gP3duNjitl-7N8YAk6y-KZ3FJE';  // Replace with your YouTube Data API key
+
+        function searchVideos() {
+            const query = document.getElementById('search-input').value;
+            fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${query}&key=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    const videoContainer = document.getElementById('videos');
+                    videoContainer.innerHTML = '';
+                    data.items.forEach(item => {
+                        const videoId = item.id.videoId;
+                        const iframe = document.createElement('iframe');
+                        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                        iframe.width = '320';
+                        iframe.height = '180';
+                        iframe.className = 'video';
+                        iframe.frameBorder = '0';
+                        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                        iframe.allowFullscreen = true;
+                        videoContainer.appendChild(iframe);
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
