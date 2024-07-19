@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UvíkSearch.html</title>
+<title>Image Display Example</title>
 <style>
   body {
     margin: 0;
@@ -15,11 +15,12 @@
     min-height: 100vh;
     background-color: #00000;
     font-family: Arial, sans-serif;
+    position: relative;
   }
-  
+
   .image-container {
     text-align: center;
-    margin-top: 20px; /* Adjust the space between the image and the content below */
+    margin-top: 20px;
   }
 
   .image-container img {
@@ -27,17 +28,34 @@
     max-height: 100%;
   }
 
+  .svg-container {
+    position: fixed;
+    top: 50%; /* Adjust the vertical position of the SVG */
+    left: 0; /* Align the SVG to the left edge of the viewport */
+    transform: translateY(-50%); /* Center the SVG vertically */
+    width: 450px; /* Adjust the width as needed */
+  }
+
+  .svg-container img {
+    width: 100%;
+    height: auto;
+  }
+
   .content {
     text-align: center;
-    margin-top: 20px; /* Adjust the space between the content and the image */
-    max-width: 800px; /* Set maximum width for the content area */
-    width: 90%; /* Ensure the content area doesn't exceed the viewport width */
+    margin-top: 20px;
+    max-width: 800px;
+    width: 90%;
   }
 </style>
 </head>
 <body>
   <div class="image-container">
     <img src="https://admin-iget.github.io/test/Uvík.png" alt="PS Logo">
+  </div>
+
+  <div class="svg-container">
+    <img src="https://admin-iget.github.io/test/Mediamodifier-Design.svg" alt="SVG Image">
   </div>
 
   <div class="content">
