@@ -28,7 +28,7 @@ function openApp(appName) {
         internet: "https://admin-iget.github.io/test/UvikSearch.html",
         youtube: "https://admin-iget.github.io/test/youtube.html",
         game: "https://admin-iget.github.io/test/UvikHra1.html",
-        store: "https://admin-iget.github.io/test/UvikStore.html" // Store URL
+        store: "https://admin-iget.github.io/test/UvikObchod.html" // ahoj koukas se do source kodu uvikos, plz pokud editujes zkus to neznicit.
     };
     createWindow(appName, `<iframe src="${urls[appName]}" width="100%" height="100%"></iframe>`);
 }
@@ -46,9 +46,9 @@ function createWindow(title, content) {
         <div class="window-resize-handle"></div>
     `;
     appContainer.appendChild(windowDiv);
-    makeDraggable(windowDiv); // Call draggable function
-    makeResizable(windowDiv); // Call resizable function
-    bringToFront(windowDiv);  // Bring new window to front
+    makeDraggable(windowDiv); // vyvolat posunovani oken
+    makeResizable(windowDiv); // vyvolat meneni velikosti oken
+    bringToFront(windowDiv);  // zkusit dat okna do spravneho poradi
 }
 
 function closeWindow(button) {
@@ -75,7 +75,7 @@ function makeDraggable(element) {
     const titlebar = element.querySelector('.window-titlebar');
     
     titlebar.onmousedown = function (event) {
-        bringToFront(element); // Bring window to the top when dragging starts
+        bringToFront(element); // NEFUNKNI KOD : OPRAVIT dat okno nahoru kdyz se okno resizuje
 
         let shiftX = event.clientX - element.getBoundingClientRect().left;
         let shiftY = event.clientY - element.getBoundingClientRect().top;
@@ -106,7 +106,7 @@ function makeResizable(element) {
     const resizeHandle = element.querySelector('.window-resize-handle');
     
     resizeHandle.onmousedown = function (event) {
-        disableIframes(); // Disable iframe interactions while resizing
+        disableIframes(); // Vypnout Iframy kdyz resizujes okno aby se celej UvikOS nerozbil
 
         function onMouseMove(event) {
             element.style.width = event.pageX - element.getBoundingClientRect().left + 'px';
@@ -118,7 +118,7 @@ function makeResizable(element) {
         resizeHandle.onmouseup = function () {
             document.removeEventListener('mousemove', onMouseMove);
             resizeHandle.onmouseup = null;
-            enableIframes(); // Enable iframe interactions again
+            enableIframes(); // Zase zapnout interakce z Iframy
         };
     };
 
@@ -152,7 +152,7 @@ function bringToFront(element) {
 function openFileExplorer() {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = '.html,.png,.txt,.jpg'; // Limit file types to HTML, PNG, TXT, JPG
+    input.accept = '.html,.png,.txt,.jpg'; // limituje explorer na otevreni jen HTML, PNG, TXT, JPG, nemenit, nezmeni to funkci.
 
     input.onchange = function(event) {
         const file = event.target.files[0];
@@ -172,9 +172,9 @@ function openFileExplorer() {
                     alert('Nepodporovaný typ souboru.');
                 }
             };
-            reader.readAsDataURL(file); // Read the file content as Data URL
+            reader.readAsDataURL(file); // nacist vybrany soubor.
         }
     };
 
-    input.click(); // Trigger the file picker
+    input.click(); // otevrit explorerove browse okno kdyz je vyvolano.
 }
