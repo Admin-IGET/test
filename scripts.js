@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => { // ahoj koukas se na source code JS pro UvikOS! pokud mas pristup k editaci, prosim nenic!
     setInterval(updateTimeDate, 1000);
     changeWallpaper('default');
 });
@@ -28,7 +28,7 @@ function openApp(appName) {
         internet: "https://admin-iget.github.io/test/UvikSearch.html",
         youtube: "https://admin-iget.github.io/test/youtube.html",
         game: "https://admin-iget.github.io/test/UvikHra1.html",
-        store: "https://admin-iget.github.io/test/UvikObchod.html" // ahoj koukas se do source kodu uvikos, plz pokud editujes zkus to neznicit.
+        store: "https://admin-iget.github.io/test/UvikObchod.html" // URLY pro Okna.
     };
     createWindow(appName, `<iframe src="${urls[appName]}" width="100%" height="100%"></iframe>`);
 }
@@ -75,7 +75,7 @@ function makeDraggable(element) {
     const titlebar = element.querySelector('.window-titlebar');
     
     titlebar.onmousedown = function (event) {
-        bringToFront(element); // NEFUNKNI KOD : OPRAVIT dat okno nahoru kdyz se okno resizuje
+        bringToFront(windowDiv); // NEFUNKNI KOD : OPRAVIT dat okno nahoru kdyz se okno resizuje.
 
         let shiftX = event.clientX - element.getBoundingClientRect().left;
         let shiftY = event.clientY - element.getBoundingClientRect().top;
