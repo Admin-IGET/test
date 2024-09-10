@@ -75,7 +75,7 @@ function makeDraggable(element) {
     const titlebar = element.querySelector('.window-titlebar');
     
     titlebar.onmousedown = function (event) {
-        bringToFront(windowDiv); // NEFUNKNI KOD : OPRAVIT dat okno nahoru kdyz se okno resizuje.
+        bringToFront(element); // NEFUNKNI KOD : OPRAVIT dat okno nahoru kdyz se okno resizuje.
 
         let shiftX = event.clientX - element.getBoundingClientRect().left;
         let shiftY = event.clientY - element.getBoundingClientRect().top;
