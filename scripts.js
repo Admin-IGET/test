@@ -29,7 +29,7 @@ function closeSettings() {
 function openApp(appName) {
     var urls = {
         notepad: "https://admin-iget.github.io/test/notepad.html",
-        internet: "https://browser.rammerhead.org",
+        internet: "https://admin-iget.github.io/test/UvikSearch.html",
         youtube: "https://admin-iget.github.io/test/youtube.html",
         game: "https://admin-iget.github.io/test/UvikHra1.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html"
