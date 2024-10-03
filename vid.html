@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Přehrávač videí a zvuku</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        video, audio {
+            max-width: 100%;
+            margin-top: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+
+        input[type="file"] {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Uvíkovej Přehrávač videí a zvuku</h1>
+    <input type="file" id="fileInput" accept="audio/*,video/*">
+    
+    <!-- Video element for playing video files -->
+    <video id="videoPlayer" controls style="display: none;">
+        Váš prohlížeč nepodporuje přehrávání videa.
+    </video>
+
+    <!-- Audio element for playing audio files -->
+    <audio id="audioPlayer" controls style="display: none;">
+        Váš prohlížeč nepodporuje přehrávání zvuku.
+    </audio>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+
+                // Check the file type and choose the appropriate player
+                if (file.type.startsWith('video')) {
+                    videoPlayer.src = fileURL;
+                    videoPlayer.style.display = 'block';
+                    audioPlayer.style.display = 'none';
+                    videoPlayer.play();
+                } else if (file.type.startsWith('audio')) {
+                    audioPlayer.src = fileURL;
+                    audioPlayer.style.display = 'block';
+                    videoPlayer.style.display = 'none';
+                    audioPlayer.play();
+                } else {
+                    alert('Nepodporovaný typ souboru.');
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
