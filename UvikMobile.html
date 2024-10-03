@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UvikMobile</title>
-    <!-- Font Awesome CDN for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Fullscreen layout without borders */
         body, html {
             margin: 0;
             padding: 0;
@@ -23,7 +21,6 @@
             height: 100%;
             padding: 10px;
             box-sizing: border-box;
-            position: relative; /* Set relative position for the container */
         }
         .top-bar {
             display: flex;
@@ -36,37 +33,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url('https://admin-iget.github.io/test/f43981720.jpg'); /* Set desktop background */
-            background-size: cover; /* Cover the entire area */
-            background-position: center; /* Center the background */
-            transition: background 0.5s ease; /* Smooth transition for background change */
-            position: relative; /* Position relative for the main content */
-        }
-        .main-content.iframe-active {
-            background: none; /* Hide background when iframe is active */
+            background-image: url('https://admin-iget.github.io/test/f43981720.jpg');
+            background-size: cover;
+            background-position: center;
+            transition: background 0.5s ease;
+            position: relative;
         }
         .iframe-container {
-            width: 100%;
-            height: 100%; /* Fill the iframe container */
-            display: flex;
-            justify-content: center;
-            align-items: center; /* Center align the iframe */
-            position: relative; /* Position relative for absolute child */
-            z-index: 1; /* Ensure it's above the background */
+            width: 90%;
+            height: 90%;
+            position: relative;
         }
         .iframe-container iframe {
             width: 100%;
-            height: 100%; /* Set the iframe to take full height */
-            border: 1px solid black; /* Add black border to iframe */
-        }
-        .white-box {
-            display: none; /* Hide the white box by default */
-            background-color: white; /* White box below iframe */
-            width: 100%;
-            height: 20%; /* Height of the white box */
-            position: absolute; /* Position absolute to overlay on top */
-            bottom: 0; /* Align it to the bottom */
-            z-index: 2; /* On top of the iframe */
+            height: 100%;
+            border: none; /* No border */
         }
         .bottom-bar {
             display: flex;
@@ -84,6 +65,85 @@
         .button i {
             font-size: 24px;
         }
+        /* Popup styling */
+        .popup {
+            display: none;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 85%;
+            max-height: 80%; /* Limit height */
+            background-color: white;
+            border: 1px solid black;
+            padding: 20px;
+            z-index: 3;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            overflow-y: auto; /* Allow scrolling */
+        }
+        .popup-header {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .popup-body {
+            display: flex;
+            justify-content: space-around;
+        }
+        .popup-body .app-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        .popup-body .app-icon i {
+            font-size: 48px;
+            margin-bottom: 5px;
+        }
+        .files-popup {
+            display: none;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 85%;
+            max-height: 80%; /* Limit height */
+            background-color: white;
+            border: 1px solid black;
+            padding: 20px;
+            z-index: 4;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            overflow-y: auto; /* Allow scrolling */
+        }
+        .files-popup-header {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .files-popup-body {
+            display: flex;
+            flex-direction: column;
+        }
+        .files-popup-body button {
+            margin-bottom: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        /* Textarea for editing */
+        .text-editor {
+            width: 100%;
+            height: 400px; /* Fixed height for editing */
+            resize: none; /* Disable resizing */
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -97,105 +157,187 @@
         <!-- Main content (iframe area) -->
         <div id="mainContent" class="main-content">
             <div class="iframe-container">
-                <div class="white-box" id="whiteBox"></div> <!-- White box below the iframe -->
-                <!-- Content will be loaded here -->
+                <iframe id="mainIframe" src="" style="display:none;"></iframe>
             </div>
         </div>
 
         <!-- Bottom navigation buttons -->
         <div class="bottom-bar">
-            <!-- UvikOS Desktop (Computer Icon) -->
-            <a href="https://admin-iget.github.io/test/" class="button">
-                <i class="fas fa-desktop"></i> <!-- Computer icon -->
-            </a>
+            <!-- App Bar Popup Trigger Button -->
+            <div class="button" id="appBarBtn">
+                <i class="fas fa-bars"></i> <!-- App Bar Icon -->
+            </div>
 
-            <!-- Call button (Caller Icon) using the tel: protocol -->
+            <!-- Call button (Caller Icon) -->
             <a href="tel:" class="button">
-                <i class="fas fa-phone"></i> <!-- Caller icon -->
+                <i class="fas fa-phone"></i>
             </a>
 
             <!-- Contacts button (Mail Icon) -->
             <a href="mailto:" class="button">
-                <i class="fas fa-envelope"></i> <!-- Mail icon -->
+                <i class="fas fa-envelope"></i>
             </a>
 
-            <!-- Fullscreen window for iframe (Browser Icon) -->
+            <!-- Fullscreen Browser window -->
             <div class="button" onclick="openIframe('https://browser.rammerhead.org');">
-                <i class="fas fa-globe"></i> <!-- Browser icon -->
+                <i class="fas fa-globe"></i>
             </div>
 
-            <!-- Fullscreen window for iframe (Star Icon) -->
+            <!-- Fullscreen Star App -->
             <div class="button" onclick="openIframe('https://admin-iget.github.io/test/UvikHra1.html');">
-                <i class="fas fa-star"></i> <!-- Star icon -->
+                <i class="fas fa-star"></i>
             </div>
+        </div>
+
+        <!-- Popup for App Bar -->
+        <div id="appBarPopup" class="popup">
+            <span class="close-btn" id="appBarClose">&times;</span> <!-- Close button -->
+            <div class="popup-header">App Bar</div>
+            <div class="popup-body">
+                <!-- Files App -->
+                <div class="app-icon" id="filesAppBtn">
+                    <i class="fas fa-folder-open"></i> <!-- Files Icon -->
+                    <span>Files</span>
+                </div>
+
+                <!-- UvikOS Desktop -->
+                <div class="app-icon">
+                    <a href="https://admin-iget.github.io/test/" style="text-decoration: none; color: inherit;">
+                        <i class="fas fa-desktop"></i> <!-- Computer Icon -->
+                        <span>UvikOS Desktop</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Files Popup -->
+        <div id="filesPopup" class="files-popup">
+            <span class="close-btn" onclick="closeFilesPopup()">&times;</span> <!-- Close button -->
+            <div class="files-popup-header">Browse Files</div>
+            <div class="files-popup-body">
+                <input type="file" id="fileInput" style="margin-bottom: 20px;" />
+                <button onclick="handleFile()">Open Selected File</button>
+            </div>
+        </div>
+
+        <!-- Text Editor Popup -->
+        <div id="textEditorPopup" class="files-popup">
+            <span class="close-btn" onclick="closeTextEditor()">&times;</span> <!-- Close button -->
+            <div class="files-popup-header">Edit Text File</div>
+            <textarea id="textEditor" class="text-editor" placeholder="Edit your text here..."></textarea>
+            <button onclick="saveTextFile()">Save</button>
         </div>
     </div>
 
-    <!-- Iframe handling script (in HTML as requested, no external JS) -->
     <script>
         // Function to open iframe in the main content area
         function openIframe(url) {
-            const mainContent = document.getElementById('mainContent');
-            const iframeContainer = document.querySelector('.iframe-container');
-            const whiteBox = document.getElementById('whiteBox');
-
-            // Create iframe and set source
-            const iframe = document.createElement('iframe');
-            iframe.src = url;
-
-            // Clear existing content and add iframe
-            iframeContainer.innerHTML = ''; // Clear previous iframe
-            iframeContainer.appendChild(iframe); // Add new iframe
-            mainContent.classList.add('iframe-active'); // Add class to hide background
-            whiteBox.style.display = 'block'; // Show the white box
+            const mainIframe = document.getElementById('mainIframe');
+            mainIframe.src = url;
+            mainIframe.style.display = 'block';
+            document.querySelector('.main-content').classList.add('iframe-active');
         }
 
-        // Function to display the current time
-        function updateTime() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('time').textContent = hours + ':' + minutes;
+        // Function to open files popup
+        document.getElementById('filesAppBtn').addEventListener('click', function() {
+            document.getElementById('filesPopup').style.display = 'block'; // Open Files Popup
+        });
+
+        // Close Files Popup
+        function closeFilesPopup() {
+            document.getElementById('filesPopup').style.display = 'none';
         }
 
-        // Update time every second
-        setInterval(updateTime, 1000);
+        // Function to handle file selection and display
+        function handleFile() {
+            const fileInput = document.getElementById('fileInput');
+            const selectedFile = fileInput.files[0];
 
-        // Function to show battery status (using Battery Status API)
-        function updateBattery() {
-            navigator.getBattery().then(function(battery) {
-                function updateAllBatteryInfo(){
-                    updateChargeInfo();
+            if (selectedFile) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const result = e.target.result;
+
+                    // Determine the type of the selected file
+                    if (selectedFile.type.startsWith('image/') || selectedFile.type.startsWith('video/') || selectedFile.type.startsWith('audio/') || selectedFile.type === 'text/plain') {
+                        const iframe = document.getElementById('mainIframe');
+                        iframe.style.display = 'block'; // Show iframe
+                        
+                        // For images and videos, directly set the src
+                        if (selectedFile.type.startsWith('image/') || selectedFile.type.startsWith('video/')) {
+                            iframe.src = result; // Use the result as the source
+                        } else if (selectedFile.type === 'text/plain') {
+                            // If it's a text file, open the text editor
+                            openTextEditor(result); // Pass raw text content
+                        }
+                    } else {
+                        alert('Unsupported file type.');
+                    }
+                };
+
+                // Read file based on type
+                if (selectedFile.type === 'text/plain') {
+                    reader.readAsText(selectedFile); // Read as text for text files
+                } else {
+                    reader.readAsDataURL(selectedFile); // Read as Data URL for other types
                 }
-                updateAllBatteryInfo();
-                battery.addEventListener('chargingchange', function(){
-                    updateChargeInfo();
-                });
-                function updateChargeInfo(){
-                    document.getElementById('battery').textContent = 'Battery: ' + Math.floor(battery.level * 100) + '%';
-                }
-            });
-        }
-
-        // Make the page go fullscreen on load
-        function requestFullscreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
-                document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-                document.documentElement.msRequestFullscreen();
             }
         }
 
-        // Call functions on page load
-        window.onload = function() {
-            requestFullscreen();  // Enter fullscreen mode
-            updateTime();  // Start clock
-            updateBattery();  // Get battery percentage
-        };
+        // Function to open text editor
+        function openTextEditor(content) {
+            document.getElementById('textEditor').value = content; // Load existing content into the editor
+            document.getElementById('textEditorPopup').style.display = 'block'; // Show text editor popup
+        }
+
+        // Function to close the text editor
+        function closeTextEditor() {
+            document.getElementById('textEditorPopup').style.display = 'none'; // Close text editor popup
+        }
+
+        // Function to save the text file
+        function saveTextFile() {
+            const textContent = document.getElementById('textEditor').value; // Get content from the editor
+            const blob = new Blob([textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'edited_text.txt'; // Specify the name of the file
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            closeTextEditor(); // Close the editor after saving
+        }
+
+        // Set current time and update every minute
+        function updateTime() {
+            const now = new Date();
+            const time = now.getHours() + ':' + ('0' + now.getMinutes()).slice(-2);
+            document.getElementById('time').textContent = time;
+        }
+        setInterval(updateTime, 60000); // Update time every minute
+        updateTime(); // Set the initial time
+
+        // Battery percentage handling
+        navigator.getBattery().then(function(battery) {
+            document.getElementById('battery').textContent = 'Battery: ' + Math.round(battery.level * 100) + '%';
+            battery.addEventListener('levelchange', function() {
+                document.getElementById('battery').textContent = 'Battery: ' + Math.round(battery.level * 100) + '%';
+            });
+        });
+
+        // Function to close app bar popup
+        const appBarClose = document.getElementById('appBarClose');
+        appBarClose.addEventListener('click', function() {
+            document.getElementById('appBarPopup').style.display = 'none'; // Close the popup
+        });
+
+        // App Bar button click to open the app bar popup
+        document.getElementById('appBarBtn').addEventListener('click', function() {
+            document.getElementById('appBarPopup').style.display = 'block'; // Open App Bar Popup
+        });
+
     </script>
 </body>
 </html>
