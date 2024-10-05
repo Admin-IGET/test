@@ -185,6 +185,7 @@ function makeDraggable(element) {
     };
 }
 
+
 function makeResizable(element) {
     var resizeHandle = element.querySelector('.window-resize-handle');
     

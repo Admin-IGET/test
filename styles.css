@@ -62,11 +62,11 @@ body {
     left: 0;
     right: 0;
     height: 50px;
-    background-color: transparent; /* Transparent to show wallpaper */
+    background-color: rgba(0, 0, 0, 0); /* Fully transparent */
     display: flex;
     align-items: center;
     padding: 5px;
-    z-index: 1002;
+    z-index: 100; /* Keep the taskbar below windows */
 }
 
 #taskbar-apps {
@@ -110,7 +110,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    z-index: 100;
+    z-index: 200; /* Higher z-index than the taskbar */
 }
 
 .window-titlebar {
@@ -121,6 +121,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 201; /* Higher z-index to ensure it’s always above the taskbar */
 }
 
 .window-content {
@@ -136,6 +137,7 @@ body {
     height: 15px;
     cursor: se-resize;
     background-color: transparent;
+    z-index: 201; /* Ensure resize handle is above taskbar */
 }
 
 .hidden-window {
