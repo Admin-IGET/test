@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UvíkOS Desktop</title> <!-- Updated title -->
-    <link rel="stylesheet" href="styles.css">
+    <title>UvíkOS Desktop</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external styles -->
 </head>
 <body>
+    <!-- Start Menu -->
     <div id="start-menu" class="hidden">
         <button onclick="openApp('notepad')">Poznámkový blok</button>
         <button onclick="openApp('internet')">Internet</button>
@@ -17,17 +18,28 @@
         <button onclick="toggleStartMenu()">Zavřít</button>
     </div>
 
+    <!-- Settings -->
     <div id="settings" class="hidden">
         <h2>Nastavení</h2>
         <button onclick="changeWallpaper('default')">Výchozí tapeta</button>
         <input type="file" id="custom-wallpaper" accept="image/*">
         <button onclick="changeWallpaper('custom')">Použít vlastní tapetu</button>
-        <button onclick="redirectToMobile()">Přepnout na mobilní verzi</button> <!-- New redirect button -->
+        <button onclick="redirectToMobile()">Přepnout na mobilní verzi</button>
         <button onclick="closeSettings()">Zavřít</button>
     </div>
 
+    <!-- App Container -->
     <div id="app-container"></div>
 
+    <!-- Taskbar -->
+    <div id="taskbar">
+        <button id="start-button" onclick="toggleStartMenu()">
+            <img src="https://admin-iget.github.io/test/uvikicon.png" alt="Uvik" width="40">
+        </button>
+        <div id="taskbar-apps"></div> <!-- Taskbar apps will be dynamically added here -->
+    </div>
+
+    <!-- Time & Date -->
     <div id="time-date">
         <span id="time"></span>
         <span id="date"></span>
@@ -37,10 +49,6 @@
         </button>
     </div>
 
-    <button id="start-button" onclick="toggleStartMenu()">
-        <img src="https://admin-iget.github.io/test/uvikicon.png" alt="Uvik" width="40">
-    </button>
-
-    <script src="scripts.js"></script>
+    <script src="scripts.js"></script> <!-- Link to the external script -->
 </body>
 </html>

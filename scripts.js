@@ -50,27 +50,84 @@ function createWindow(title, content) {
     var appContainer = document.getElementById('app-container');
     var windowDiv = document.createElement('div');
     windowDiv.className = 'window';
-    windowDiv.innerHTML = 
-        '<div class="window-titlebar">' +
-            '<span>' + title + '</span>' +
-            '<button onclick="closeWindow(this)">X</button>' +
-        '</div>' +
-        '<div class="window-content">' + content + '</div>' +
-        '<div class="window-resize-handle"></div>';
+
+    // Assign a unique ID to each window for tracking in taskbar
+    var windowId = Date.now();
+    windowDiv.dataset.windowId = windowId;
+
+    windowDiv.innerHTML = `
+        <div class="window-titlebar">
+            <span>${title}</span>
+            <button onclick="closeWindow(this)">X</button>
+        </div>
+        <div class="window-content">${content}</div>
+        <div class="window-resize-handle"></div>`;
+    
     appContainer.appendChild(windowDiv);
     makeDraggable(windowDiv);
     makeResizable(windowDiv);
     bringToFront(windowDiv);
+
+    // Create a taskbar button for the window
+    addTaskbarButton(title, windowDiv);
+}
+
+function addTaskbarButton(title, windowDiv) {
+    var taskbarApps = document.getElementById('taskbar-apps');
+    var taskbarButton = document.createElement('div');
+    taskbarButton.className = 'taskbar-button';
+    taskbarButton.dataset.windowId = windowDiv.dataset.windowId; // Link taskbar button to window
+
+    taskbarButton.innerHTML = `
+        <span>${title}</span>
+        <button class="minimize-btn">-</button>`;
+    
+    taskbarApps.appendChild(taskbarButton);
+
+    // Click taskbar button to bring the window to front
+    taskbarButton.onclick = function() {
+        bringToFront(windowDiv);
+        if (windowDiv.classList.contains('hidden-window')) {
+            windowDiv.classList.remove('hidden-window'); // Restore if minimized
+        }
+    };
+
+    // Minimize button to hide the window
+    var minimizeButton = taskbarButton.querySelector('.minimize-btn');
+    minimizeButton.onclick = function(e) {
+        e.stopPropagation(); // Prevent triggering the taskbarButton click event
+        if (windowDiv.classList.contains('hidden-window')) {
+            windowDiv.classList.remove('hidden-window'); // Restore window
+        } else {
+            windowDiv.classList.add('hidden-window'); // Minimize window
+        }
+    };
 }
 
 function closeWindow(button) {
-    var windowElement = findAncestor(button, 'window');
-    windowElement.parentNode.removeChild(windowElement);
+    var windowElement = button.closest('.window');
+    if (windowElement) {
+        windowElement.remove(); // Removes the window from the DOM
+    }
+
+    // Remove the corresponding taskbar button when window is closed
+    removeTaskbarButton(windowElement);
 }
 
-function findAncestor(el, cls) {
-    while ((el = el.parentElement) && !el.classList.contains(cls));
-    return el;
+function removeTaskbarButton(windowElement) {
+    var taskbarApps = document.getElementById('taskbar-apps');
+    var taskbarButton = taskbarApps.querySelector(`.taskbar-button[data-window-id="${windowElement.dataset.windowId}"]`);
+    if (taskbarButton) {
+        taskbarButton.remove(); // Remove the taskbar button when the window is closed
+    }
+}
+
+function bringToFront(element) {
+    var allWindows = document.querySelectorAll('.window');
+    for (var i = 0; i < allWindows.length; i++) {
+        allWindows[i].style.zIndex = 100;
+    }
+    element.style.zIndex = 101;
 }
 
 function changeWallpaper(type) {
@@ -98,6 +155,7 @@ function makeDraggable(element) {
     
     titlebar.onmousedown = function (event) {
         bringToFront(element); // Bring window to the top when dragging starts
+        disableIframes(); // Disable iframe interactions when dragging starts
 
         var shiftX = event.clientX - element.offsetLeft;
         var shiftY = event.clientY - element.offsetTop;
@@ -116,6 +174,7 @@ function makeDraggable(element) {
         titlebar.onmouseup = function () {
             document.removeEventListener('mousemove', onMouseMove);
             titlebar.onmouseup = null;
+            enableIframes(); // Enable iframe interactions when dragging ends
         };
     };
 
@@ -161,14 +220,6 @@ function enableIframes() {
     for (var i = 0; i < iframes.length; i++) {
         iframes[i].style.pointerEvents = 'auto';
     }
-}
-
-function bringToFront(element) {
-    var allWindows = document.querySelectorAll('.window');
-    for (var i = 0; i < allWindows.length; i++) {
-        allWindows[i].style.zIndex = 100;
-    }
-    element.style.zIndex = 101;
 }
 
 function openFileExplorer() {
