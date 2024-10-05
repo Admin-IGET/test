@@ -224,7 +224,6 @@ function enableTaskbar() {
     taskbar.style.pointerEvents = 'auto'; // Enable pointer events
 }
 
-
 function disableIframes() {
     var iframes = document.querySelectorAll('iframe');
     for (var i = 0; i < iframes.length; i++) {
