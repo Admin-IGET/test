@@ -156,6 +156,7 @@ function makeDraggable(element) {
     titlebar.onmousedown = function (event) {
         bringToFront(element); // Bring window to the top when dragging starts
         disableIframes(); // Disable iframe interactions when dragging starts
+        disableTaskbar(); // Disable taskbar interactions when dragging starts
 
         var shiftX = event.clientX - element.offsetLeft;
         var shiftY = event.clientY - element.offsetTop;
@@ -175,6 +176,7 @@ function makeDraggable(element) {
             document.removeEventListener('mousemove', onMouseMove);
             titlebar.onmouseup = null;
             enableIframes(); // Enable iframe interactions when dragging ends
+            enableTaskbar(); // Enable taskbar interactions when dragging ends
         };
     };
 
@@ -188,6 +190,7 @@ function makeResizable(element) {
     
     resizeHandle.onmousedown = function (event) {
         disableIframes(); // Disable iframe interactions while resizing
+        disableTaskbar(); // Disable taskbar interactions while resizing
 
         function onMouseMove(event) {
             element.style.width = (event.pageX - element.offsetLeft) + 'px';
@@ -200,6 +203,7 @@ function makeResizable(element) {
             document.removeEventListener('mousemove', onMouseMove);
             resizeHandle.onmouseup = null;
             enableIframes(); // Enable iframe interactions again
+            enableTaskbar(); // Enable taskbar interactions again
         };
     };
 
@@ -207,6 +211,19 @@ function makeResizable(element) {
         return false;
     };
 }
+
+// Function to disable taskbar interactions
+function disableTaskbar() {
+    var taskbar = document.getElementById('taskbar');
+    taskbar.style.pointerEvents = 'none'; // Disable pointer events
+}
+
+// Function to enable taskbar interactions
+function enableTaskbar() {
+    var taskbar = document.getElementById('taskbar');
+    taskbar.style.pointerEvents = 'auto'; // Enable pointer events
+}
+
 
 function disableIframes() {
     var iframes = document.querySelectorAll('iframe');
