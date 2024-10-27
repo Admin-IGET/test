@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UVÍK Vyhledávač(tm)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            min-height: 100vh;
+            background-color: #ffffff; /* White background */
+            font-family: Arial, sans-serif;
+        }
+
+        #left {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #right {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        iframe {
+            height: 400px; /* Fixed height for the iframe */
+            border: none;
+        }
+
+        #cz-news {
+            margin-top: 20px;
+        }
+
+        .news-item {
+            margin-bottom: 10px;
+            border: 1px solid #ccc; /* Optional styling for news items */
+            padding: 10px;
+        }
+    </style>
+    <script>
+        async function fetchCzechNews() {
+            try {
+                const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.novinky.cz/rss&api_key=dpmj1tmzmdrzlhnkwsv2c6kaljq8hi55gn5d1rug');
+                const data = await response.json();
+
+                if (data.status === "ok") {
+                    const newsContainer = document.getElementById('cz-news');
+                    newsContainer.innerHTML = ''; // Clear previous news
+                    data.items.slice(0, 3).forEach(item => {
+                        const title = item.title;
+                        const link = item.link;
+                        const description = item.description;
+
+                        const newsItem = document.createElement('div');
+                        newsItem.classList.add('news-item');
+                        newsItem.innerHTML = `
+                            <div>
+                                <p><strong>${title}</strong></p>
+                                <p>${description}</p>
+                                <a href="${link}" target="_blank">Read more</a>
+                            </div>
+                        `;
+                        newsContainer.appendChild(newsItem);
+                    });
+                } else {
+                    document.getElementById('cz-news').textContent = 'Nepodařilo se načíst novinky';
+                }
+            } catch (error) {
+                document.getElementById('cz-news').textContent = 'Novinky nejsou dostupné';
+            }
+        }
+
+        function updateDateTimeWeather() {
+            const date = new Date();
+            const dateString = date.toLocaleDateString('cs-CZ'); // Czech format
+            const timeString = date.toLocaleTimeString('cs-CZ');
+            const weather = "22 °C, Clear"; // Replace with actual weather data if needed
+
+            document.getElementById('date').textContent = `Datum: ${dateString}`;
+            document.getElementById('time').textContent = `Čas: ${timeString}`;
+            document.getElementById('weather').textContent = `Počasí: ${weather}`;
+        }
+
+        window.onload = function() {
+            fetchCzechNews();
+            updateDateTimeWeather();
+        };
+    </script>
+</head>
+<body>
+    <div id="left">
+        <iframe src="https://admin-iget.github.io/test/UvikSearch.html"></iframe>
+        <a href="https://mail.seznam.cz" target="_blank">Přejít do Emailu</a>
+    </div>
+    
+    <div id="right">
+        <div id="date"></div>
+        <div id="time"></div>
+        <div id="weather"></div>
+        <div id="cz-news"></div>
+    </div>
+</body>
+</html>
