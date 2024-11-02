@@ -46,6 +46,68 @@ function openApp(appName) {
     createWindow(appName, '<iframe src="' + urls[appName] + '" width="100%" height="100%"></iframe>');
 }
 
+function enableRenaming(taskbarButton) {
+    taskbarButton.ondblclick = function () {
+        const currentText = taskbarButton.querySelector('span').innerText;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentText;
+        taskbarButton.innerHTML = ''; // Clear current content
+        taskbarButton.appendChild(input); // Add input field
+        input.focus();
+
+        input.onblur = function () {
+            // Save the new name when the input loses focus
+            const newName = input.value.trim() || currentText; // Use old name if empty
+            taskbarButton.innerHTML = `<span>${newName}</span><button class="minimize-btn">-</button>`;
+        };
+
+        input.onkeypress = function (e) {
+            if (e.key === 'Enter') {
+                // Save the new name when Enter is pressed
+                input.blur();
+            }
+        };
+    };
+}
+
+function enableWindowRenaming(titleBar) {
+    titleBar.ondblclick = function () {
+        const currentText = titleBar.querySelector('span').innerText;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentText;
+        titleBar.innerHTML = ''; // Clear current content
+        titleBar.appendChild(input); // Add input field
+        input.focus();
+
+        input.onblur = function () {
+            const newName = input.value.trim() || currentText; // Use old name if empty
+            titleBar.innerHTML = `<span>${newName}</span><button onclick="closeWindow(this)">X</button>`;
+            
+            // Update the corresponding taskbar button
+            updateTaskbarButtonName(titleBar, newName);
+        };
+
+        input.onkeypress = function (e) {
+            if (e.key === 'Enter') {
+                input.blur();
+            }
+        };
+    };
+}
+
+function updateTaskbarButtonName(titleBar, newName) {
+    // Get the window ID from the title bar
+    const windowId = titleBar.closest('.window').dataset.windowId;
+    const taskbarButton = document.querySelector(`.taskbar-button[data-window-id="${windowId}"]`);
+
+    if (taskbarButton) {
+        taskbarButton.querySelector('span').innerText = newName; // Update taskbar button text
+    }
+}
+
+
 function createWindow(title, content) {
     var appContainer = document.getElementById('app-container');
     var windowDiv = document.createElement('div');
@@ -67,6 +129,9 @@ function createWindow(title, content) {
     makeDraggable(windowDiv);
     makeResizable(windowDiv);
     bringToFront(windowDiv);
+
+    // Enable renaming on the window title bar
+    enableWindowRenaming(windowDiv.querySelector('.window-titlebar'));
 
     // Create a taskbar button for the window
     addTaskbarButton(title, windowDiv);
