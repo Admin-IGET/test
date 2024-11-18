@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psaníčko hehe :D</title>
+    <title>Poznámky a psaní</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,24 +46,32 @@
             border: none;
             cursor: pointer;
         }
+        input[type="text"] {
+            padding: 5px;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 200px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Psaníčko hehe :D</h1>
-        <textarea id="notepad" placeholder="tady můžeš psát."></textarea>
+        <h1>Poznámkový blok</h1>
+        <textarea id="notepad" placeholder=""></textarea>
         <div class="buttons">
-            <button onclick="saveFile()">Uložiť</button>
-            <label for="fileInput">Načístičko :D</label>
+            <input type="text" id="filename" placeholder="Zadejte název souboru">
+            <button onclick="saveFile()">Uložit jako</button>
+            <label for="fileInput">Otevřít</label>
             <input type="file" id="fileInput" onchange="loadFile()">
         </div>
     </div>
     <script>
         function saveFile() {
             const text = document.getElementById('notepad').value;
+            const filename = document.getElementById('filename').value.trim() || 'note'; // Default name if input is empty
             const blob = new Blob([text], { type: 'text/plain' });
             const anchor = document.createElement('a');
-            anchor.download = 'note.txt';
+            anchor.download = filename + '.txt';
             anchor.href = window.URL.createObjectURL(blob);
             anchor.click();
         }
