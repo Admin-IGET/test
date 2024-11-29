@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #viewer {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        video, audio, img, iframe {
+            max-width: 100%;
+            max-height: 400px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>UvíkSoubory</h1>
+    <p>Select a file to view (image, video, text, sound, or HTML).</p>
+    <input type="file" id="fileInput" />
+    <div id="viewer"></div>
+
+    <script>
+        const fileInput = document.getElementById("fileInput");
+        const viewer = document.getElementById("viewer");
+
+        fileInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const fileReader = new FileReader();
+            viewer.innerHTML = ""; // Clear previous content
+
+            // Check file type and handle accordingly
+            if (file.type.startsWith("image/")) {
+                fileReader.onload = () => {
+                    const img = document.createElement("img");
+                    img.src = fileReader.result;
+                    viewer.appendChild(img);
+                };
+            } else if (file.type.startsWith("video/")) {
+                fileReader.onload = () => {
+                    const video = document.createElement("video");
+                    video.src = fileReader.result;
+                    video.controls = true;
+                    viewer.appendChild(video);
+                };
+            } else if (file.type.startsWith("audio/")) {
+                fileReader.onload = () => {
+                    const audio = document.createElement("audio");
+                    audio.src = fileReader.result;
+                    audio.controls = true;
+                    viewer.appendChild(audio);
+                };
+            } else if (file.type.startsWith("text/") || file.name.endsWith(".html")) {
+                fileReader.onload = () => {
+                    const textarea = document.createElement("textarea");
+                    textarea.readOnly = true;
+                    textarea.value = fileReader.result;
+                    viewer.appendChild(textarea);
+
+                    // If HTML file, also show rendered content
+                    if (file.name.endsWith(".html")) {
+                        const iframe = document.createElement("iframe");
+                        iframe.srcdoc = fileReader.result;
+                        viewer.appendChild(iframe);
+                    }
+                };
+            } else {
+                viewer.innerHTML = "<p>Nelze načíst soubor, exit code 1.</p>";
+            }
+
+            fileReader.readAsDataURL(file);
+            if (file.type.startsWith("text/") || file.name.endsWith(".html")) {
+                fileReader.readAsText(file);
+            }
+        });
+    </script>
+</body>
+</html>
