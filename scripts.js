@@ -1,18 +1,65 @@
 document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateTimeDate, 1000);
-    var savedWallpaper = localStorage.getItem('uvikWallpaper');
+
+    // Load saved wallpaper and header color
+    const savedWallpaper = localStorage.getItem('uvikWallpaper');
+
     if (savedWallpaper) {
         document.body.style.backgroundImage = 'url("' + savedWallpaper + '")';
     } else {
         changeWallpaper('default');
     }
+
 });
 
 function updateTimeDate() {
     var now = new Date();
-    document.getElementById('time').textContent = now.toLocaleTimeString();
-    document.getElementById('date').textContent = now.toLocaleDateString();
+    var timeString = now.toLocaleTimeString();
+    var dateString = now.toLocaleDateString();
+    var formattedTime = timeString.split(" ")[0]; // Show time only, without AM/PM
+    document.getElementById('time').innerHTML = formattedTime + "<br>" + dateString; // Format time on new line
 }
+
+// Expose commands globally for interacting with UvikOS
+window.UvikOS = {
+    // Open an app by name
+    openApp: function(appName) {
+        const validApps = ["notepad", "internet", "youtube", "game", "store"];
+        if (validApps.includes(appName)) {
+            console.log(`Opening ${appName}...`);
+            openApp(appName);
+        } else {
+            console.warn(`Invalid app name: "${appName}". Valid names are: ${validApps.join(", ")}`);
+        }
+    },
+
+    // Change wallpaper by URL
+    setWallpaper: function(url) {
+        if (url && typeof url === "string") {
+            document.body.style.backgroundImage = `url("${url}")`;
+            localStorage.setItem('uvikWallpaper', url);
+            console.log("Wallpaper updated!");
+        } else {
+            console.error("Invalid wallpaper URL. Please provide a valid string.");
+        }
+    },
+
+    // Show all available commands
+    help: function() {
+        console.log(`
+Available UvikOS commands:
+- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, store.
+- UvikOS.setWallpaper("url"): Changes the wallpaper to the specified URL.
+- UvikOS.help(): Displays this help message.
+`);
+    }
+};
+
+
+
+// Display an initial help message in the console on load
+console.log("Welcome to UvikOS Console! Type UvikOS.help() for a list of available commands.");
+
 
 function toggleStartMenu() {
     var startMenu = document.getElementById('start-menu');
@@ -31,9 +78,32 @@ function closeSettings() {
     document.getElementById('settings').classList.add('hidden');
 }
 
+
+
+// Create a new window and apply the current header color
+function createWindow(title, content) {
+    var appContainer = document.getElementById('app-container');
+    var windowDiv = document.createElement('div');
+    windowDiv.className = 'window';
+    
+    windowDiv.innerHTML = `
+        <div class="window-titlebar" style="background-color: ${window.currentHeaderColor};">
+            <span>${title}</span>
+            <button onclick="closeWindow(this)">X</button>
+        </div>
+        <div class="window-content">${content}</div>
+        <div class="window-resize-handle"></div>`;
+
+    appContainer.appendChild(windowDiv);
+    makeDraggable(windowDiv);
+    makeResizable(windowDiv);
+    bringToFront(windowDiv);
+}
+
 function redirectToMobile() {
     window.location.href = "https://admin-iget.github.io/test/UvikMobile.html"; // Redirect to mobile version
 }
+
 
 function openApp(appName) {
     var urls = {
@@ -196,6 +266,11 @@ function bringToFront(element) {
 }
 
 function changeWallpaper(type) {
+    if (localStorage.getItem('uvikTwilight') === "true") {
+        console.log("Twilight mode is active. Cannot change wallpaper.");
+        return;
+    }
+
     if (type === 'default') {
         var defaultWallpaper = "https://admin-iget.github.io/test/f43981720.jpg";
         document.body.style.backgroundImage = 'url("' + defaultWallpaper + '")';
@@ -214,6 +289,7 @@ function changeWallpaper(type) {
         }
     }
 }
+
 
 function makeDraggable(element) {
     var titlebar = element.querySelector('.window-titlebar');
@@ -332,4 +408,80 @@ function openFileExplorer() {
     };
 
     input.click(); // Trigger the file picker
+    
+function enableTwilightMode() {
+    const twilightWallpaper = "https://admin-iget.github.io/test/twilight.PNG";
+    document.body.style.backgroundImage = `url("${twilightWallpaper}")`;
+    localStorage.setItem('uvikTwilight', "true");
+    console.log("Twilight mode enabled. Wallpaper is now locked.");
 }
+
+function disableTwilightMode() {
+    localStorage.setItem('uvikTwilight', "false");
+    const savedWallpaper = localStorage.getItem('uvikWallpaper');
+    if (savedWallpaper) {
+        document.body.style.backgroundImage = 'url("' + savedWallpaper + '")';
+    } else {
+        changeWallpaper('default');
+    }
+    console.log("Twilight mode disabled. Wallpaper settings are restored.");
+}
+
+    
+    // Expose commands globally for interacting with UvikOS
+window.UvikOS = {
+    // Open an app by name
+    openApp: function(appName) {
+        const validApps = ["notepad", "internet", "youtube", "game", "store"];
+        if (validApps.includes(appName)) {
+            console.log(`Opening ${appName}...`);
+            openApp(appName);
+        } else {
+            console.warn(`Invalid app name: "${appName}". Valid names are: ${validApps.join(", ")}`);
+        }
+    },
+
+    // Change wallpaper by URL
+    setWallpaper: function(url) {
+        if (localStorage.getItem('uvikTwilight') === "true") {
+            console.warn("Twilight mode is active. Cannot change wallpaper.");
+            return;
+        }
+
+        if (url && typeof url === "string") {
+            document.body.style.backgroundImage = `url("${url}")`;
+            localStorage.setItem('uvikWallpaper', url);
+            console.log("Wallpaper updated!");
+        } else {
+            console.error("Invalid wallpaper URL. Please provide a valid string.");
+        }
+    },
+
+    // Toggle Twilight mode
+    twilight: function(state) {
+        if (state === "true") {
+            enableTwilightMode();
+        } else if (state === "false") {
+            disableTwilightMode();
+        } else {
+            console.warn('Invalid state for Twilight mode. Use "true" to enable or "false" to disable.');
+        }
+    },
+
+    // Show all available commands
+    help: function() {
+        console.log(`
+Available UvikOS commands:
+- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, store.
+- UvikOS.setWallpaper("url"): Changes the wallpaper to the specified URL.
+- UvikOS.help(): Displays this help message.
+`);
+    }
+};
+
+// Display an initial help message in the console on load
+console.log("Welcome to UvikOS Console! Type UvikOS.help() for a list of available commands.");
+
+}
+
+
