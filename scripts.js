@@ -21,6 +21,26 @@ function updateTimeDate() {
 }
 
 // Expose commands globally for interacting with UvikOS
+
+function enableTwilightMode() {
+    const twilightWallpaper = "https://admin-iget.github.io/test/twilight.PNG";
+    document.body.style.backgroundImage = `url("${twilightWallpaper}")`;
+    localStorage.setItem('uvikTwilight', "true");
+    console.log("Twilight mode enabled. Wallpaper is now locked.");
+}
+
+function disableTwilightMode() {
+    localStorage.setItem('uvikTwilight', "false");
+    const savedWallpaper = localStorage.getItem('uvikWallpaper');
+    if (savedWallpaper) {
+        document.body.style.backgroundImage = 'url("' + savedWallpaper + '")';
+    } else {
+        changeWallpaper('default');
+    }
+    console.log("Twilight mode disabled. Wallpaper settings are restored.");
+}
+
+
 window.UvikOS = {
     // Open an app by name
     openApp: function(appName) {
@@ -32,6 +52,17 @@ window.UvikOS = {
             console.warn(`Invalid app name: "${appName}". Valid names are: ${validApps.join(", ")}`);
         }
     },
+    
+     twilight: function(state) {
+        if (state === "true") {
+            enableTwilightMode();
+        } else if (state === "false") {
+            disableTwilightMode();
+        } else {
+            console.warn('Invalid state for Twilight mode. Use "true" to enable or "false" to disable.');
+        }
+    },
+    
 
     // Change wallpaper by URL
     setWallpaper: function(url) {
