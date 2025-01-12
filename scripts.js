@@ -43,21 +43,28 @@ function disableTwilightMode() {
 
 window.UvikOS = {
     // Open an app by name
-    function openApp(appName) {
-        var urls = {
-            notepad: "https://admin-iget.github.io/test/notepad.html",
-            internet: "https://admin-iget.github.io/test/UvikSEARCH2.html",
-            youtube: "https://admin-iget.github.io/test/youtube.html",
-            game: "https://admin-iget.github.io/test/UvikHra1.html",
-            store: "https://admin-iget.github.io/test/UvikObchod.html"
-        };
-    
-        if (urls[appName]) {
-            createWindow(appName, '<iframe src="' + urls[appName] + '" width="100%" height="100%"></iframe>');
-            toggleStartMenu(); // Automatically close the start menu after opening the app
-        } else {
-            console.error(`Invalid app name: ${appName}`);
-        }
+function openApp(appName) {
+    var urls = {
+        notepad: "https://admin-iget.github.io/test/notepad.html",
+        internet: "https://admin-iget.github.io/test/UvikSEARCH2.html",
+        youtube: "https://admin-iget.github.io/test/youtube.html",
+        game: "https://admin-iget.github.io/test/UvikHra1.html",
+        store: "https://admin-iget.github.io/test/UvikObchod.html"
+    };
+
+    if (urls[appName]) {
+        createWindow(appName, '<iframe src="' + urls[appName] + '" width="100%" height="100%"></iframe>');
+    } else {
+        console.error(`Invalid app name: ${appName}`);
+    }
+
+    // Close the start menu after opening an app
+    var startMenu = document.getElementById('start-menu');
+    if (!startMenu.classList.contains('hidden')) {
+        startMenu.classList.add('hidden');
+    }
+}
+
     }
 
     
