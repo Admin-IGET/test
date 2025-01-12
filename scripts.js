@@ -265,7 +265,19 @@ function openApp(appName) {
         game: "https://admin-iget.github.io/test/UvikHra1.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html"
     };
-    createWindow(appName, '<iframe src="' + urls[appName] + '" width="100%" height="100%"></iframe>');
+
+    if (urls[appName]) {
+        createWindow(appName, '<iframe src="' + urls[appName] + '" width="100%" height="100%"></iframe>');
+    } else {
+        console.error(`Invalid app name: ${appName}`);
+        return; // Exit if the app name is invalid
+    }
+
+    // Automatically close the start menu after opening an app
+    var startMenu = document.getElementById('start-menu');
+    if (!startMenu.classList.contains('hidden')) {
+        startMenu.classList.add('hidden');
+    }
 }
 
 function enableRenaming(taskbarButton) {
