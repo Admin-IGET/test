@@ -43,15 +43,23 @@ function disableTwilightMode() {
 
 window.UvikOS = {
     // Open an app by name
-    openApp: function(appName) {
-        const validApps = ["notepad", "internet", "youtube", "game", "store"];
-        if (validApps.includes(appName)) {
-            console.log(`Opening ${appName}...`);
-            openApp(appName);
-        } else {
-            console.warn(`Invalid app name: "${appName}". Valid names are: ${validApps.join(", ")}`);
-        }
-    },
+function openApp(appName) {
+    var urls = {
+        notepad: "https://admin-iget.github.io/test/notepad.html",
+        internet: "https://admin-iget.github.io/test/UvikSEARCH2.html",
+        youtube: "https://admin-iget.github.io/test/youtube.html",
+        game: "https://admin-iget.github.io/test/UvikHra1.html",
+        store: "https://admin-iget.github.io/test/UvikObchod.html"
+    };
+
+    if (urls[appName]) {
+        createWindow(appName, '<iframe src="' + urls[appName] + '" width="100%" height="100%"></iframe>');
+        toggleStartMenu(); // Automatically close the start menu after opening the app
+    } else {
+        console.error(`Invalid app name: ${appName}`);
+    }
+}
+
     
      twilight: function(state) {
         if (state === "true") {
