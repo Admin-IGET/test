@@ -143,3 +143,28 @@ body {
 .hidden-window {
     display: none;
 }
+button {
+    background-color: #5050FF; /* Green background */
+    color: white; /* White text */
+    border: none; /* Remove default borders */
+    border-radius: 0px; /* Slightly rounded corners */
+    padding: 3px 6px; /* Smaller padding */
+    font-size: 14px; /* Smaller font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #0000FF; /* Darker green on hover */
+    transform: scale(1.03); /* Subtle zoom effect */
+}
+
+button:active {
+    background-color: #3e8e41; /* Even darker green when active */
+    transform: scale(0.97); /* Slightly pressed effect */
+}
+
+button:focus {
+    outline: none; /* Remove focus outline */
+    box-shadow: 0 0 4px rgba(72, 239, 124, 0.8); /* Add a focus glow */
+}
