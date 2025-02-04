@@ -264,7 +264,7 @@ function openApp(appName) {
         youtube: "https://admin-iget.github.io/test/youtube.html",
         game: "https://admin-iget.github.io/test/Uvikhry.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html"
-        vid: "yt"
+        vid: "yt" // New Video App
     };
 
     if (urls[appName]) {
