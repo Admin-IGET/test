@@ -169,7 +169,7 @@ function changeWallpaper(type) {
 // Expose commands globally for interacting with UvikOS
 window.UvikOS = {
     openApp: function(appName) {
-        const validApps = ["notepad", "internet", "youtube", "game", "store"];
+        const validApps = ["notepad", "internet", "youtube", "game", "store", "vid"];
         if (validApps.includes(appName)) {
             openApp(appName);
         } else {
@@ -264,6 +264,7 @@ function openApp(appName) {
         youtube: "https://admin-iget.github.io/test/youtube.html",
         game: "https://admin-iget.github.io/test/Uvikhry.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html"
+        vid: "yt"
     };
 
     if (urls[appName]) {
