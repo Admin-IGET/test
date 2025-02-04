@@ -264,7 +264,7 @@ function openApp(appName) {
         youtube: "https://admin-iget.github.io/test/youtube.html",
         game: "https://admin-iget.github.io/test/UvikHra1.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html",
-        video: "yt" // New Video App
+        video: "https://admin-iget.github.io/test/yt.html" // New Video App
     };
 
     if (urls[appName]) {
@@ -279,31 +279,6 @@ function openApp(appName) {
     if (!startMenu.classList.contains('hidden')) {
         startMenu.classList.add('hidden');
     }
-}
-
-function enableRenaming(taskbarButton) {
-    taskbarButton.ondblclick = function () {
-        const currentText = taskbarButton.querySelector('span').innerText;
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = currentText;
-        taskbarButton.innerHTML = ''; // Clear current content
-        taskbarButton.appendChild(input); // Add input field
-        input.focus();
-
-        input.onblur = function () {
-            // Save the new name when the input loses focus
-            const newName = input.value.trim() || currentText; // Use old name if empty
-            taskbarButton.innerHTML = `<span>${newName}</span><button class="minimize-btn">-</button>`;
-        };
-
-        input.onkeypress = function (e) {
-            if (e.key === 'Enter') {
-                // Save the new name when Enter is pressed
-                input.blur();
-            }
-        };
-    };
 }
 
 function enableWindowRenaming(titleBar) {
