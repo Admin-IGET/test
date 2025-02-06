@@ -262,7 +262,7 @@ function openApp(appName) {
         notepad: "https://admin-iget.github.io/test/notepad.html",
         internet: "https://admin-iget.github.io/test/UvikSEARCH2.html",
         youtube: "https://admin-iget.github.io/test/youtube.html",
-        game: "https://admin-iget.github.io/test/UvikHra1.html",
+        game: "https://admin-iget.github.io/test/Uvikhry.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html",
         video: "https://admin-iget.github.io/test/yt.html" // New Video App
     };
