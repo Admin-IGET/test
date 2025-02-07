@@ -105,15 +105,17 @@
         function openIframe(url) {
             var iframeContainer = document.getElementById('iframe-container');
             var iframe = document.getElementById('game-iframe');
+    
             iframe.src = url;
-            iframeContainer.style.display = 'flex';
+            iframeContainer.style.display = 'flex'; // Show the smaller box
         }
 
         function closeIframe() {
             var iframeContainer = document.getElementById('iframe-container');
             var iframe = document.getElementById('game-iframe');
-            iframe.src = ''; // Stop the game by removing the iframe src
-            iframeContainer.style.display = 'none';
+    
+            iframe.src = ''; // Stop the game by clearing the iframe src
+            iframeContainer.style.display = 'none'; // Hide the box
         }
     </script>
 
