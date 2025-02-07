@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uvíkhry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        #viewport-sim {
+          width: 800px;
+          height: 600px;
+          border: 2px solid red;
+          overflow: auto;
+          margin: 0 auto;
+        }
+
+        .game-button {
+            padding: 15px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .game-button:hover {
+            background-color: #45a049;
+        }
+        .iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        iframe {
+            width: 90%;
+            height: 90%;
+            border: none;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 25px;
+            color: white;
+            background: rgba(255, 0, 0, 0.7);
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .close-button:hover {
+            background: rgba(255, 0, 0, 1);
+        }
+
+    </style>
+</head>
+<body>
+<a href="https://admin-iget.github.io/minecraft.html">Free minecraft pro windows</a>
+<a href="https://admin-iget.github.io/test/BlockBuild">(blockbuild)Achiv her</a>
+    <div id="viewport-sim">
+          <h1>Uvíkhry verze,2</h1>
+    <div>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikHra1.html')">Staras se o uvika nebo neco</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/uvik.html')">UvíkDodgeball</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikEscape!.html')">UvikEscape!</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikRun!')">UvíkRun!</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UviksBasics.html')">Uvíkovy Základy</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikJumpFinal')">Uvíkário</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/Minecraft')">Minecraft2D</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikFlap')">UvíkFlap!</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/BLudisteHTML/')">Bludiště3D (jen PC)</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikStaviHTML/')">UvíkPlatformer (jen PC)</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikPlatformerHTML/')">Pomož Uvíkovy! (jen PC)</button>        
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikovyZakladyHTML/')">Uvíkovy Základy 3D (jen PC)</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikChaseHML')">UvíkChase! (jen PC)</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikVanoceHTML/')">Uvíkovy šťastné vánoce (jen PC)</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikCampHTML/')">Uvíkův Stanový výlet (jen PC)</button>
+        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/BlockBuild2HTML/')">BlockBuild (Nový,jen PC)</button>
+    </div>
+
+    <div class="iframe-container" id="iframe-container">
+        <button class="close-button" onclick="closeIframe()">X</button>
+        <iframe id="game-iframe" src=""></iframe>
+    </div>
+    </div>
+
+
+
+    <script>
+        function openIframe(url) {
+            var iframeContainer = document.getElementById('iframe-container');
+            var iframe = document.getElementById('game-iframe');
+            iframe.src = url;
+            iframeContainer.style.display = 'flex';
+        }
+
+        function closeIframe() {
+            var iframeContainer = document.getElementById('iframe-container');
+            var iframe = document.getElementById('game-iframe');
+            iframe.src = ''; // Stop the game by removing the iframe src
+            iframeContainer.style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
