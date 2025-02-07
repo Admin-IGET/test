@@ -10,12 +10,10 @@
             text-align: center;
             background-color: #f0f0f0;
         }
-        #viewport-sim {
-          width: 800px;
-          height: 600px;
-          border: 2px solid red;
-          overflow: auto;
-          margin: 0 auto;
+        #game-iframe {
+            width: 600px !important;  /* Set fixed width */
+            height: 400px !important; /* Set fixed height */
+            border: none; /* Optional: removes border */
         }
 
         .game-button {
@@ -111,7 +109,7 @@
 
             // Wait for the iframe to load, then scale it down
             iframe.onload = function() {
-                iframe.contentWindow.document.body.style.zoom = "50%"; // Adjust percentage for desired resolution
+                iframe.contentWindow.document.body.style.zoom = "30%"; // Adjust percentage for desired resolution
             };
         }
 
