@@ -105,10 +105,16 @@
         function openIframe(url) {
             var iframeContainer = document.getElementById('iframe-container');
             var iframe = document.getElementById('game-iframe');
-    
+
             iframe.src = url;
-            iframeContainer.style.display = 'flex'; // Show the smaller box
+            iframeContainer.style.display = 'flex';
+
+            // Wait for the iframe to load, then scale it down
+            iframe.onload = function() {
+                iframe.contentWindow.document.body.style.zoom = "50%"; // Adjust percentage for desired resolution
+            };
         }
+
 
         function closeIframe() {
             var iframeContainer = document.getElementById('iframe-container');
