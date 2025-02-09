@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         changeWallpaper('default');
     }
+        createWindow("UvikOS Pro windows", '<iframe src="https://admin-iget.github.io/uvik.html" width="100%" height="100%"></iframe>');
 });
 
 function updateTimeDate() {
