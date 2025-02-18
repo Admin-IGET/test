@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Viewer</title>
+    <title>PLACE THE HOLDER!</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,7 +30,8 @@
 </head>
 <body>
     <h1>UvíkSoubory</h1>
-    <p>Select a file to view (image, video, text, sound, or HTML).</p>
+    <--<p>LOAD LOAD STILL LOAD</p>-->
+    <p>Vyberte soubor!! (OBRAZEK,VIDEO,ZVUK)</p>
     <input type="file" id="fileInput" />
     <div id="viewer"></div>
 
@@ -73,7 +74,7 @@
                     textarea.value = fileReader.result;
                     viewer.appendChild(textarea);
 
-                    // If HTML file, also show rendered content
+                    // If HTML file, also show renderd content
                     if (file.name.endsWith(".html")) {
                         const iframe = document.createElement("iframe");
                         iframe.srcdoc = fileReader.result;
