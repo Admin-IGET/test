@@ -266,7 +266,7 @@ function openApp(appName) {
         game: "https://admin-iget.github.io/test/Uvikhry.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html",
         video: "https://admin-iget.github.io/test/yt.html" // New Video App
-        "UvikMail-BETA": "https://admin-iget.github.io/test/UvikMail"
+        UvikMail: "https://admin-iget.github.io/test/UvikMail"
     };
 
     if (urls[appName]) {
