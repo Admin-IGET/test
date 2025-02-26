@@ -265,7 +265,7 @@ function openApp(appName) {
         youtube: "https://admin-iget.github.io/test/youtube.html",
         game: "https://admin-iget.github.io/test/Uvikhry.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html",
-        video: "https://admin-iget.github.io/test/yt.html" // New Video App
+        video: "https://admin-iget.github.io/test/yt.html", // New Video App
         UvikMail: "https://admin-iget.github.io/test/UvikMail"
     };
 
