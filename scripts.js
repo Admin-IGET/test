@@ -144,7 +144,7 @@ function bringToFront(element) {
 
 function changeWallpaper(type) {
     if (localStorage.getItem('uvikTwilight') === "true") {
-        console.log("Twilight mode is active. Cannot change wallpaper.");
+        console.log("error21.");
         return;
     }
 
@@ -160,7 +160,7 @@ function changeWallpaper(type) {
             reader.onload = function(e) {
                 var customWallpaper = e.target.result;
                 document.body.style.backgroundImage = `url("${customWallpaper}")`;
-                localStorage.setItem('uvikWallpaper', customWallpaper); // Save custom wallpaper
+                localStorage.setItem('uvikWallpaper', customWallpaper); // Save custom wallpapr
             };
             reader.readAsDataURL(file);
         }
@@ -170,7 +170,7 @@ function changeWallpaper(type) {
 // Expose commands globally for interacting with UvikOS
 window.UvikOS = {
     openApp: function(appName) {
-        const validApps = ["notepad", "internet", "youtube", "game", "store", "vid"];
+        const validApps = ["notepad", "internet", "youtube", "game", "store", "vid", "UvikChat", "calc"];
         if (validApps.includes(appName)) {
             openApp(appName);
         } else {
@@ -197,13 +197,13 @@ window.UvikOS = {
         } else if (state === "false") {
             disableTwilightMode();
         } else {
-            console.warn('Invalid state for Twilight mode. Use "true" to enable or "false" to disable.');
+            console.warn('error44.');
         }
     },
     help: function() {
         console.log(`
 Available UvikOS commands:
-- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, store.
+- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, store, vid, UvikChat, calc.
 - UvikOS.setWallpaper("url"): Changes the wallpaper to the specified URL.
 - UvikOS.help(): Displays this help message.
 `);
@@ -266,7 +266,8 @@ function openApp(appName) {
         game: "https://admin-iget.github.io/test/Uvikhry.html",
         store: "https://admin-iget.github.io/test/UvikObchod.html",
         video: "https://admin-iget.github.io/test/yt.html", // New Video App
-        UvikMail: "https://admin-iget.github.io/test/UvikMail"
+        UvikMail: "https://admin-iget.github.io/test/UvikChat",
+        calc: "https://admin-iget.github.io/test/calc"
     };
 
     if (urls[appName]) {
