@@ -170,7 +170,7 @@ function changeWallpaper(type) {
 // Expose commands globally for interacting with UvikOS
 window.UvikOS = {
     openApp: function(appName) {
-        const validApps = ["notepad", "internet", "youtube", "game", "store", "vid", "UvikChat", "calc", "paint";]
+        const validApps = ["notepad", "internet", "youtube", "game", "store", "vid", "UvikChat", "calc", "paint"]
         if (validApps.includes(appName)) {
             openApp(appName);
         } else {
