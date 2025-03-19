@@ -1,1 +1,106 @@
-<!DOCTYPE html><html lang="cs"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Kalkulačka</title>    <style>        body {            font-family: Arial, sans-serif;            background-color: #f0f0f0;            display: flex;            justify-content: center;            align-items: center;            height: 100vh;            margin: 0;        }        .calculator {            border: 1px solid #ccc;            border-radius: 5px;            width: 230px;            padding: 10px;            background-color: #fff;            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);        }        .display {            width: 100%;            height: 40px;            border: 1px solid #ccc;            border-radius: 5px;            font-size: 20px;            text-align: right;            padding: 5px;            box-sizing: border-box;        }        .button {            width: 50px;            height: 50px;            margin: 5px;            font-size: 20px;            cursor: pointer;        }        .row {            display: flex;            justify-content: center;        }    </style></head><body>    <div class="calculator">        <input type="text" class="display" id="display" disabled />        <div class="row">            <button class="button" onclick="appendToDisplay('7')">7</button>            <button class="button" onclick="appendToDisplay('8')">8</button>            <button class="button" onclick="appendToDisplay('9')">9</button>            <button class="button" onclick="appendToDisplay('/')">/</button>        </div>        <div class="row">            <button class="button" onclick="appendToDisplay('4')">4</button>            <button class="button" onclick="appendToDisplay('5')">5</button>            <button class="button" onclick="appendToDisplay('6')">6</button>            <button class="button" onclick="appendToDisplay('*')">*</button>        </div>        <div class="row">            <button class="button" onclick="appendToDisplay('1')">1</button>            <button class="button" onclick="appendToDisplay('2')">2</button>            <button class="button" onclick="appendToDisplay('3')">3</button>            <button class="button" onclick="appendToDisplay('-')">-</button>        </div>        <div class="row">            <button class="button" onclick="appendToDisplay('0')">0</button>            <button class="button" onclick="calculateResult()">=</button>            <button class="button" onclick="clearDisplay()">C</button>            <button class="button" onclick="appendToDisplay('+')">+</button>        </div>    </div>        <script>        function appendToDisplay(value) {            document.getElementById('display').value += value;        }        function clearDisplay() {            document.getElementById('display').value = '';        }        function calculateResult() {            try {                const result = eval(document.getElementById('display').value);                document.getElementById('display').value = result;            } catch (error) {                alert('Chyba v zadání!');            }        }    </script></body></html>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulačka</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 230px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+        .display {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 20px;
+            text-align: right;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" class="display" id="display" disabled />
+        <div class="row">
+            <button class="button" onclick="appendToDisplay('7')">7</button>
+            <button class="button" onclick="appendToDisplay('8')">8</button>
+            <button class="button" onclick="appendToDisplay('9')">9</button>
+            <button class="button" onclick="appendToDisplay('/')">/</button>
+        </div>
+        <div class="row">
+            <button class="button" onclick="appendToDisplay('4')">4</button>
+            <button class="button" onclick="appendToDisplay('5')">5</button>
+            <button class="button" onclick="appendToDisplay('6')">6</button>
+            <button class="button" onclick="appendToDisplay('*')">*</button>
+        </div>
+        <div class="row">
+            <button class="button" onclick="appendToDisplay('1')">1</button>
+            <button class="button" onclick="appendToDisplay('2')">2</button>
+            <button class="button" onclick="appendToDisplay('3')">3</button>
+            <button class="button" onclick="appendToDisplay('-')">-</button>
+        </div>
+        <div class="row">
+            <button class="button" onclick="appendToDisplay('0')">0</button>
+            <button class="button" onclick="appendToDisplay('.')">.</button>
+            <button class="button" onclick="calculateResult()">=</button>
+            <button class="button" onclick="appendToDisplay('+')">+</button>
+        </div>
+        <div class="row">
+            <button class="button" onclick="clearDisplay()">C</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            let display = document.getElementById('display');
+            let currentValue = display.value;
+            
+            if (value === '.') {
+                let lastNumber = currentValue.split(/[-+*/]/).pop();
+                if (lastNumber.includes('.')) return;
+            }
+            
+            display.value += value;
+        }
+        
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+        
+        function calculateResult() {
+            try {
+                const result = eval(document.getElementById('display').value);
+                document.getElementById('display').value = result;
+            } catch (error) {
+                alert('Chyba v zadání!');
+            }
+        }
+    </script>
+</body>
+</html>
