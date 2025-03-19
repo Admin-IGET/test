@@ -170,7 +170,7 @@ function changeWallpaper(type) {
 // Expose commands globally for interacting with UvikOS
 window.UvikOS = {
     openApp: function(appName) {
-        const validApps = ["notepad", "internet", "youtube", "game", "store", "vid", "UvikChat", "calc"];
+        const validApps = ["notepad", "internet", "youtube", "game", "store", "vid", "UvikChat", "calc"], "paint";
         if (validApps.includes(appName)) {
             openApp(appName);
         } else {
@@ -203,7 +203,7 @@ window.UvikOS = {
     help: function() {
         console.log(`
 Available UvikOS commands:
-- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, store, vid, UvikChat, calc.
+- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, store, vid, UvikChat, calc, paint.
 - UvikOS.setWallpaper("url"): Changes the wallpaper to the specified URL.
 - UvikOS.help(): Displays this help message.
 `);
@@ -267,7 +267,9 @@ function openApp(appName) {
         store: "https://admin-iget.github.io/test/UvikObchod.html",
         video: "https://admin-iget.github.io/test/yt.html", // New Video App
         UvikChat: "https://admin-iget.github.io/test/UvikChat",
-        calc: "https://admin-iget.github.io/test/calc"
+        calc: "https://admin-iget.github.io/test/calc",
+        paint: "https://paintz.app/"
+        
     };
 
     if (urls[appName]) {
