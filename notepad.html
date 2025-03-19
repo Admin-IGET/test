@@ -63,12 +63,18 @@
             <button onclick="saveFile()">Uložit jako</button>
             <label for="fileInput">Otevřít</label>
             <input type="file" id="fileInput" onchange="loadFile()">
+            <input type="text" id="searchText" placeholder="Najít text">
+            <button onclick="findText()">Najít</button>
+            <button onclick="changeFontSize(2)">Zvětšit</button>
+            <button onclick="changeFontSize(-2)">Zmenšit</button>
         </div>
     </div>
     <script>
+        let lastSearchIndex = 0;
+
         function saveFile() {
             const text = document.getElementById('notepad').value;
-            const filename = document.getElementById('filename').value.trim() || 'note'; // Default name if input is empty
+            const filename = document.getElementById('filename').value.trim() || 'note';
             const blob = new Blob([text], { type: 'text/plain' });
             const anchor = document.createElement('a');
             anchor.download = filename + '.txt';
@@ -87,6 +93,43 @@
 
             reader.readAsText(file);
         }
+
+        function changeFontSize(sizeChange) {
+            let textarea = document.getElementById('notepad');
+            let currentSize = parseInt(window.getComputedStyle(textarea).fontSize);
+            textarea.style.fontSize = (currentSize + sizeChange) + 'px';
+        }
+
+        function findText() {
+            let textarea = document.getElementById('notepad');
+            let searchText = document.getElementById('searchText').value;
+            let text = textarea.value;
+            
+            if (!searchText) return;
+            
+            let index = text.indexOf(searchText, lastSearchIndex);
+            
+            if (index === -1) {
+                lastSearchIndex = 0;
+                index = text.indexOf(searchText);
+            }
+            
+            if (index !== -1) {
+                textarea.focus();
+                textarea.setSelectionRange(index, index + searchText.length);
+                textarea.scrollTop = textarea.scrollHeight * (index / text.length);
+                lastSearchIndex = index + searchText.length;
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.ctrlKey && event.key === "z") {
+                document.execCommand("undo");
+            }
+            if (event.ctrlKey && event.key === "y") {
+                document.execCommand("redo");
+            }
+        });
     </script>
 </body>
 </html>
