@@ -128,6 +128,7 @@ iframe {
 
         <label for="resolution">Rozlišení:</label>
         <select id="resolution" class="resolution-select">
+            <option value="mini">Mravenec</option>
             <option value="small">Malý</option>
             <option value="medium" selected>Střední</option>
             <option value="large">Normální</option>
@@ -141,7 +142,6 @@ iframe {
     <!-- Game Iframe -->
     <div class="iframe-container" id="iframe-container">
         <button class="close-button" onclick="closeIframe()">X</button>
-        <h1>test</h1>
         <iframe id="game-iframe" src=""></iframe>
     </div>
 
@@ -177,6 +177,8 @@ function startGame() {
         scale = 0.75;
     } else if (resolution === 'fullscreen') {
         scale = 1.0; 
+    } else if (resolution === 'medium') {
+        scale = 0.1;
     }
 
     // Keep iframe at full size, only scale it
