@@ -23,81 +23,176 @@
         .game-button:hover {
             background-color: #45a049;
         }
-        .iframe-container {
+        .title-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
+            color: white;
             display: none;
-            z-index: 1000;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
-        iframe {
-            width: 90%;
-            height: 90%;
-            border: none;
+        .title-screen h1 {
+            margin-bottom: 20px;
         }
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 25px;
+        .play-button {
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #4CAF50;
             color: white;
-            background: rgba(255, 0, 0, 0.7);
             border: none;
-            border-radius: 50%;
-            padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
         }
-        .close-button:hover {
-            background: rgba(255, 0, 0, 1);
+        .play-button:hover {
+            background-color: #45a049;
         }
+        .resolution-select {
+            margin: 15px;
+            padding: 10px;
+            font-size: 18px;
+        }
+        .iframe-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            border-radius: 10px;
+        }
+iframe {
+    border: none;
+}
+.close-button {
+    position: fixed; 
+    top: 30px;
+    right: 10px;
+    font-size: 25px;
+    color: white;
+    background: rgba(255, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1100; 
+}
+
+.close-button:hover {
+    background: rgba(255, 0, 0, 1);
+}
     </style>
 </head>
 <body>
+
 <a href="https://admin-iget.github.io/minecraft.html">Free minecraft pro windows</a>|
 <a href="https://admin-iget.github.io/test/BlockBuild">(blockbuild)Achiv her</a>
-<p>
-<!---<a href="https://admin-iget.github.io/test/UvikhrySlow">Uvíkhry pro pomalé počítače</a>---!>
     <h1>Uvíkhry v.2</h1>
-    <div>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikHra1.html')">Staras se o uvika nebo neco</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/uvik.html')">UvíkDodgeball</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikEscape!.html')">UvikEscape!</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikRun!')">UvíkRun!</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UviksBasics.html')">Uvíkovy Základy</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikJumpFinal')">Uvíkário</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/Minecraft')">Minecraft2D</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikFlap')">UvíkFlap!</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/BLudisteHTML/')">Bludiště3D (jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikStaviHTML/')">UvíkPlatformer (jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikPlatformerHTML/')">Pomož Uvíkovy! (jen PC)</button>        
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikovyZakladyHTML/')">Uvíkovy Základy 3D (jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikChaseHML')">UvíkChase! (jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikVanoceHTML/')">Uvíkovy šťastné vánoce (jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikCampHTML/')">Uvíkův Stanový výlet (jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/BlockBuild2HTML/')">BlockBuild (jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikVelikonoceHTML/')">Uvíkovy Velikonoce(Jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikEscapeHTML/')">UvíkEscape 3D(Jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikPlatformer2HTML/')">UvíkPlatformer 2 3D(Jen PC)</button>
-        <button class="game-button" onclick="openIframe('https://admin-iget.github.io/test/UvikShroomHTML/')">Jde se na houby 3D(Jen PC)</button>
+
+<div>
+    <button class="game-button" onclick="showTitleScreen('Staras se o uvika nebo neco', 'https://admin-iget.github.io/test/UvikHra1.html')">Staras se o uvika nebo neco</button>
+    <button class="game-button" onclick="showTitleScreen('UvíkDodgeball', 'https://admin-iget.github.io/test/uvik.html')">UvíkDodgeball</button>
+    <button class="game-button" onclick="showTitleScreen('UvikEscape!', 'https://admin-iget.github.io/test/UvikEscape!.html')">UvikEscape!</button>
+    <button class="game-button" onclick="showTitleScreen('UvíkRun!', 'https://admin-iget.github.io/test/UvikRun!')">UvíkRun!</button>
+    <button class="game-button" onclick="showTitleScreen('Uvíkovy Základy', 'https://admin-iget.github.io/test/UviksBasics.html')">Uvíkovy Základy</button>
+    <button class="game-button" onclick="showTitleScreen('Uvíkário', 'https://admin-iget.github.io/test/UvikJumpFinal')">Uvíkário</button>
+    <button class="game-button" onclick="showTitleScreen('Minecraft2D', 'https://admin-iget.github.io/test/Minecraft')">Minecraft2D</button>
+    <button class="game-button" onclick="showTitleScreen('UvíkFlap!', 'https://admin-iget.github.io/test/UvikFlap')">UvíkFlap!</button>
+    <button class="game-button" onclick="showTitleScreen('Bludiště3D (jen PC)', 'https://admin-iget.github.io/test/BLudisteHTML/')">Bludiště3D (jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('UvíkPlatformer (jen PC)', 'https://admin-iget.github.io/test/UvikStaviHTML/')">UvíkPlatformer (jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('Pomož Uvíkovy! (jen PC)', 'https://admin-iget.github.io/test/UvikPlatformerHTML/')">Pomož Uvíkovy! (jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('Uvíkovy Základy 3D (jen PC)', 'https://admin-iget.github.io/test/UvikovyZakladyHTML/')">Uvíkovy Základy 3D (jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('UvíkChase! (jen PC)', 'https://admin-iget.github.io/test/UvikChaseHML')">UvíkChase! (jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('Uvíkovy šťastné vánoce (jen PC)', 'https://admin-iget.github.io/test/UvikVanoceHTML/')">Uvíkovy šťastné vánoce (jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('Uvíkův Stanový výlet (jen PC)', 'https://admin-iget.github.io/test/UvikCampHTML/')">Uvíkův Stanový výlet (jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('BlockBuild (jen PC)', 'https://admin-iget.github.io/test/BlockBuild2HTML/')">BlockBuild (jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('Uvíkovy Velikonoce (Jen PC)', 'https://admin-iget.github.io/test/UvikVelikonoceHTML/')">Uvíkovy Velikonoce (Jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('UvíkEscape 3D (Jen PC)', 'https://admin-iget.github.io/test/UvikEscapeHTML/')">UvíkEscape 3D (Jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('UvíkPlatformer 2 3D (Jen PC)', 'https://admin-iget.github.io/test/UvikPlatformer2HTML/')">UvíkPlatformer 2 3D (Jen PC)</button>
+    <button class="game-button" onclick="showTitleScreen('Jde se na houby 3D (Jen PC)', 'https://admin-iget.github.io/test/UvikShroomHTML/')">Jde se na houby 3D (Jen PC)</button>
+</div>
+
+
+    <!-- Title Screen -->
+    <div class="title-screen" id="title-screen">
+        <h1 id="game-title"></h1>
+
+        <label for="resolution">Rozlišení:</label>
+        <select id="resolution" class="resolution-select">
+            <option value="small">Malý</option>
+            <option value="medium" selected>Střední</option>
+            <option value="large">Normální</option>
+            <option value="fullscreen">Celá obrazovka</option>
+        </select>
+
+        <button class="play-button" onclick="startGame()">▶</button>
+        <button class="close-button" onclick="closeTitleScreen()">X</button>
     </div>
 
+    <!-- Game Iframe -->
     <div class="iframe-container" id="iframe-container">
         <button class="close-button" onclick="closeIframe()">X</button>
+        <h1>test</h1>
         <iframe id="game-iframe" src=""></iframe>
     </div>
 
     <script>
-        function openIframe(url) {
-            var iframeContainer = document.getElementById('iframe-container');
-            var iframe = document.getElementById('game-iframe');
-            iframe.src = url;
-            iframeContainer.style.display = 'flex';
+        let currentGameUrl = '';
+
+        function showTitleScreen(gameName, gameUrl) {
+            document.getElementById('game-title').innerText = gameName;
+            currentGameUrl = gameUrl;
+            document.getElementById('title-screen').style.display = 'flex';
         }
+
+        function closeTitleScreen() {
+            document.getElementById('title-screen').style.display = 'none';
+        }
+
+function startGame() {
+    closeTitleScreen();
+
+    let resolution = document.getElementById('resolution').value;
+    let iframeContainer = document.getElementById('iframe-container');
+    let iframe = document.getElementById('game-iframe');
+
+    let scale = 1; // Default scale
+    let width = 1280; // Base width
+    let height = 720; // Base height
+
+    if (resolution === 'small') {
+        scale = 0.3;
+    } else if (resolution === 'medium') {
+        scale = 0.5;
+    } else if (resolution === 'large') {
+        scale = 0.75;
+    } else if (resolution === 'fullscreen') {
+        scale = 1.0; 
+    }
+
+    // Keep iframe at full size, only scale it
+    iframe.style.width = `${width}px`;
+    iframe.style.height = `${height}px`;
+
+    // Scale the game and prevent overflow issues
+    iframe.style.transform = `scale(${scale})`;
+    iframe.style.transformOrigin = "center"; 
+    iframe.style.overflow = "hidden";
+
+    // Open the game
+    iframe.src = currentGameUrl;
+    iframeContainer.style.display = 'flex';
+}
+
 
         function closeIframe() {
             var iframeContainer = document.getElementById('iframe-container');
@@ -106,5 +201,6 @@
             iframeContainer.style.display = 'none';
         }
     </script>
+
 </body>
 </html>
