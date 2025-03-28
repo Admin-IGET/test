@@ -170,7 +170,7 @@ function changeWallpaper(type) {
 // Expose commands globally for interacting with UvikOS
 window.UvikOS = {
     openApp: function(appName) {
-        const validApps = ["notepad", "internet", "youtube", "game", "store", "vid", "UvikChat", "calc", "paint"]
+        const validApps = ["notepad", "internet", "youtube", "game", "apps", "vid", "UvikChat", "calc", "paint"]
         if (validApps.includes(appName)) {
             openApp(appName);
         } else {
@@ -203,7 +203,7 @@ window.UvikOS = {
     help: function() {
         console.log(`
 Available UvikOS commands:
-- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, store, vid, UvikChat, calc, paint.
+- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, apps, vid, UvikChat, calc, paint.
 - UvikOS.setWallpaper("url"): Changes the wallpaper to the specified URL.
 - UvikOS.help(): Displays this help message.
 `);
@@ -264,7 +264,7 @@ function openApp(appName) {
         internet: "https://admin-iget.github.io/test/UvikSEARCH2.html",
         youtube: "https://admin-iget.github.io/test/youtube.html",
         game: "https://admin-iget.github.io/test/Uvikhry.html",
-        store: "https://admin-iget.github.io/test/UvikObchod.html",
+        apps: "https://admin-iget.github.io/test/UvikObchod.html",
         video: "https://admin-iget.github.io/test/yt.html", // New Video App
         UvikChat: "https://admin-iget.github.io/test/UvikChat",
         calc: "https://admin-iget.github.io/test/calc",
@@ -576,7 +576,7 @@ function disableTwilightMode() {
 window.UvikOS = {
     // Open an app by name
     openApp: function(appName) {
-        const validApps = ["notepad", "internet", "youtube", "game", "store"];
+        const validApps = ["notepad", "internet", "youtube", "game", "apps", "video", "UvikChat", "calc", "paint"];
         if (validApps.includes(appName)) {
             console.log(`Opening ${appName}...`);
             openApp(appName);
@@ -616,7 +616,7 @@ window.UvikOS = {
     help: function() {
         console.log(`
 Available UvikOS commands:
-- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, store.
+- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, apps, video, UvikChat, calc, paint.
 - UvikOS.setWallpaper("url"): Changes the wallpaper to the specified URL.
 - UvikOS.help(): Displays this help message.
 `);
