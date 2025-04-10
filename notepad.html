@@ -75,7 +75,7 @@
             <button>Soubor</button>
             <div class="submenu">
                 <button onclick="newFile()">Nový (Alt+N)</button>
-                <label for="fileInput" style="display: block; padding: 6px 12px; cursor: pointer;">Otevřít (Alt+O)</label>
+                <button onclick="loadFile()">Otevřít (Alt+O)</button>
                 <button onclick="saveFile()">Uložit (Alt+S)</button>
                 <button onclick="saveAsFile()">Uložit jako</button>
             </div>
@@ -101,121 +101,145 @@
         </div>
     </div>
 
-    <input type="file" id="fileInput" accept=".txt,.html,.text" onchange="loadFile()" style="display: none;">
+    <input type="file" id="fileInput" accept=".txt,.html,.text" style="display: none;">
     <textarea id="notepad" spellcheck="false"></textarea>
 
-    <script>
-        let lastSearchIndex = 0;
-        let currentFileName = '';
+<script>
+    let lastSearchIndex = 0;
+    let currentFileName = '';
+    let fileHandle = null;
 
-        function newFile() {
-            if (confirm("Opravdu chcete vytvořit nový soubor? Neuložené změny budou ztraceny.")) {
-                document.getElementById('notepad').value = '';
-                currentFileName = '';
+    async function newFile() {
+        if (confirm("Opravdu chcete vytvořit nový soubor? Neuložené změny budou ztraceny.")) {
+            document.getElementById('notepad').value = '';
+            currentFileName = '';
+            fileHandle = null;
+        }
+    }
+
+    async function saveFile() {
+        if (fileHandle) {
+            await writeFile(fileHandle, document.getElementById('notepad').value);
+        } else {
+            await saveAsFile();
+        }
+    }
+
+    async function saveAsFile() {
+        try {
+const options = {
+    suggestedName: currentFileName || "note.txt",
+    types: [{
+        description: 'Text files',
+        accept: {
+            'text/plain': ['.txt', '.html', '.text']
+        }
+    }]
+};
+
+            fileHandle = await window.showSaveFilePicker(options);
+            await writeFile(fileHandle, document.getElementById('notepad').value);
+            currentFileName = fileHandle.name || 'note.txt';
+        } catch (err) {
+            console.log("Save As cancelled or failed:", err);
+        }
+    }
+
+    async function writeFile(handle, contents) {
+        const writable = await handle.createWritable();
+        await writable.write(contents);
+        await writable.close();
+    }
+
+    async function loadFile() {
+        try {
+            const [handle] = await window.showOpenFilePicker({
+                types: [{
+                    description: 'Text files',
+                    accept: {
+                        'text/plain': ['.txt', '.html', '.text']
+                    }
+                }],
+                multiple: false
+            });
+            fileHandle = handle;
+            const file = await handle.getFile();
+            currentFileName = file.name;
+            const contents = await file.text();
+            document.getElementById('notepad').value = contents;
+        } catch (err) {
+            console.log("Open cancelled or failed:", err);
+        }
+    }
+
+    function undo() {
+        document.execCommand("undo");
+    }
+
+    function redo() {
+        document.execCommand("redo");
+    }
+
+    function findText() {
+        let textarea = document.getElementById('notepad');
+        let searchText = prompt("Zadejte hledaný text:");
+        let text = textarea.value;
+
+        if (!searchText) return;
+
+        let index = text.indexOf(searchText, lastSearchIndex);
+        if (index === -1) {
+            lastSearchIndex = 0;
+            index = text.indexOf(searchText);
+        }
+
+        if (index !== -1) {
+            textarea.focus();
+            textarea.setSelectionRange(index, index + searchText.length);
+            textarea.scrollTop = textarea.scrollHeight * (index / text.length);
+            lastSearchIndex = index + searchText.length;
+        } else {
+            alert("Text nebyl nalezen.");
+        }
+    }
+
+    function changeFontSize(delta) {
+        const textarea = document.getElementById('notepad');
+        const currentSize = parseInt(window.getComputedStyle(textarea).fontSize);
+        textarea.style.fontSize = (currentSize + delta) + 'px';
+    }
+
+    document.addEventListener("keydown", function(event) {
+        if (event.altKey) {
+            switch (event.key.toLowerCase()) {
+                case "n":
+                    event.preventDefault();
+                    newFile();
+                    break;
+                case "o":
+                    event.preventDefault();
+                    loadFile();
+                    break;
+                case "s":
+                    event.preventDefault();
+                    saveFile();
+                    break;
+                case "z":
+                    event.preventDefault();
+                    undo();
+                    break;
+                case "y":
+                    event.preventDefault();
+                    redo();
+                    break;
+                case "f":
+                    event.preventDefault();
+                    findText();
+                    break;
             }
         }
+    });
+</script>
 
-        function saveFile() {
-            if (currentFileName) {
-                saveToFile(currentFileName);
-            } else {
-                saveAsFile();
-            }
-        }
-
-        function saveAsFile() {
-            const filename = prompt("Zadejte název souboru:", "note") || "note";
-            currentFileName = filename + ".txt";
-            saveToFile(currentFileName);
-        }
-
-        function saveToFile(filename) {
-            const text = document.getElementById('notepad').value;
-            const blob = new Blob([text], { type: 'text/plain' });
-            const anchor = document.createElement('a');
-            anchor.download = filename;
-            anchor.href = window.URL.createObjectURL(blob);
-            anchor.click();
-        }
-
-        function loadFile() {
-            const file = document.getElementById('fileInput').files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('notepad').value = e.target.result;
-                currentFileName = file.name;
-            };
-            reader.readAsText(file);
-        }
-
-        function undo() {
-            document.execCommand("undo");
-        }
-
-        function redo() {
-            document.execCommand("redo");
-        }
-
-        function findText() {
-            let textarea = document.getElementById('notepad');
-            let searchText = prompt("Zadejte hledaný text:");
-            let text = textarea.value;
-
-            if (!searchText) return;
-
-            let index = text.indexOf(searchText, lastSearchIndex);
-            if (index === -1) {
-                lastSearchIndex = 0;
-                index = text.indexOf(searchText);
-            }
-
-            if (index !== -1) {
-                textarea.focus();
-                textarea.setSelectionRange(index, index + searchText.length);
-                textarea.scrollTop = textarea.scrollHeight * (index / text.length);
-                lastSearchIndex = index + searchText.length;
-            } else {
-                alert("Text nebyl nalezen.");
-            }
-        }
-
-        function changeFontSize(delta) {
-            const textarea = document.getElementById('notepad');
-            const currentSize = parseInt(window.getComputedStyle(textarea).fontSize);
-            textarea.style.fontSize = (currentSize + delta) + 'px';
-        }
-
-        document.addEventListener("keydown", function(event) {
-            if (event.altKey) {
-                switch (event.key.toLowerCase()) {
-                    case "n":
-                        event.preventDefault();
-                        newFile();
-                        break;
-                    case "o":
-                        event.preventDefault();
-                        document.getElementById('fileInput').click();
-                        break;
-                    case "s":
-                        event.preventDefault();
-                        saveFile();
-                        break;
-                    case "z":
-                        event.preventDefault();
-                        undo();
-                        break;
-                    case "y":
-                        event.preventDefault();
-                        redo();
-                        break;
-                    case "f":
-                        event.preventDefault();
-                        findText();
-                        break;
-                }
-            }
-        });
-    </script>
 </body>
 </html>
