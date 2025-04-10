@@ -3,131 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poznámky a psaní</title>
+    <title>Poznámkový blok</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: "Consolas", "Courier New", monospace;
+            background-color: #ffffff;
             margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .container {
-            text-align: center;
+
+        .menu-bar {
+            display: flex;
+            background-color: #e0e0e0;
+            padding: 0;
+            font-size: 14px;
+            border-bottom: 1px solid #ccc;
         }
-        textarea {
-            width: 80vw;
-            height: 60vh;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: none;
+
+        .menu {
+            position: relative;
         }
-        .buttons {
-            margin-top: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin-right: 10px;
+
+        .menu > button {
+            background: none;
+            border: none;
+            padding: 8px 12px;
             cursor: pointer;
         }
-        input[type="file"] {
+
+        .submenu {
             display: none;
+            position: absolute;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            z-index: 10;
+            min-width: 120px;
         }
-        label {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007BFF;
-            color: white;
+
+        .submenu button {
+            width: 100%;
+            text-align: left;
+            padding: 6px 12px;
+            background: none;
             border: none;
             cursor: pointer;
         }
-        input[type="text"] {
-            padding: 5px;
-            font-size: 16px;
-            margin-top: 10px;
-            width: 200px;
+
+        .menu:hover .submenu {
+            display: block;
+        }
+
+        #notepad {
+            flex-grow: 1;
+            width: 100%;
+            border: none;
+            resize: none;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Poznámkový blok</h1>
-        <textarea id="notepad" placeholder=""></textarea>
-        <div class="buttons">
-            <input type="text" id="filename" placeholder="Zadejte název souboru">
-            <button onclick="saveFile()">Uložit jako</button>
-            <label for="fileInput">Otevřít</label>
-            <input type="file" id="fileInput" onchange="loadFile()">
-            <input type="text" id="searchText" placeholder="Najít text">
-            <button onclick="findText()">Najít</button>
-            <button onclick="changeFontSize(2)">Zvětšit</button>
-            <button onclick="changeFontSize(-2)">Zmenšit</button>
+    <div class="menu-bar">
+        <!-- Soubor Menu -->
+        <div class="menu">
+            <button>Soubor</button>
+            <div class="submenu">
+                <button onclick="newFile()">Nový (Alt+N)</button>
+                <label for="fileInput" style="display: block; padding: 6px 12px; cursor: pointer;">Otevřít (Alt+O)</label>
+                <button onclick="saveFile()">Uložit (Alt+S)</button>
+                <button onclick="saveAsFile()">Uložit jako</button>
+            </div>
+        </div>
+
+        <!-- Úprava Menu -->
+        <div class="menu">
+            <button>Úprava</button>
+            <div class="submenu">
+                <button onclick="undo()">Zpět (Alt+Z)</button>
+                <button onclick="redo()">Dopředu (Alt+Y)</button>
+                <button onclick="findText()">Najít (Alt+F)</button>
+            </div>
+        </div>
+
+        <!-- Písmo Menu -->
+        <div class="menu">
+            <button>Písmo</button>
+            <div class="submenu">
+                <button onclick="changeFontSize(1)">Zvětšit</button>
+                <button onclick="changeFontSize(-1)">Zmenšit</button>
+            </div>
         </div>
     </div>
+
+    <input type="file" id="fileInput" accept=".txt,.html,.text" onchange="loadFile()" style="display: none;">
+    <textarea id="notepad" spellcheck="false"></textarea>
+
     <script>
         let lastSearchIndex = 0;
+        let currentFileName = '';
+
+        function newFile() {
+            if (confirm("Opravdu chcete vytvořit nový soubor? Neuložené změny budou ztraceny.")) {
+                document.getElementById('notepad').value = '';
+                currentFileName = '';
+            }
+        }
 
         function saveFile() {
+            if (currentFileName) {
+                saveToFile(currentFileName);
+            } else {
+                saveAsFile();
+            }
+        }
+
+        function saveAsFile() {
+            const filename = prompt("Zadejte název souboru:", "note") || "note";
+            currentFileName = filename + ".txt";
+            saveToFile(currentFileName);
+        }
+
+        function saveToFile(filename) {
             const text = document.getElementById('notepad').value;
-            const filename = document.getElementById('filename').value.trim() || 'note';
             const blob = new Blob([text], { type: 'text/plain' });
             const anchor = document.createElement('a');
-            anchor.download = filename + '.txt';
+            anchor.download = filename;
             anchor.href = window.URL.createObjectURL(blob);
             anchor.click();
         }
 
         function loadFile() {
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) return;
             const reader = new FileReader();
-
             reader.onload = function(e) {
                 document.getElementById('notepad').value = e.target.result;
+                currentFileName = file.name;
             };
-
             reader.readAsText(file);
         }
 
-        function changeFontSize(sizeChange) {
-            let textarea = document.getElementById('notepad');
-            let currentSize = parseInt(window.getComputedStyle(textarea).fontSize);
-            textarea.style.fontSize = (currentSize + sizeChange) + 'px';
+        function undo() {
+            document.execCommand("undo");
+        }
+
+        function redo() {
+            document.execCommand("redo");
         }
 
         function findText() {
             let textarea = document.getElementById('notepad');
-            let searchText = document.getElementById('searchText').value;
+            let searchText = prompt("Zadejte hledaný text:");
             let text = textarea.value;
-            
+
             if (!searchText) return;
-            
+
             let index = text.indexOf(searchText, lastSearchIndex);
-            
             if (index === -1) {
                 lastSearchIndex = 0;
                 index = text.indexOf(searchText);
             }
-            
+
             if (index !== -1) {
                 textarea.focus();
                 textarea.setSelectionRange(index, index + searchText.length);
                 textarea.scrollTop = textarea.scrollHeight * (index / text.length);
                 lastSearchIndex = index + searchText.length;
+            } else {
+                alert("Text nebyl nalezen.");
             }
         }
 
+        function changeFontSize(delta) {
+            const textarea = document.getElementById('notepad');
+            const currentSize = parseInt(window.getComputedStyle(textarea).fontSize);
+            textarea.style.fontSize = (currentSize + delta) + 'px';
+        }
+
         document.addEventListener("keydown", function(event) {
-            if (event.ctrlKey && event.key === "z") {
-                document.execCommand("undo");
-            }
-            if (event.ctrlKey && event.key === "y") {
-                document.execCommand("redo");
+            if (event.altKey) {
+                switch (event.key.toLowerCase()) {
+                    case "n":
+                        event.preventDefault();
+                        newFile();
+                        break;
+                    case "o":
+                        event.preventDefault();
+                        document.getElementById('fileInput').click();
+                        break;
+                    case "s":
+                        event.preventDefault();
+                        saveFile();
+                        break;
+                    case "z":
+                        event.preventDefault();
+                        undo();
+                        break;
+                    case "y":
+                        event.preventDefault();
+                        redo();
+                        break;
+                    case "f":
+                        event.preventDefault();
+                        findText();
+                        break;
+                }
             }
         });
     </script>
