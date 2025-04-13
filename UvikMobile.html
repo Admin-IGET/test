@@ -109,10 +109,6 @@
 
         <!-- Bottom navigation buttons -->
         <div class="bottom-bar">
-            <!-- UvikOS Desktop (Computer Icon) -->
-            <a href="https://admin-iget.github.io/test/" class="button">
-                <i class="fas fa-desktop"></i> <!-- Computer icon -->
-            </a>
 
             <!-- Call button (Caller Icon) using the tel: protocol -->
             <a href="tel:" class="button">
@@ -120,9 +116,9 @@
             </a>
 
             <!-- Contacts button (Mail Icon) -->
-            <a href="mailto:" class="button">
+            <div class="button" onclick="openIframe('https://admin-iget.github.io/test/UvikChat.html');">
                 <i class="fas fa-envelope"></i> <!-- Mail icon -->
-            </a>
+            </div>
 
             <!-- Fullscreen window for iframe (Browser Icon) -->
             <div class="button" onclick="openIframe('https://browser.rammerhead.org');">
