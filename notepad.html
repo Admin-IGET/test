@@ -125,25 +125,30 @@
         }
     }
 
-    async function saveAsFile() {
-        try {
-const options = {
-    suggestedName: currentFileName || "note.txt",
-    types: [{
-        description: 'Text files',
-        accept: {
-            'text/plain': ['.txt', '.html', '.text']
-        }
-    }]
-};
+function saveAsFile() {
+    const text = document.getElementById('notepad').value;
+    let filename = prompt("Zadejte název souboru:", currentFileName.replace(/\.[^/.]+$/, "") || "filename");
 
-            fileHandle = await window.showSaveFilePicker(options);
-            await writeFile(fileHandle, document.getElementById('notepad').value);
-            currentFileName = fileHandle.name || 'note.txt';
-        } catch (err) {
-            console.log("Save As cancelled or failed:", err);
-        }
+    if (!filename) return; // user cancelled
+
+    filename = filename.trim();
+    if (!filename.toLowerCase().endsWith('.txt')) {
+        filename += ".txt";
     }
+
+    const blob = new Blob([text], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+
+    currentFileName = filename;
+}
+
 
     async function writeFile(handle, contents) {
         const writable = await handle.createWritable();
