@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UvíkOS Desktop</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external styles -->
+</head>
+<body>
+    <div id="taskbar-apps" class="taskbar-apps"></div>
+    <!-- Start Menu -->
+    <div id="start-menu" class="hidden">
+        <button onclick="openApp('notepad')">Poznámkový blok</button>
+        <button onclick="openApp('internet')">Internet</button>
+        <button onclick="openApp('youtube')">YouTube</button>
+        <button onclick="openApp('game')">Hry</button>
+        <button onclick="openApp('paint')">Malování</button>
+        <button onclick="openApp('apps')">Všechny Aplikace</button>
+        <button onclick="openApp('video')">Video(upoutávka)</button>
+        <button onclick="openApp('UvikChat')">UvíkChat</button>
+        <button onclick="openApp('calc')">Kalkulačka</button>
+        <button onclick="openFileExplorer()">Průzkumník souborů</button>
+        <button onclick="toggleStartMenu()">Zavřít</button>
+    </div>
+
+    <!-- Settings -->
+    <div id="settings" class="hidden">
+        <h2>Nastavení</h2>
+        <button onclick="changeWallpaper('default')">Výchozí tapeta</button>
+        <input type="file" id="custom-wallpaper" accept="image/*">
+        <button onclick="changeWallpaper('custom')">Použít vlastní tapetu</button>
+        <button onclick="redirectToMobile()">Přepnout na mobilní verzi</button>
+        <button onclick="closeSettings()">Zavřít</button>
+    </div>
+
+    <!-- App Container -->
+    <div id="app-container"></div>
+
+    <!-- Taskbar -->
+    <div id="taskbar">
+        <button id="start-button" onclick="toggleStartMenu()">
+            <img src="https://admin-iget.github.io/test/uvikicon.png" alt="Uvik" width="40">
+        </button>
+        <font face="Arial" size="4" color="white">Tip : Stiskněte ALT pro přepínání mezi okny! </font>
+    </div>
+    
+    <div id="taskbar-base"></div>
+
+    <!-- Time & Date -->
+    <div id="time-date">
+        <span id="time"></span>
+        <span id="date"></span>
+        <button id="settings-button" onclick="openSettings()">
+            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/settings.png" alt="Nastavení" width="20">
+            Nastavení
+        </button>
+    </div>
+
+    <script src="scripts.js"></script> <!-- Link to the external script -->
+</body>
+</html>

@@ -26,6 +26,21 @@ body {
     display: none;
 }
 
+.taskbar-apps {
+      display: none; /* Initially hidden */
+      width: 30vw; /* 30% of the viewport width */
+      height: 200px; /* Example fixed height */
+      background-color: lightblue; /* Just for visibility */
+      position: absolute; /* Position absolutely within the body */
+      top: 50%; /* Position it at the middle of the page */
+      left: 50%; /* Position it at the middle of the page */
+      transform: translate(-50%, -50%); /* Offset by half the element's width/height to truly center */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1005; /* I HAVE THE HIGHGROUND! */
+}
+
 #time-date {
     position: absolute;
     bottom: 10px;
@@ -46,7 +61,7 @@ body {
     margin-left: 10px;
     display: flex;
     align-items: center;
-    z-index: 1003; /* Appear above taskbar */
+    z-index: 1003; /* Apper above taskbar */
 }
 
 #start-button {
@@ -112,16 +127,46 @@ body {
     flex-direction: column;
     z-index: 200; /* Higher z-index than the taskbar */
 }
+.window.maximized {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: calc(100vh - 53px) !important;
+}
+
+
+
 
 .window-titlebar {
-    background-color: #0078d4;
-    color: white;
-    padding: 5px;
-    cursor: move;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 201; /* Higher z-index to ensure it’s always above the taskbar */
+    padding: 2px 5px;
+    background-color: #333;
+    color: white;
+    height: 28px;
+    cursor: move;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+.window-buttons { /* this is NEEEEW! Window buttons. */
+    display: flex;
+    gap: 4px;
+}
+
+.window-buttons button { /* One window button. */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+} 
+
+.window-buttons button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .window-content {
@@ -141,7 +186,7 @@ body {
 }
 
 .hidden-window {
-    display: none;
+    display: none !important;
 }
 button {
     background-color: #5050FF; /* Green background */
@@ -167,4 +212,17 @@ button:active {
 button:focus {
     outline: none; /* Remove focus outline */
     box-shadow: 0 0 4px rgba(72, 239, 124, 0.8); /* Add a focus glow */
+}
+#taskbar-base {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 53px; /* Height of bar */
+    background-color: rgba(0, 255, 0, 0.70); /* Green with 70% opacity */
+    z-index: 98; /* Below the taskbar (which should be z-index 1000 or higher) */
+    pointer-events: none; /* So windows can't interact with it */
+}
+.window.maximized {
+  border-radius: 0 !important;
 }
