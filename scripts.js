@@ -12,8 +12,20 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         changeWallpaper('default');
     }
-        createWindow("UvikOS Pro windows", '<iframe src="https://admin-iget.github.io/uvik.html" width="100%" height="100%"></iframe>');
+   document.querySelector('.taskbar-apps').style.display = 'none';
 });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.altKey) {
+        document.querySelector('.taskbar-apps').style.display = 'block';
+      }
+    });
+
+    document.addEventListener('keyup', function(event) {
+      if (!event.altKey) {
+        document.querySelector('.taskbar-apps').style.display = 'none';
+      }
+    });
 
 function updateTimeDate() {
     var now = new Date();
@@ -62,26 +74,65 @@ function createWindow(title, content) {
     var appContainer = document.getElementById('app-container');
     var windowDiv = document.createElement('div');
     windowDiv.className = 'window';
-
+    
     // Assign a unique ID to each window for tracking in taskbar
     var windowId = Date.now();
     windowDiv.dataset.windowId = windowId;
 
-    windowDiv.innerHTML = `
-        <div class="window-titlebar">
-            <span>${title}</span>
-            <button onclick="closeWindow(this)">X</button>
+    // Create the title bar with the minimize and close buttons
+    var titleBar = document.createElement('div');
+    titleBar.className = 'window-titlebar';
+    titleBar.innerHTML = `
+        <span class="window-title">${title}</span>
+        <div class="window-buttons">
+            <button class="minimize-btn">-</button>
+            <button class="close-btn">X</button>
         </div>
-        <div class="window-content">${content}</div>
-        <div class="window-resize-handle"></div>`;
+    `;
+    
+    // Create the content area of the window
+    var contentDiv = document.createElement('div');
+    contentDiv.className = 'window-content';
+    contentDiv.innerHTML = content;
+
+    // Create the resize handle
+    var resizeHandle = document.createElement('div');
+    resizeHandle.className = 'window-resize-handle';
+
+    // Append elements to windowDiv
+    windowDiv.appendChild(titleBar);
+    windowDiv.appendChild(contentDiv);
+    windowDiv.appendChild(resizeHandle);
 
     appContainer.appendChild(windowDiv);
     makeDraggable(windowDiv);
     makeResizable(windowDiv);
     bringToFront(windowDiv);
 
-    // Create a taskbar button for the window
+    // Add the taskbar button
     addTaskbarButton(title, windowDiv);
+
+    // Minimize functionality
+    var minimizeButton = titleBar.querySelector('.minimize-btn');
+    minimizeButton.onclick = function(e) {
+        e.stopPropagation(); // Prevent triggering the taskbarButton click event
+        toggleWindowVisibility(windowDiv);
+    };
+
+    // Close functionality
+    var closeButton = titleBar.querySelector('.close-btn');
+    closeButton.onclick = function() {
+        closeWindow(windowDiv);
+    };
+}
+
+
+function toggleWindowVisibility(windowDiv) {
+    if (windowDiv.classList.contains('hidden-window')) {
+        windowDiv.classList.remove('hidden-window'); // Restore window
+    } else {
+        windowDiv.classList.add('hidden-window'); // Minimize window
+    }
 }
 
 function addTaskbarButton(title, windowDiv) {
@@ -285,31 +336,7 @@ function openApp(appName) {
     }
 }
 
-function enableWindowRenaming(titleBar) {
-    titleBar.ondblclick = function () {
-        const currentText = titleBar.querySelector('span').innerText;
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = currentText;
-        titleBar.innerHTML = ''; // Clear current content
-        titleBar.appendChild(input); // Add input field
-        input.focus();
 
-        input.onblur = function () {
-            const newName = input.value.trim() || currentText; // Use old name if empty
-            titleBar.innerHTML = `<span>${newName}</span><button onclick="closeWindow(this)">X</button>`;
-            
-            // Update the corresponding taskbar button
-            updateTaskbarButtonName(titleBar, newName);
-        };
-
-        input.onkeypress = function (e) {
-            if (e.key === 'Enter') {
-                input.blur();
-            }
-        };
-    };
-}
 
 function updateTaskbarButtonName(titleBar, newName) {
     // Get the window ID from the title bar
@@ -345,7 +372,7 @@ function createWindow(title, content) {
     bringToFront(windowDiv);
 
     // Enable renaming on the window title bar
-    enableWindowRenaming(windowDiv.querySelector('.window-titlebar'));
+
 
     // Create a taskbar button for the window
     addTaskbarButton(title, windowDiv);
