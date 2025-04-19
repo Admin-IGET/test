@@ -26,6 +26,10 @@ body {
     display: none;
 }
 
+.taskbar-div {
+      width: 65vw; 
+}
+
 .taskbar-apps {
       display: none; /* Initially hidden */
       width: 30vw; /* 30% of the viewport width */
