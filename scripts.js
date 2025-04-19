@@ -31,7 +31,7 @@ function updateTimeDate() {
     var now = new Date();
     var timeString = now.toLocaleTimeString();
     var dateString = now.toLocaleDateString();
-    var formattedTime = timeString.split(" ")[0]; // Show time only, without AM/PM
+    var formattedTime = timeString.split(" ")[0]; 
     document.getElementById('time').innerHTML = formattedTime + "<br>" + dateString; // Format time on new line
 }
 
@@ -69,63 +69,6 @@ function openSettings() {
 function closeSettings() {
     document.getElementById('settings').classList.add('hidden');
 }
-
-function createWindow(title, content) {
-    var appContainer = document.getElementById('app-container');
-    var windowDiv = document.createElement('div');
-    windowDiv.className = 'window';
-    
-    // Assign a unique ID to each window for tracking in taskbar
-    var windowId = Date.now();
-    windowDiv.dataset.windowId = windowId;
-
-    // Create the title bar with the minimize and close buttons
-    var titleBar = document.createElement('div');
-    titleBar.className = 'window-titlebar';
-    titleBar.innerHTML = `
-        <span class="window-title">${title}</span>
-        <div class="window-buttons">
-            <button class="minimize-btn">-</button>
-            <button class="close-btn">X</button>
-        </div>
-    `;
-    
-    // Create the content area of the window
-    var contentDiv = document.createElement('div');
-    contentDiv.className = 'window-content';
-    contentDiv.innerHTML = content;
-
-    // Create the resize handle
-    var resizeHandle = document.createElement('div');
-    resizeHandle.className = 'window-resize-handle';
-
-    // Append elements to windowDiv
-    windowDiv.appendChild(titleBar);
-    windowDiv.appendChild(contentDiv);
-    windowDiv.appendChild(resizeHandle);
-
-    appContainer.appendChild(windowDiv);
-    makeDraggable(windowDiv);
-    makeResizable(windowDiv);
-    bringToFront(windowDiv);
-
-    // Add the taskbar button
-    addTaskbarButton(title, windowDiv);
-
-    // Minimize functionality
-    var minimizeButton = titleBar.querySelector('.minimize-btn');
-    minimizeButton.onclick = function(e) {
-        e.stopPropagation(); // Prevent triggering the taskbarButton click event
-        toggleWindowVisibility(windowDiv);
-    };
-
-    // Close functionality
-    var closeButton = titleBar.querySelector('.close-btn');
-    closeButton.onclick = function() {
-        closeWindow(windowDiv);
-    };
-}
-
 
 function toggleWindowVisibility(windowDiv) {
     if (windowDiv.classList.contains('hidden-window')) {
@@ -282,28 +225,6 @@ function closeSettings() {
     document.getElementById('settings').classList.add('hidden');
 }
 
-
-
-// Create a new window and apply the current header color
-function createWindow(title, content) {
-    var appContainer = document.getElementById('app-container');
-    var windowDiv = document.createElement('div');
-    windowDiv.className = 'window';
-    
-    windowDiv.innerHTML = `
-        <div class="window-titlebar" style="background-color: ${window.currentHeaderColor};">
-            <span>${title}</span>
-            <button onclick="closeWindow(this)">X</button>
-        </div>
-        <div class="window-content">${content}</div>
-        <div class="window-resize-handle"></div>`;
-
-    appContainer.appendChild(windowDiv);
-    makeDraggable(windowDiv);
-    makeResizable(windowDiv);
-    bringToFront(windowDiv);
-}
-
 function redirectToMobile() {
     window.location.href = "https://admin-iget.github.io/test/UvikMobile.html"; // Redirect to mobile version
 }
@@ -361,11 +282,15 @@ function createWindow(title, content) {
     windowDiv.innerHTML = `
         <div class="window-titlebar">
             <span>${title}</span>
-            <button onclick="closeWindow(this)">X</button>
+            <div class="window-buttons" style="display: inline-flex; gap: 2px;">
+                <button onclick="placeTheHolder()">-</button>
+                <button onclick="placeTheHolder()">□</button>
+                <button onclick="closeWindow(this)">X</button>
+            </div>
         </div>
         <div class="window-content">${content}</div>
         <div class="window-resize-handle"></div>`;
-    
+
     appContainer.appendChild(windowDiv);
     makeDraggable(windowDiv);
     makeResizable(windowDiv);
@@ -373,10 +298,14 @@ function createWindow(title, content) {
 
     // Enable renaming on the window title bar
 
-
     // Create a taskbar button for the window
     addTaskbarButton(title, windowDiv);
 }
+
+function placeTheHolder() {
+    alert("Tato funkce funguje jen na Windows verzi UvíkOS!")
+}
+
 
 function addTaskbarButton(title, windowDiv) {
     var taskbarApps = document.getElementById('taskbar-apps');
