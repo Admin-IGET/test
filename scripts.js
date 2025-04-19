@@ -463,15 +463,17 @@ function changeWallpaper(type) {
 
 
 function makeDraggable(element) {
-    var titlebar = element.querySelector('.window-titlebar');
-    
-    titlebar.onmousedown = function (event) {
-        bringToFront(element); // Bring window to the top when dragging starts
-        disableIframes(); // Disable iframe interactions when dragging starts
-        disableTaskbar(); // Disable taskbar interactions when dragging starts
+    const titlebar = element.querySelector('.window-titlebar');
 
-        var shiftX = event.clientX - element.offsetLeft;
-        var shiftY = event.clientY - element.offsetTop;
+    titlebar.onmousedown = function (event) {
+        if (event.altKey) return; // Prevent drag when ALT is held
+
+        bringToFront(element);
+        disableIframes();
+        disableTaskbar();
+
+        const shiftX = event.clientX - element.offsetLeft;
+        const shiftY = event.clientY - element.offsetTop;
 
         function moveAt(pageX, pageY) {
             element.style.left = pageX - shiftX + 'px';
@@ -479,16 +481,24 @@ function makeDraggable(element) {
         }
 
         function onMouseMove(event) {
+            if (event.altKey) {
+                cancelDrag();
+                return;
+            }
             moveAt(event.pageX, event.pageY);
+        }
+
+        function cancelDrag() {
+            document.removeEventListener('mousemove', onMouseMove);
+            titlebar.onmouseup = null;
+            enableIframes();
+            enableTaskbar();
         }
 
         document.addEventListener('mousemove', onMouseMove);
 
         titlebar.onmouseup = function () {
-            document.removeEventListener('mousemove', onMouseMove);
-            titlebar.onmouseup = null;
-            enableIframes(); // Enable iframe interactions when dragging ends
-            enableTaskbar(); // Enable taskbar interactions when dragging ends
+            cancelDrag();
         };
     };
 
@@ -497,26 +507,35 @@ function makeDraggable(element) {
     };
 }
 
-
 function makeResizable(element) {
-    var resizeHandle = element.querySelector('.window-resize-handle');
-    
+    const resizeHandle = element.querySelector('.window-resize-handle');
+
     resizeHandle.onmousedown = function (event) {
-        disableIframes(); // Disable iframe interactions while resizing
-        disableTaskbar(); // Disable taskbar interactions while resizing
+        if (event.altKey) return; // Prevent resize when ALT is held
+
+        disableIframes();
+        disableTaskbar();
 
         function onMouseMove(event) {
+            if (event.altKey) {
+                cancelResize();
+                return;
+            }
             element.style.width = (event.pageX - element.offsetLeft) + 'px';
             element.style.height = (event.pageY - element.offsetTop) + 'px';
+        }
+
+        function cancelResize() {
+            document.removeEventListener('mousemove', onMouseMove);
+            resizeHandle.onmouseup = null;
+            enableIframes();
+            enableTaskbar();
         }
 
         document.addEventListener('mousemove', onMouseMove);
 
         resizeHandle.onmouseup = function () {
-            document.removeEventListener('mousemove', onMouseMove);
-            resizeHandle.onmouseup = null;
-            enableIframes(); // Enable iframe interactions again
-            enableTaskbar(); // Enable taskbar interactions again
+            cancelResize();
         };
     };
 
@@ -525,13 +544,13 @@ function makeResizable(element) {
     };
 }
 
-// Function to disable taskbar interactions
+// Function to disable taskbar interactons
 function disableTaskbar() {
     var taskbar = document.getElementById('taskbar');
     taskbar.style.pointerEvents = 'none'; // Disable pointer events
 }
 
-// Function to enable taskbar interactions
+// function to enable taskbar interactions
 function enableTaskbar() {
     var taskbar = document.getElementById('taskbar');
     taskbar.style.pointerEvents = 'auto'; // Enable pointer events
