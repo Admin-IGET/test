@@ -336,7 +336,7 @@ function closeWindow(button) {
     removeTaskbarButton(windowElement);
 }
 
-function removeTaskbarButton(windowElement) { last
+function removeTaskbarButton(windowElement) {
     var taskbarApps = document.getElementById('taskbar-apps');
     var taskbarButton = taskbarApps.querySelector(`.taskbar-button[data-window-id="${windowElement.dataset.windowId}"]`);
     if (taskbarButton) {
