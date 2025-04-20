@@ -20,19 +20,18 @@ let isDragging = false;
 
 document.addEventListener('keydown', function(event) {
     if (event.altKey) {
-        isAltPressed = true;
-        disableDraggableAndResizable(); // Disable moving and resizing
-        document.querySelector('.taskbar-apps').style.display = 'block'; // Show taskbar
+        document.querySelector('.taskbar-apps').style.display = 'block';
+        if (activeDragCancel) activeDragCancel();
+        if (activeResizeCancel) activeResizeCancel();
     }
 });
 
 document.addEventListener('keyup', function(event) {
     if (!event.altKey) {
-        isAltPressed = false;
-        enableDraggableAndResizable(); // Re-enable moving and resizing
-        document.querySelector('.taskbar-apps').style.display = 'none'; // Hide taskbar
+        document.querySelector('.taskbar-apps').style.display = 'none';
     }
 });
+
 
 function disableDraggableAndResizable() {
     const windows = document.querySelectorAll('.window');
@@ -480,12 +479,14 @@ function changeWallpaper(type) {
     }
 }
 
+let activeDragCancel = null;
+let activeResizeCancel = null;
 
 function makeDraggable(element) {
     const titlebar = element.querySelector('.window-titlebar');
 
     titlebar.onmousedown = function (event) {
-        if (event.altKey) return; // Prevent drag when ALT is held
+        if (event.altKey) return;
 
         bringToFront(element);
         disableIframes();
@@ -512,13 +513,12 @@ function makeDraggable(element) {
             titlebar.onmouseup = null;
             enableIframes();
             enableTaskbar();
+            activeDragCancel = null;
         }
 
         document.addEventListener('mousemove', onMouseMove);
-
-        titlebar.onmouseup = function () {
-            cancelDrag();
-        };
+        titlebar.onmouseup = cancelDrag;
+        activeDragCancel = cancelDrag;
     };
 
     titlebar.ondragstart = function () {
@@ -530,7 +530,7 @@ function makeResizable(element) {
     const resizeHandle = element.querySelector('.window-resize-handle');
 
     resizeHandle.onmousedown = function (event) {
-        if (event.altKey) return; // Prevent resize when ALT is held
+        if (event.altKey) return;
 
         disableIframes();
         disableTaskbar();
@@ -549,13 +549,12 @@ function makeResizable(element) {
             resizeHandle.onmouseup = null;
             enableIframes();
             enableTaskbar();
+            activeResizeCancel = null;
         }
 
         document.addEventListener('mousemove', onMouseMove);
-
-        resizeHandle.onmouseup = function () {
-            cancelResize();
-        };
+        resizeHandle.onmouseup = cancelResize;
+        activeResizeCancel = cancelResize;
     };
 
     resizeHandle.ondragstart = function () {
