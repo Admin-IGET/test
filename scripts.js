@@ -258,18 +258,6 @@ function openApp(appName) {
 }
 
 
-
-function updateTaskbarButtonName(titleBar, newName) {
-    // Get the window ID from the title bar
-    const windowId = titleBar.closest('.window').dataset.windowId;
-    const taskbarButton = document.querySelector(`.taskbar-button[data-window-id="${windowId}"]`);
-
-    if (taskbarButton) {
-        taskbarButton.querySelector('span').innerText = newName; // Update taskbar button text
-    }
-}
-
-
 function createWindow(title, content) {
     var appContainer = document.getElementById('app-container');
     var windowDiv = document.createElement('div');
@@ -324,7 +312,7 @@ function minimizeWindow(button) {
     const taskbar = document.getElementById('taskbar');
     const taskbarTop = taskbar.offsetTop;
     const minimizedHeight = 40;
-    const minimizedWidth = 120;
+    const minimizedWidth = 150;
 
     // Nerd math
     const existingMinimized = document.querySelectorAll('.mini-mode');
@@ -639,5 +627,3 @@ Available UvikOS commands:
 console.log("Welcome to UvikOS Console! Type UvikOS.help() for a list of available commands.");
 
 }
-
-
