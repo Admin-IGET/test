@@ -78,89 +78,6 @@ function toggleWindowVisibility(windowDiv) {
     }
 }
 
-function addTaskbarButton(title, windowDiv) {
-    var taskbarApps = document.getElementById('taskbar-apps');
-    var taskbarButton = document.createElement('div');
-    taskbarButton.className = 'taskbar-button';
-    taskbarButton.dataset.windowId = windowDiv.dataset.windowId; // Link taskbar button to window
-
-    taskbarButton.innerHTML = `
-        <span>${title}</span>
-        <button class="minimize-btn">-</button>`;
-
-    taskbarApps.appendChild(taskbarButton);
-
-    // Click taskbar button to bring the window to front
-    taskbarButton.onclick = function() {
-        bringToFront(windowDiv);
-        if (windowDiv.classList.contains('hidden-window')) {
-            windowDiv.classList.remove('hidden-window'); // Restore if minimized
-        }
-    };
-
-    // Minimize button to hide the window
-    var minimizeButton = taskbarButton.querySelector('.minimize-btn');
-    minimizeButton.onclick = function(e) {
-        e.stopPropagation(); // Prevent triggering the taskbarButton click event
-        if (windowDiv.classList.contains('hidden-window')) {
-            windowDiv.classList.remove('hidden-window'); // Restore window
-        } else {
-            windowDiv.classList.add('hidden-window'); // Minimize window
-        }
-    };
-}
-
-function closeWindow(button) {
-    var windowElement = button.closest('.window');
-    if (windowElement) {
-        windowElement.remove(); // Removes the window from the DOM
-    }
-
-    // Remove the corresponding taskbar button when window is closed
-    removeTaskbarButton(windowElement);
-}
-
-function removeTaskbarButton(windowElement) {
-    var taskbarApps = document.getElementById('taskbar-apps');
-    var taskbarButton = taskbarApps.querySelector(`.taskbar-button[data-window-id="${windowElement.dataset.windowId}"]`);
-    if (taskbarButton) {
-        taskbarButton.remove(); // Remove the taskbar button when the window is closed
-    }
-}
-
-function bringToFront(element) {
-    var allWindows = document.querySelectorAll('.window');
-    for (var i = 0; i < allWindows.length; i++) {
-        allWindows[i].style.zIndex = 100;
-    }
-    element.style.zIndex = 101;
-}
-
-function changeWallpaper(type) {
-    if (localStorage.getItem('uvikTwilight') === "true") {
-        console.log("error21.");
-        return;
-    }
-
-    if (type === 'default') {
-        var defaultWallpaper = "https://admin-iget.github.io/test/f43981720.jpg";
-        document.body.style.backgroundImage = `url("${defaultWallpaper}")`;
-        localStorage.setItem('uvikWallpaper', defaultWallpaper); // Save default wallpaper
-    } else if (type === 'custom') {
-        var fileInput = document.getElementById('custom-wallpaper');
-        var file = fileInput.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var customWallpaper = e.target.result;
-                document.body.style.backgroundImage = `url("${customWallpaper}")`;
-                localStorage.setItem('uvikWallpaper', customWallpaper); // Save custom wallpapr
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-}
-
 // Expose commands globally for interacting with UvikOS
 window.UvikOS = {
     openApp: function(appName) {
@@ -257,7 +174,6 @@ function openApp(appName) {
     }
 }
 
-
 function createWindow(title, content) {
     var appContainer = document.getElementById('app-container');
     var windowDiv = document.createElement('div');
@@ -272,7 +188,7 @@ function createWindow(title, content) {
             <span>${title}</span>
             <div class="window-buttons" style="display: inline-flex; gap: 2px;">
                 <button class="minimize-header" onclick="minimizeWindow(this)">-</button>
-                <button onclick="placeTheHolder()">□</button>
+                <button class="maximize-header" onclick="maximizeWindow(this)">□</button>
                 <button onclick="closeWindow(this)">X</button>
             </div>
         </div>
@@ -300,6 +216,14 @@ function minimizeWindow(button) {
         windowDiv.style.top = windowDiv.dataset.originalTop;
         windowDiv.querySelector('.window-resize-handle').style.display = 'block';
         return;
+    }
+
+    if (windowDiv.classList.contains('maximized')) {
+        windowDiv.classList.remove('maximized');
+        windowDiv.style.width = windowDiv.dataset.originalWidth;
+        windowDiv.style.height = windowDiv.dataset.originalHeight;
+        windowDiv.style.left = windowDiv.dataset.originalLeft;
+        windowDiv.style.top = windowDiv.dataset.originalTop;
     }
 
     // Save original size and position so the window does not spawn somewhere in the VOID
@@ -332,6 +256,43 @@ function minimizeWindow(button) {
     windowDiv.querySelector('.window-resize-handle').style.display = 'none';
 }
 
+function maximizeWindow(button) {
+    const windowDiv = button.closest('.window');
+    const taskbar = document.getElementById('taskbar');
+    const taskbarHeight = taskbar.offsetHeight;
+    const isMinimized = windowDiv.classList.contains('mini-mode');
+
+    if (isMinimized) {
+        const minimizeBtn = windowDiv.querySelector('.minimize-header');
+        if (minimizeBtn) minimizeBtn.textContent = '-';
+        windowDiv.classList.remove('mini-mode');
+        windowDiv.style.width = windowDiv.dataset.originalWidth;
+        windowDiv.style.height = windowDiv.dataset.originalHeight;
+        windowDiv.style.left = windowDiv.dataset.originalLeft;
+        windowDiv.style.top = windowDiv.dataset.originalTop;
+        windowDiv.querySelector('.window-resize-handle').style.display = 'block';
+    }
+
+    if (windowDiv.classList.contains('maximized')) {
+        windowDiv.classList.remove('maximized');
+        windowDiv.style.width = windowDiv.dataset.originalWidth;
+        windowDiv.style.height = windowDiv.dataset.originalHeight;
+        windowDiv.style.left = windowDiv.dataset.originalLeft;
+        windowDiv.style.top = windowDiv.dataset.originalTop;
+    } else {
+        windowDiv.dataset.originalWidth = windowDiv.style.width;
+        windowDiv.dataset.originalHeight = windowDiv.style.height;
+        windowDiv.dataset.originalLeft = windowDiv.style.left;
+        windowDiv.dataset.originalTop = windowDiv.style.top;
+
+        windowDiv.classList.add('maximized');
+        windowDiv.style.top = '0';
+        windowDiv.style.left = '0';
+        windowDiv.style.width = '100vw';
+        windowDiv.style.height = `calc(100vh - ${taskbarHeight}px)`;
+    }
+}
+
 function placeTheHolder() {
     alert("Tato funkce funguje jen na Windows verzi UvíkOS!")
 }
@@ -343,10 +304,13 @@ function addTaskbarButton(title, windowDiv) {
     taskbarButton.dataset.windowId = windowDiv.dataset.windowId;
     taskbarButton.innerHTML = `<span>${title}</span>`;
 
-    taskbarButton.onclick = function () {
+    taskbarButton.onclick = function (e) {
         bringToFront(windowDiv);
 
-        // Restore if minimized (like ^ button)
+        if (!e.target.classList.contains('window-resize-handle') && !e.target.closest('.window-buttons')) {
+            cancelActiveDragOrResize();
+        }
+
         if (windowDiv.classList.contains('mini-mode')) {
             windowDiv.classList.remove('mini-mode');
             const minimizeBtn = windowDiv.querySelector('.minimize-header');
@@ -362,8 +326,6 @@ function addTaskbarButton(title, windowDiv) {
     taskbarApps.appendChild(taskbarButton);
 }
 
-
-
 function closeWindow(button) {
     var windowElement = button.closest('.window');
     if (windowElement) {
@@ -374,7 +336,7 @@ function closeWindow(button) {
     removeTaskbarButton(windowElement);
 }
 
-function removeTaskbarButton(windowElement) {
+function removeTaskbarButton(windowElement) { last
     var taskbarApps = document.getElementById('taskbar-apps');
     var taskbarButton = taskbarApps.querySelector(`.taskbar-button[data-window-id="${windowElement.dataset.windowId}"]`);
     if (taskbarButton) {
@@ -627,3 +589,5 @@ Available UvikOS commands:
 console.log("Welcome to UvikOS Console! Type UvikOS.help() for a list of available commands.");
 
 }
+
+
