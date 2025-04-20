@@ -15,17 +15,120 @@ document.addEventListener('DOMContentLoaded', function() {
    document.querySelector('.taskbar-apps').style.display = 'none';
 });
 
-    document.addEventListener('keydown', function(event) {
-      if (event.altKey) {
-        document.querySelector('.taskbar-apps').style.display = 'block';
-      }
-    });
+let isAltPressed = false;
+let isDragging = false;
 
-    document.addEventListener('keyup', function(event) {
-      if (!event.altKey) {
-        document.querySelector('.taskbar-apps').style.display = 'none';
-      }
+document.addEventListener('keydown', function(event) {
+    if (event.altKey) {
+        isAltPressed = true;
+        disableDraggableAndResizable(); // Disable moving and resizing
+        document.querySelector('.taskbar-apps').style.display = 'block'; // Show taskbar
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (!event.altKey) {
+        isAltPressed = false;
+        enableDraggableAndResizable(); // Re-enable moving and resizing
+        document.querySelector('.taskbar-apps').style.display = 'none'; // Hide taskbar
+    }
+});
+
+function disableDraggableAndResizable() {
+    const windows = document.querySelectorAll('.window');
+    windows.forEach(window => {
+        // Disable dragging
+        const titlebar = window.querySelector('.window-titlebar');
+        titlebar.onmousedown = function(event) {
+            event.preventDefault(); // Prevent dragging when ALT is pressed
+        };
+
+        // Disable resizing
+        const resizeHandle = window.querySelector('.window-resize-handle');
+        resizeHandle.onmousedown = function(event) {
+            event.preventDefault(); // Prevent resizing when ALT is pressed
+        };
     });
+}
+
+function enableDraggableAndResizable() {
+    const windows = document.querySelectorAll('.window');
+    windows.forEach(window => {
+        // Enable dragging
+        const titlebar = window.querySelector('.window-titlebar');
+        titlebar.onmousedown = function(event) {
+            if (isAltPressed) return; // Prevent dragging when ALT is pressed
+            bringToFront(window);
+            disableIframes();
+            disableTaskbar();
+
+            const shiftX = event.clientX - window.offsetLeft;
+            const shiftY = event.clientY - window.offsetTop;
+
+            function moveAt(pageX, pageY) {
+                window.style.left = pageX - shiftX + 'px';
+                window.style.top = pageY - shiftY + 'px';
+            }
+
+            function onMouseMove(event) {
+                if (isAltPressed) {
+                    cancelDrag();
+                    return;
+                }
+                moveAt(event.pageX, event.pageY);
+            }
+
+            function cancelDrag() {
+                if (isDragging) {
+                    isDragging = false; // Ensure drag state is reset
+                    document.removeEventListener('mousemove', onMouseMove);
+                    titlebar.onmouseup = null;
+                    enableIframes();
+                    enableTaskbar();
+                }
+            }
+
+            isDragging = true;
+            document.addEventListener('mousemove', onMouseMove);
+
+            titlebar.onmouseup = function() {
+                cancelDrag();
+            };
+        };
+
+        // Enable resizing
+        const resizeHandle = window.querySelector('.window-resize-handle');
+        resizeHandle.onmousedown = function(event) {
+            if (isAltPressed) return; // Prevent resizing when ALT is pressed
+
+            disableIframes();
+            disableTaskbar();
+
+            function onMouseMove(event) {
+                if (isAltPressed) {
+                    cancelResize();
+                    return;
+                }
+                window.style.width = (event.pageX - window.offsetLeft) + 'px';
+                window.style.height = (event.pageY - window.offsetTop) + 'px';
+            }
+
+            function cancelResize() {
+                document.removeEventListener('mousemove', onMouseMove);
+                resizeHandle.onmouseup = null;
+                enableIframes();
+                enableTaskbar();
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            resizeHandle.onmouseup = function() {
+                cancelResize();
+            };
+        };
+    });
+}
+
 
 function updateTimeDate() {
     var now = new Date();
