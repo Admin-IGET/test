@@ -283,7 +283,7 @@ function createWindow(title, content) {
         <div class="window-titlebar">
             <span>${title}</span>
             <div class="window-buttons" style="display: inline-flex; gap: 2px;">
-                <button onclick="placeTheHolder()">-</button>
+                <button class="minimize-header" onclick="minimizeWindow(this)">-</button>
                 <button onclick="placeTheHolder()">□</button>
                 <button onclick="closeWindow(this)">X</button>
             </div>
@@ -296,48 +296,85 @@ function createWindow(title, content) {
     makeResizable(windowDiv);
     bringToFront(windowDiv);
 
-    // Enable renaming on the window title bar
-
-    // Create a taskbar button for the window
     addTaskbarButton(title, windowDiv);
+}
+
+function minimizeWindow(button) {
+    var windowDiv = button.closest('.window');
+
+    // Already minimized ? restore the windw!
+    if (windowDiv.classList.contains('mini-mode')) {
+        windowDiv.classList.remove('mini-mode');
+        button.textContent = '-';
+        windowDiv.style.width = windowDiv.dataset.originalWidth;
+        windowDiv.style.height = windowDiv.dataset.originalHeight;
+        windowDiv.style.left = windowDiv.dataset.originalLeft;
+        windowDiv.style.top = windowDiv.dataset.originalTop;
+        windowDiv.querySelector('.window-resize-handle').style.display = 'block';
+        return;
+    }
+
+    // Save original size and position so the window does not spawn somewhere in the VOID
+    windowDiv.dataset.originalWidth = windowDiv.style.width;
+    windowDiv.dataset.originalHeight = windowDiv.style.height;
+    windowDiv.dataset.originalLeft = windowDiv.style.left;
+    windowDiv.dataset.originalTop = windowDiv.style.top;
+
+    // Minimize logic
+    const taskbar = document.getElementById('taskbar');
+    const taskbarTop = taskbar.offsetTop;
+    const minimizedHeight = 40;
+    const minimizedWidth = 120;
+
+    // Nerd math
+    const existingMinimized = document.querySelectorAll('.mini-mode');
+    let miniLeft = 10;
+    let takenPositions = Array.from(existingMinimized).map(win => parseInt(win.style.left));
+
+    while (takenPositions.includes(miniLeft)) {
+        miniLeft += minimizedWidth + 10;
+    }
+
+    windowDiv.classList.add('mini-mode');
+    button.textContent = '^';
+    windowDiv.style.width = minimizedWidth + 'px';
+    windowDiv.style.height = minimizedHeight + 'px';
+    windowDiv.style.left = miniLeft + 'px';
+    windowDiv.style.top = (taskbarTop - minimizedHeight - 5) + 'px';
+    windowDiv.querySelector('.window-resize-handle').style.display = 'none';
 }
 
 function placeTheHolder() {
     alert("Tato funkce funguje jen na Windows verzi UvíkOS!")
 }
 
-
 function addTaskbarButton(title, windowDiv) {
     var taskbarApps = document.getElementById('taskbar-apps');
     var taskbarButton = document.createElement('div');
     taskbarButton.className = 'taskbar-button';
-    taskbarButton.dataset.windowId = windowDiv.dataset.windowId; // Link taskbar button to window
+    taskbarButton.dataset.windowId = windowDiv.dataset.windowId;
+    taskbarButton.innerHTML = `<span>${title}</span>`;
 
-    taskbarButton.innerHTML = `
-        <span>${title}</span>
-        <button class="minimize-btn">-</button>`;
-    
-    taskbarApps.appendChild(taskbarButton);
-
-    // Click taskbar button to bring the window to front
-    taskbarButton.onclick = function() {
+    taskbarButton.onclick = function () {
         bringToFront(windowDiv);
-        if (windowDiv.classList.contains('hidden-window')) {
-            windowDiv.classList.remove('hidden-window'); // Restore if minimized
+
+        // Restore if minimized (like ^ button)
+        if (windowDiv.classList.contains('mini-mode')) {
+            windowDiv.classList.remove('mini-mode');
+            const minimizeBtn = windowDiv.querySelector('.minimize-header');
+            if (minimizeBtn) minimizeBtn.textContent = '-';
+            windowDiv.style.width = windowDiv.dataset.originalWidth;
+            windowDiv.style.height = windowDiv.dataset.originalHeight;
+            windowDiv.style.left = windowDiv.dataset.originalLeft;
+            windowDiv.style.top = windowDiv.dataset.originalTop;
+            windowDiv.querySelector('.window-resize-handle').style.display = 'block';
         }
     };
 
-    // Minimize button to hide the window
-    var minimizeButton = taskbarButton.querySelector('.minimize-btn');
-    minimizeButton.onclick = function(e) {
-        e.stopPropagation(); // Prevent triggering the taskbarButton click event
-        if (windowDiv.classList.contains('hidden-window')) {
-            windowDiv.classList.remove('hidden-window'); // Restore window
-        } else {
-            windowDiv.classList.add('hidden-window'); // Minimize window
-        }
-    };
+    taskbarApps.appendChild(taskbarButton);
 }
+
+
 
 function closeWindow(button) {
     var windowElement = button.closest('.window');
