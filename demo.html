@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css"> <!-- Link to the external styles -->
 </head>
 <body>
-    <div id="taskbar-apps" class="taskbar-apps"></div>
     <!-- Start Menu -->
     <div id="start-menu" class="hidden">
         <button style="width: 150px;" onclick="openApp('notepad')">Poznámkový blok</button>
@@ -51,9 +50,10 @@
         <button id="start-button" onclick="toggleStartMenu()">
             <img src="https://admin-iget.github.io/test/uvikicon.png" alt="Uvik" width="40">
         </button>
-        <div class="taskbar-div">
+        <div id="taskbar-apps" class="taskbar-apps"></div>
+        <div id="taskbar-text" class="taskbar-text" style="display: none;">
         <font face="Arial" size="3" color="black">
-        Tip : Klikněte zde a stiskněte ALT pro přepínání mezi okny, nebo pro odlepení kurzoru (↖) od okna!
+        Tip : stiskněte ALT pro odlepení kurzoru (↖) od okna!
         </font>
         </div>
     </div>

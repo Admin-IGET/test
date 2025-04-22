@@ -26,22 +26,11 @@ body {
     display: none;
 }
 
-.taskbar-div {
+.taskbar-text {
       width: 65vw; 
 }
 
 .taskbar-apps {
-      display: none; /* Initially hidden */
-      width: 30vw; /* 30% of the viewport width */
-      height: 200px; /* Example fixed height */
-      background-color: lightblue; /* Just for visibility */
-      position: absolute; /* Position absolutely within the body */
-      top: 50%; /* Position it at the middle of the page */
-      left: 50%; /* Position it at the middle of the page */
-      transform: translate(-50%, -50%); /* Offset by half the element's width/height to truly center */
-      display: flex;
-      justify-content: center;
-      align-items: center;
       z-index: 1005; /* I HAVE THE HIGHGROUND! */
 }
 

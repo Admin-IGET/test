@@ -12,26 +12,30 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         changeWallpaper('default');
     }
-   document.querySelector('.taskbar-apps').style.display = 'none';
 });
+
+window.addEventListener('DOMContentLoaded', () => {
+  const taskbarText = document.getElementById('taskbar-text');
+  
+  if (taskbarText) {
+    taskbarText.style.display = 'block';
+
+    setTimeout(() => {
+      taskbarText.style.display = 'none';
+    }, 3000); // 3000ms = 3 seconds
+  }
+});
+
 
 let isAltPressed = false;
 let isDragging = false;
 
 document.addEventListener('keydown', function(event) {
     if (event.altKey) {
-        document.querySelector('.taskbar-apps').style.display = 'block';
         if (activeDragCancel) activeDragCancel();
         if (activeResizeCancel) activeResizeCancel();
     }
 });
-
-document.addEventListener('keyup', function(event) {
-    if (!event.altKey) {
-        document.querySelector('.taskbar-apps').style.display = 'none';
-    }
-});
-
 
 function disableDraggableAndResizable() {
     const windows = document.querySelectorAll('.window');
