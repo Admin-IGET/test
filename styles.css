@@ -41,7 +41,7 @@ body {
     color: white;
     display: flex;
     align-items: center;
-    z-index: 1003; /* Appear above taskbar */
+    z-index: 1003; 
 }
 
 #settings-button {
@@ -54,7 +54,7 @@ body {
     margin-left: 10px;
     display: flex;
     align-items: center;
-    z-index: 1003; /* Apper above taskbar */
+    z-index: 1003;
 }
 
 #start-button {
@@ -70,11 +70,11 @@ body {
     left: 0;
     right: 0;
     height: 50px;
-    background-color: rgba(0, 0, 0, 0); /* Fully transparent */
+    background-color: rgba(0, 0, 0, 0); 
     display: flex;
     align-items: center;
     padding: 5px;
-    z-index: 100; /* Keep the taskbar below windows */
+    z-index: 100; 
 }
 
 #taskbar-apps {
@@ -85,7 +85,7 @@ body {
 
 .taskbar-button {
     background-color: #fff;
-    color: black; /* Ensure text is visible */
+    color: black; 
     border: none;
     padding: 10px;
     margin-right: 5px;
@@ -118,7 +118,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    z-index: 200; /* Higher z-index than the taskbar */
+    z-index: 200; 
 }
 .window.maximized {
     left: 0 !important;
@@ -143,12 +143,12 @@ body {
     font-size: 14px;
 }
 
-.window-buttons { /* this is NEEEEW! Window buttons. */
+.window-buttons { 
     display: flex;
     gap: 4px;
 }
 
-.window-buttons button { /* One window button. */
+.window-buttons button { 
     background: none;
     border: none;
     color: white;
@@ -175,46 +175,46 @@ body {
     height: 15px;
     cursor: se-resize;
     background-color: transparent;
-    z-index: 201; /* Ensure resize handle is above taskbar */
+    z-index: 201; 
 }
 
 .hidden-window {
     display: none !important;
 }
 button {
-    background-color: #5050FF; /* Green background */
-    color: white; /* White text */
-    border: none; /* Remove default borders */
-    border-radius: 0px; /* Slightly rounded corners */
-    padding: 3px 6px; /* Smaller padding */
-    font-size: 14px; /* Smaller font size */
-    cursor: pointer; /* Pointer cursor on hover */
+    background-color: #5050FF; 
+    color: white; 
+    border: none; 
+    border-radius: 0px; 
+    padding: 3px 6px; 
+    font-size: 14px; 
+    cursor: pointer; 
     transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
 }
 
 button:hover {
-    background-color: #0000FF; /* Darker green on hover */
-    transform: scale(1.03); /* Subtle zoom effect */
+    background-color: #0000FF; 
+    transform: scale(1.03); 
 }
 
 button:active {
-    background-color: #3e8e41; /* Even darker green when active */
-    transform: scale(0.97); /* Slightly pressed effect */
+    background-color: #3e8e41; 
+    transform: scale(0.97); 
 }
 
 button:focus {
-    outline: none; /* Remove focus outline */
-    box-shadow: 0 0 4px rgba(72, 239, 124, 0.8); /* Add a focus glow */
+    outline: none; 
+    box-shadow: 0 0 4px rgba(72, 239, 124, 0.8); 
 }
 #taskbar-base {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 53px; /* Height of bar */
-    background-color: rgba(0, 255, 0, 0.70); /* Green with 70% opacity */
-    z-index: 98; /* Below the taskbar (which should be z-index 1000 or higher) */
-    pointer-events: none; /* So windows can't interact with it */
+    height: 53px; 
+    background-color: rgba(0, 255, 0, 0.70); 
+    z-index: 98; 
+    pointer-events: none; 
 }
 .window.maximized {
   border-radius: 0 !important;

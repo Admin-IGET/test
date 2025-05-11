@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateTimeDate, 1000);
 
-    // Load saved wallpaper and Twilight mode
+
     const savedWallpaper = localStorage.getItem('uvikWallpaper');
     const twilightMode = localStorage.getItem('uvikTwilight') === "true";
 
@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(() => {
       taskbarText.style.display = 'none';
-    }, 3000); // 3000ms = 3 seconds
+    }, 3000); 
   }
 });
 
@@ -40,16 +40,14 @@ document.addEventListener('keydown', function(event) {
 function disableDraggableAndResizable() {
     const windows = document.querySelectorAll('.window');
     windows.forEach(window => {
-        // Disable dragging
         const titlebar = window.querySelector('.window-titlebar');
         titlebar.onmousedown = function(event) {
-            event.preventDefault(); // Prevent dragging when ALT is pressed
+            event.preventDefault(); 
         };
 
-        // Disable resizing
         const resizeHandle = window.querySelector('.window-resize-handle');
         resizeHandle.onmousedown = function(event) {
-            event.preventDefault(); // Prevent resizing when ALT is pressed
+            event.preventDefault(); 
         };
     });
 }
@@ -57,10 +55,9 @@ function disableDraggableAndResizable() {
 function enableDraggableAndResizable() {
     const windows = document.querySelectorAll('.window');
     windows.forEach(window => {
-        // Enable dragging
         const titlebar = window.querySelector('.window-titlebar');
         titlebar.onmousedown = function(event) {
-            if (isAltPressed) return; // Prevent dragging when ALT is pressed
+            if (isAltPressed) return; 
             bringToFront(window);
             disableIframes();
             disableTaskbar();
@@ -83,7 +80,7 @@ function enableDraggableAndResizable() {
 
             function cancelDrag() {
                 if (isDragging) {
-                    isDragging = false; // Ensure drag state is reset
+                    isDragging = false; 
                     document.removeEventListener('mousemove', onMouseMove);
                     titlebar.onmouseup = null;
                     enableIframes();
@@ -99,10 +96,9 @@ function enableDraggableAndResizable() {
             };
         };
 
-        // Enable resizing
         const resizeHandle = window.querySelector('.window-resize-handle');
         resizeHandle.onmousedown = function(event) {
-            if (isAltPressed) return; // Prevent resizing when ALT is pressed
+            if (isAltPressed) return; 
 
             disableIframes();
             disableTaskbar();
@@ -138,7 +134,7 @@ function updateTimeDate() {
     var timeString = now.toLocaleTimeString();
     var dateString = now.toLocaleDateString();
     var formattedTime = timeString.split(" ")[0]; 
-    document.getElementById('time').innerHTML = formattedTime + "<br>" + dateString; // Format time on new line
+    document.getElementById('time').innerHTML = formattedTime + "<br>" + dateString; 
 }
 
 function enableTwilightMode() {
@@ -178,13 +174,12 @@ function closeSettings() {
 
 function toggleWindowVisibility(windowDiv) {
     if (windowDiv.classList.contains('hidden-window')) {
-        windowDiv.classList.remove('hidden-window'); // Restore window
+        windowDiv.classList.remove('hidden-window');
     } else {
-        windowDiv.classList.add('hidden-window'); // Minimize window
+        windowDiv.classList.add('hidden-window');
     }
 }
 
-// Expose commands globally for interacting with UvikOS
 window.UvikOS = {
     openApp: function(appName) {
         const validApps = ["notepad", "internet", "youtube", "game", "apps", "vid", "UvikChat", "calc", "paint"]
@@ -229,48 +224,45 @@ Available UvikOS commands:
 
 console.log("Welcome to UvikOS Console! Type UvikOS.help() for a list of available commands.");
 
-
-
-function toggleStartMenu() {
-    var startMenu = document.getElementById('start-menu');
-    if (startMenu.classList.contains('hidden')) {
-        startMenu.classList.remove('hidden');
-    } else {
-        startMenu.classList.add('hidden');
-    }
-}
-
-function openSettings() {
-    document.getElementById('settings').classList.remove('hidden');
-}
-
-function closeSettings() {
-    document.getElementById('settings').classList.add('hidden');
-}
-
 function redirectToMobile() {
-    window.location.href = "https://admin-iget.github.io/test/UvikMobile.html"; // Redirect to mobile version
+    window.location.href = "https://admin-iget.github.io/test/UvikMobile.html";
 }
-
 
 function openApp(appName) {
-    var urls = {
-        notepad: "https://admin-iget.github.io/test/notepad.html",
-        internet: "https://admin-iget.github.io/test/UvikSEARCH2.html",
-        youtube: "https://admin-iget.github.io/test/youtube.html",
-        game: "https://admin-iget.github.io/test/Uvikhry.html",
-        apps: "https://admin-iget.github.io/test/UvikObchod.html",
-        video: "https://admin-iget.github.io/test/yt.html", // New Video App
-        UvikChat: "https://admin-iget.github.io/test/UvikChat",
-        calc: "https://admin-iget.github.io/test/calc",
-        paint: "https://paintz.app/"
-    };
-
-    if (urls[appName]) {
-        createWindow(appName, '<iframe src="' + urls[appName] + '" width="100%" height="100%"></iframe>');
-    } else {
-        console.error(`Invalid app name: ${appName}`);
-        return; // Exit if the app name is invalid
+    switch(appName) {
+        case 'notepad':
+            createWindow('Poznámkový blok', '<iframe src="notepad.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'internet':
+            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSEARCH2.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'youtube':
+            createWindow('YouTube', '<iframe src="https://admin-iget.github.io/test/youtube.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'game':
+            createWindow('Hry', '<iframe src="https://admin-iget.github.io/test/Uvikhry.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'paint':
+            createWindow('Malování', '<iframe src="https://paintz.app/" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'screenshot':
+            createWindow('Screenshot', '<iframe src="screenshot.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'apps':
+            createWindow('Všechny Aplikace', '<iframe src="https://admin-iget.github.io/test/UvikObchod.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'video':
+            createWindow('Video', '<iframe src="https://admin-iget.github.io/test/yt.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'UvikChat':
+            createWindow('UvíkChat', '<iframe src="https://admin-iget.github.io/test/UvikChat" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'calc':
+            createWindow('Kalkulačka', '<iframe src="https://admin-iget.github.io/test/calc" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        default:
+            console.error(`Invalid app name: ${appName}`);
+            return;
     }
 
     // Automatically close the start menu after opening an app
@@ -285,7 +277,6 @@ function createWindow(title, content) {
     var windowDiv = document.createElement('div');
     windowDiv.className = 'window';
 
-    // Assign a unique ID to each window for tracking in taskbar
     var windowId = Date.now();
     windowDiv.dataset.windowId = windowId;
 
@@ -312,7 +303,6 @@ function createWindow(title, content) {
 function minimizeWindow(button) {
     var windowDiv = button.closest('.window');
 
-    // Already minimized ? restore the windw!
     if (windowDiv.classList.contains('mini-mode')) {
         windowDiv.classList.remove('mini-mode');
         button.textContent = '-';
@@ -332,19 +322,17 @@ function minimizeWindow(button) {
         windowDiv.style.top = windowDiv.dataset.originalTop;
     }
 
-    // Save original size and position so the window does not spawn somewhere in the VOID
     windowDiv.dataset.originalWidth = windowDiv.style.width;
     windowDiv.dataset.originalHeight = windowDiv.style.height;
     windowDiv.dataset.originalLeft = windowDiv.style.left;
     windowDiv.dataset.originalTop = windowDiv.style.top;
 
-    // Minimize logic
     const taskbar = document.getElementById('taskbar');
     const taskbarTop = taskbar.offsetTop;
     const minimizedHeight = 40;
     const minimizedWidth = 150;
 
-    // Nerd math
+    // nerd math
     const existingMinimized = document.querySelectorAll('.mini-mode');
     let miniLeft = 10;
     let takenPositions = Array.from(existingMinimized).map(win => parseInt(win.style.left));
@@ -435,10 +423,9 @@ function addTaskbarButton(title, windowDiv) {
 function closeWindow(button) {
     var windowElement = button.closest('.window');
     if (windowElement) {
-        windowElement.remove(); // Removes the window from the DOM
+        windowElement.remove(); 
     }
 
-    // Remove the corresponding taskbar button when window is closed
     removeTaskbarButton(windowElement);
 }
 
@@ -446,7 +433,7 @@ function removeTaskbarButton(windowElement) {
     var taskbarApps = document.getElementById('taskbar-apps');
     var taskbarButton = taskbarApps.querySelector(`.taskbar-button[data-window-id="${windowElement.dataset.windowId}"]`);
     if (taskbarButton) {
-        taskbarButton.remove(); // Remove the taskbar button when the window is closed
+        taskbarButton.remove(); 
     }
 }
 
@@ -467,7 +454,7 @@ function changeWallpaper(type) {
     if (type === 'default') {
         var defaultWallpaper = "https://admin-iget.github.io/test/f43981720.jpg";
         document.body.style.backgroundImage = 'url("' + defaultWallpaper + '")';
-        localStorage.setItem('uvikWallpaper', defaultWallpaper); // Save default wallpaper
+        localStorage.setItem('uvikWallpaper', defaultWallpaper); 
     } else if (type === 'custom') {
         var fileInput = document.getElementById('custom-wallpaper');
         var file = fileInput.files[0];
@@ -476,7 +463,7 @@ function changeWallpaper(type) {
             reader.onload = function(e) {
                 var customWallpaper = e.target.result;
                 document.body.style.backgroundImage = 'url("' + customWallpaper + '")';
-                localStorage.setItem('uvikWallpaper', customWallpaper); // Save custom wallpaper
+                localStorage.setItem('uvikWallpaper', customWallpaper); 
             };
             reader.readAsDataURL(file);
         }
@@ -566,16 +553,14 @@ function makeResizable(element) {
     };
 }
 
-// Function to disable taskbar interactons
 function disableTaskbar() {
     var taskbar = document.getElementById('taskbar');
-    taskbar.style.pointerEvents = 'none'; // Disable pointer events
+    taskbar.style.pointerEvents = 'none'; 
 }
 
-// function to enable taskbar interactions
 function enableTaskbar() {
     var taskbar = document.getElementById('taskbar');
-    taskbar.style.pointerEvents = 'auto'; // Enable pointer events
+    taskbar.style.pointerEvents = 'auto'; 
 }
 
 function disableIframes() {
@@ -619,81 +604,7 @@ function openFileExplorer() {
         }
     };
 
-    input.click(); // Trigger the file picker
-    
-function enableTwilightMode() {
-    const twilightWallpaper = "https://admin-iget.github.io/test/twilight.PNG";
-    document.body.style.backgroundImage = `url("${twilightWallpaper}")`;
-    localStorage.setItem('uvikTwilight', "true");
-    console.log("Twilight mode enabled. Wallpaper is now locked.");
-}
-
-function disableTwilightMode() {
-    localStorage.setItem('uvikTwilight', "false");
-    const savedWallpaper = localStorage.getItem('uvikWallpaper');
-    if (savedWallpaper) {
-        document.body.style.backgroundImage = 'url("' + savedWallpaper + '")';
-    } else {
-        changeWallpaper('default');
-    }
-    console.log("Twilight mode disabled. Wallpaper settings are restored.");
-}
-
-    
-    // Expose commands globally for interacting with UvikOS
-window.UvikOS = {
-    // Open an app by name
-    openApp: function(appName) {
-        const validApps = ["notepad", "internet", "youtube", "game", "apps", "video", "UvikChat", "calc", "paint"];
-        if (validApps.includes(appName)) {
-            console.log(`Opening ${appName}...`);
-            openApp(appName);
-        } else {
-            console.warn(`Invalid app name: "${appName}". Valid names are: ${validApps.join(", ")}`);
-        }
-    },
-
-    // Change wallpaper by URL
-    setWallpaper: function(url) {
-        if (localStorage.getItem('uvikTwilight') === "true") {
-            console.warn("Twilight mode is active. Cannot change wallpaper.");
-            return;
-        }
-
-        if (url && typeof url === "string") {
-            document.body.style.backgroundImage = `url("${url}")`;
-            localStorage.setItem('uvikWallpaper', url);
-            console.log("Wallpaper updated!");
-        } else {
-            console.error("Invalid wallpaper URL. Please provide a valid string.");
-        }
-    },
-
-    // Toggle Twilight mode
-    twilight: function(state) {
-        if (state === "true") {
-            enableTwilightMode();
-        } else if (state === "false") {
-            disableTwilightMode();
-        } else {
-            console.warn('Invalid state for Twilight mode. Use "true" to enable or "false" to disable.');
-        }
-    },
-
-    // Show all available commands
-    help: function() {
-        console.log(`
-Available UvikOS commands:
-- UvikOS.openApp("appName"): Opens an app. Valid app names: notepad, internet, youtube, game, apps, video, UvikChat, calc, paint.
-- UvikOS.setWallpaper("url"): Changes the wallpaper to the specified URL.
-- UvikOS.help(): Displays this help message.
-`);
-    }
-};
-
-// Display an initial help message in the console on load
-console.log("Welcome to UvikOS Console! Type UvikOS.help() for a list of available commands.");
-
+    input.click(); 
 }
 
 

@@ -88,6 +88,7 @@
                 <button onclick="undo()">Zpět (Alt+Z)</button>
                 <button onclick="redo()">Dopředu (Alt+Y)</button>
                 <button onclick="findText()">Najít (Alt+F)</button>
+                <button onclick="replaceText()">Nahradit (Alt+H)</button>
             </div>
         </div>
 
@@ -108,6 +109,7 @@
     let lastSearchIndex = 0;
     let currentFileName = '';
     let fileHandle = null;
+    let lastReplaceIndex = 0;
 
     async function newFile() {
         if (confirm("Opravdu chcete vytvořit nový soubor? Neuložené změny budou ztraceny.")) {
@@ -201,8 +203,27 @@ function saveAsFile() {
         if (index !== -1) {
             textarea.focus();
             textarea.setSelectionRange(index, index + searchText.length);
-            textarea.scrollTop = textarea.scrollHeight * (index / text.length);
-            lastSearchIndex = index + searchText.length;
+            lastSearchIndex = index + 1;
+        } else {
+            alert("Text nebyl nalezen.");
+            lastSearchIndex = 0;
+        }
+    }
+
+    function replaceText() {
+        let textarea = document.getElementById('notepad');
+        let searchText = prompt("Zadejte hledaný text:");
+        if (!searchText) return;
+
+        let replaceText = prompt("Zadejte text pro nahrazení:");
+        if (replaceText === null) return;
+
+        let text = textarea.value;
+        let newText = text.replace(new RegExp(searchText, 'g'), replaceText);
+        
+        if (newText !== text) {
+            textarea.value = newText;
+            alert("Nahrazení dokončeno.");
         } else {
             alert("Text nebyl nalezen.");
         }

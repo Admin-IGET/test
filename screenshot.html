@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UvíkOS Snímky obrazovky</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #preview {
+            max-width: 100%;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            display: none;
+        }
+        .download-link {
+            display: none;
+            margin-top: 10px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .filename-input {
+            display: none;
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>UvíkOS Snímky obrazovky</h1>
+        <div class="controls">
+            <button id="captureBtn">Pořídit snímek</button>
+            <button id="downloadBtn" style="display: none;">Stáhnout snímek</button>
+        </div>
+        <input type="text" id="filenameInput" class="filename-input" placeholder="Název souboru (bez přípony)">
+        <img id="preview" alt="Náhled snímku">
+        <a id="downloadLink" class="download-link" download="screenshot.png">Stáhnout snímek</a>
+    </div>
+
+    <script>
+        document.getElementById('captureBtn').addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { mediaSource: "screen" }
+                });
+
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                await video.play();
+
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0);
+
+                stream.getTracks().forEach(track => track.stop());
+
+                const preview = document.getElementById('preview');
+                preview.src = canvas.toDataURL('image/png');
+                preview.style.display = 'block';
+
+                const downloadBtn = document.getElementById('downloadBtn');
+                const downloadLink = document.getElementById('downloadLink');
+                const filenameInput = document.getElementById('filenameInput');
+                
+                downloadBtn.style.display = 'inline-block';
+                filenameInput.style.display = 'block';
+                downloadLink.href = canvas.toDataURL('image/png');
+                downloadLink.style.display = 'inline-block';
+
+                // Set default filename with timestamp
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                filenameInput.value = `screenshot-${timestamp}`;
+            } catch (err) {
+                console.error('Chyba při pořizování snímku:', err);
+                alert('Nepodařilo se pořídit snímek. Zkuste to prosím znovu.');
+            }
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const filenameInput = document.getElementById('filenameInput');
+            const downloadLink = document.getElementById('downloadLink');
+            
+            // Get filename from input or use default
+            let filename = filenameInput.value.trim();
+            if (!filename) {
+                filename = 'screenshot';
+            }
+            
+            // Ensure filename ends with .png
+            if (!filename.toLowerCase().endsWith('.png')) {
+                filename += '.png';
+            }
+            
+            downloadLink.download = filename;
+            downloadLink.click();
+        });
+    </script>
+</body>
+</html> 
