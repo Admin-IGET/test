@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateTimeDate, 1000);
 
-
     const savedWallpaper = localStorage.getItem('uvikWallpaper');
     const twilightMode = localStorage.getItem('uvikTwilight') === "true";
 
@@ -25,7 +24,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 3000); 
   }
 });
-
 
 let isAltPressed = false;
 let isDragging = false;
@@ -127,7 +125,6 @@ function enableDraggableAndResizable() {
         };
     });
 }
-
 
 function updateTimeDate() {
     var now = new Date();
@@ -265,7 +262,6 @@ function openApp(appName) {
             return;
     }
 
-    // Automatically close the start menu after opening an app
     var startMenu = document.getElementById('start-menu');
     if (!startMenu.classList.contains('hidden')) {
         startMenu.classList.add('hidden');
@@ -606,5 +602,75 @@ function openFileExplorer() {
 
     input.click(); 
 }
+
+function showBatteryInfo() {
+    let batteryPercentage = "N/A";
+    
+    if (navigator.getBattery) {
+        navigator.getBattery().then(function(battery) {
+            batteryPercentage = Math.round(battery.level * 100) + "%";
+            updateBatteryWindow(batteryPercentage);
+        });
+    } else {
+        updateBatteryWindow(batteryPercentage);
+    }
+}
+
+function updateBatteryWindow(batteryPercentage) {
+    const content = `
+        <div style="padding: 20px;">
+            <font face="Arial" size="3" color="black">
+                <p>Wifi připojení funguje jen na Windows verzi.</p>
+                <p>Procento baterie: ${batteryPercentage}</p>
+            </font>
+        </div>
+    `;
+    createWindow("UvíkOS Wi-Fi a Baterie", content);
+}
+
+function showVolumeMixer() {
+    const content = `
+        <div style="padding: 20px;">
+            <font face="Arial" size="3" color="black">
+                <p>Toto funguje jen na Windows verzi!</p>
+            </font>
+        </div>
+    `;
+    createWindow("Směšovač hlasitosti", content);
+}
+
+function showShutdown() {
+    const content = `
+        <div style="padding: 20px;">
+            <font face="Arial" size="3" color="black">
+                <p>Toto funguje jen na Windows verzi!</p>
+            </font>
+        </div>
+    `;
+    createWindow("Vypnutí systému", content);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const batteryButton = document.querySelector('.control-button[title="Battery"]');
+    if (batteryButton) {
+        batteryButton.onclick = showBatteryInfo;
+        batteryButton.querySelector('img').style.width = '40px';
+        batteryButton.querySelector('img').style.height = '40px';
+    }
+
+    const soundButton = document.querySelector('.control-button[title="Sound"]');
+    if (soundButton) {
+        soundButton.onclick = showVolumeMixer;
+        soundButton.querySelector('img').style.width = '40px';
+        soundButton.querySelector('img').style.height = '40px';
+    }
+
+    const shutdownButton = document.querySelector('.control-button[title="Shutdown"]');
+    if (shutdownButton) {
+        shutdownButton.onclick = showShutdown;
+        shutdownButton.querySelector('img').style.width = '40px';
+        shutdownButton.querySelector('img').style.height = '40px';
+    }
+});
 
 

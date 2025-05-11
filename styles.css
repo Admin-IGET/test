@@ -27,34 +27,59 @@ body {
 }
 
 .taskbar-text {
-      width: 65vw; 
+    width: 300px;
+    margin-left: 10px;
+    color: black;
 }
 
 .taskbar-apps {
-      z-index: 1005; /* I HAVE THE HIGHGROUND! */
+    z-index: 1005; /* I HAVE THE HIGHGROUND */
 }
 
 #time-date {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    color: white;
+    right: 95px;
+    bottom: 15px;
     display: flex;
     align-items: center;
-    z-index: 1003; 
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    color: white;
+    margin: 0 10px;
+    font-size: 14px;
+    white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#time-date span {
+    margin: 0 5px;
+    display: inline-block;
+}
+
+#time {
+    font-weight: bold;
+}
+
+#date {
+    font-size: 12px;
 }
 
 #settings-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
     background-color: #0078d4;
     color: white;
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin-left: 10px;
     display: flex;
     align-items: center;
-    z-index: 1003;
 }
 
 #start-button {
@@ -70,17 +95,70 @@ body {
     left: 0;
     right: 0;
     height: 50px;
-    background-color: rgba(0, 0, 0, 0); 
+    background-color: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     padding: 5px;
-    z-index: 100; 
+    z-index: 100;
 }
 
 #taskbar-apps {
     display: flex;
     align-items: center;
     margin-left: 10px;
+    flex-grow: 1;
+}
+
+.taskbar-right {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    margin-right: 150px;
+}
+
+.control-button {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.control-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-button img {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+#settings-button {
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.taskbar-right {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    gap: 5px;
+    right: 50px;
+    margin-left: auto;
 }
 
 .taskbar-button {
@@ -120,15 +198,13 @@ body {
     flex-direction: column;
     z-index: 200; 
 }
+
 .window.maximized {
     left: 0 !important;
     top: 0 !important;
     width: 100% !important;
     height: calc(100vh - 53px) !important;
 }
-
-
-
 
 .window-titlebar {
     display: flex;
@@ -181,6 +257,7 @@ body {
 .hidden-window {
     display: none !important;
 }
+
 button {
     background-color: #5050FF; 
     color: white; 
@@ -189,7 +266,7 @@ button {
     padding: 3px 6px; 
     font-size: 14px; 
     cursor: pointer; 
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
@@ -206,6 +283,7 @@ button:focus {
     outline: none; 
     box-shadow: 0 0 4px rgba(72, 239, 124, 0.8); 
 }
+
 #taskbar-base {
     position: fixed;
     bottom: 0;
@@ -216,6 +294,38 @@ button:focus {
     z-index: 98; 
     pointer-events: none; 
 }
+
 .window.maximized {
   border-radius: 0 !important;
+}
+
+#system-tray {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 1003;
+    margin: 0 10px;
+}
+
+.system-tray-button {
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    height: 40px;
+    width: 40px;
+}
+
+.system-tray-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.system-tray-button img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
 }
