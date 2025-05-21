@@ -268,7 +268,7 @@ function openApp(appName) {
             createWindow('UvikChat', '<iframe src="https://admin-iget.github.io/test/UvikChat" style="width: 100%; height: 100%; border: none;"></iframe>');
             break;
         case 'internet':
-            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSearch" style="width: 100%; height: 100%; border: none;"></iframe>');
+            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSEARCH2" style="width: 100%; height: 100%; border: none;"></iframe>');
             break;
         case 'youtube':
             createWindow('YouTube', '<iframe src="https://admin-iget.github.io/test/youtube" style="width: 100%; height: 100%; border: none;"></iframe>');
