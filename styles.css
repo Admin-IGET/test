@@ -307,22 +307,6 @@ body {
     display: none !important;
 }
 
-button {
-    background-color: #5050FF; 
-    color: white; 
-    border: none; 
-    border-radius: 0px; 
-    padding: 3px 6px; 
-    font-size: 14px; 
-    cursor: pointer; 
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-    background-color: #0000FF; 
-    transform: scale(1.03); 
-}
-
 button:active {
     background-color: #3e8e41; 
     transform: scale(0.97); 
