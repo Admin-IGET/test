@@ -348,23 +348,32 @@ function maximizeWindow(button) {
     const windowDiv = button.closest('.window');
     
     if (windowDiv.classList.contains('maximized')) {
+        // Unmaximize - restore previous size and position
         windowDiv.classList.remove('maximized');
-        // Restore previous position and size
-        const centerX = (window.innerWidth - 800) / 2;
-        const centerY = (window.innerHeight - 600) / 2;
-        windowDiv.style.left = centerX + 'px';
-        windowDiv.style.top = centerY + 'px';
-        windowDiv.style.width = '800px';
-        windowDiv.style.height = '600px';
-        button.innerHTML = '&#x2610;';
+        
+        windowDiv.style.left = windowDiv.dataset.prevLeft;
+        windowDiv.style.top = windowDiv.dataset.prevTop;
+        windowDiv.style.width = windowDiv.dataset.prevWidth;
+        windowDiv.style.height = windowDiv.dataset.prevHeight;
+        
+        button.innerHTML = '&#x2610;'; // icon for maximize
     } else {
+        // Save current size and position before maximizing
+        windowDiv.dataset.prevLeft = windowDiv.style.left;
+        windowDiv.dataset.prevTop = windowDiv.style.top;
+        windowDiv.dataset.prevWidth = windowDiv.style.width;
+        windowDiv.dataset.prevHeight = windowDiv.style.height;
+
+        // Maximize
         windowDiv.classList.add('maximized');
         windowDiv.style.left = '0';
         windowDiv.style.top = '0';
         windowDiv.style.width = '100%';
         windowDiv.style.height = 'calc(100vh - 40px)';
-        button.innerHTML = '&#x2611;';
+        
+        button.innerHTML = '&#x2611;'; // icon for restore
     }
+
     bringToFront(windowDiv);
 }
 
