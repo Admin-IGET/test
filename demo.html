@@ -8,38 +8,40 @@
 </head>
 <body>
     <div id="start-menu" class="hidden">
-        <button style="width: 150px;" onclick="openApp('notepad')">Poznámkový blok</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('internet')">Internet</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('youtube')">YouTube</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('game')">Hry</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('paint')">Malování</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('screenshot')">Screenshot</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('apps')">Všechny Aplikace</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('video')">Video(upoutávka)</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('UvikChat')">UvíkChat</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openApp('calc')">Kalkulačka</button>
-        <p></p>
-        <button style="width: 150px;" onclick="openFileExplorer()">Průzkumník souborů</button>
-        <p></p>
-        <button style="width: 150px;" onclick="toggleStartMenu()">Zavřít</button>
+        <button onclick="openApp('notepad')">Textový editor</button>
+        <button onclick="openApp('calc')">Kalkulačka</button>
+        <button onclick="openApp('paint')">Malování</button>
+        <button onclick="openApp('uvikdraw')">UvíkDraw</button>
+        <button onclick="openApp('screenshot')">Screenshot</button>
+        <button onclick="openFileExplorer()">Průzkumník souborů</button>
+        <button onclick="openApp('UvikChat')">UvikChat</button>
+        <button onclick="openApp('internet')">Internet</button>
+        <button onclick="openApp('youtube')">YouTube</button>
+        <button onclick="openApp('game')">Hry</button>
+        <button onclick="openApp('apps')">Aplikace</button>
+        <button onclick="openApp('vid')">VideoPřehrávač</button>
+        <button onclick="toggleStartMenu()">Zavřít</button>
     </div>
 
     <div id="settings" class="hidden">
+        <font face="Arial" size="3" color="black">
         <h2>Nastavení</h2>
-        <button onclick="changeWallpaper('default')">Výchozí tapeta</button>
-        <input type="file" id="custom-wallpaper" accept="image/*">
-        <button onclick="changeWallpaper('custom')">Použít vlastní tapetu</button>
-        <button onclick="redirectToMobile()">Přepnout na mobilní verzi</button>
+        <div class="settings-section">
+            <h3>Vzhled</h3>
+            <button onclick="changeWallpaper('default')">Výchozí tapeta</button>
+            <input type="file" id="custom-wallpaper" accept="image/*">
+            <button onclick="changeWallpaper('custom')">Použít vlastní tapetu</button>
+        </div>
+        <div class="settings-section">
+            <h3>Systém</h3>
+            <button onclick="redirectToMobile()">Přepnout na mobilní verzi</button>
+        </div>
         <button onclick="closeSettings()">Zavřít</button>
+    </font>
+    </div>
+
+    <div id="desktop-icons">
+        <!-- Icons will be dynamically added here -->
     </div>
 
     <div id="app-container"></div>
@@ -49,31 +51,34 @@
             <img src="https://admin-iget.github.io/test/uvikicon.png" alt="Uvik" width="40">
         </button>
         <div id="taskbar-text" class="taskbar-text">
-            <font face="Arial" size="3" color="black">
+            <font face="Arial" size="3" color="white">
                 Tip : stiskněte ALT pro odlepení kurzoru (↖) od okna!
             </font>
         </div>
         <div id="taskbar-apps" class="taskbar-apps"></div>
-        
-        <div class="taskbar-right">
-            <button class="control-button" title="Battery">
-                <img src="battery.png" alt="Battery" width="20">
+        <div id="system-tray" class="system-tray">
+            <button class="system-tray-button" onclick="showBatteryInfo()">
+                <img src="battery.png" alt="Battery" width="16">
             </button>
-            <button class="control-button" title="Sound">
-                <img src="sound.png" alt="Sound" width="20">
+            <button class="system-tray-button" onclick="showVolumeMixer()">
+                <img src="sound.png" alt="Sound" width="16">
             </button>
-            <button class="control-button" title="Shutdown">
-                <img src="shutdown.png" alt="Shutdown" width="20">
+            <button class="system-tray-button" onclick="showShutdown()">
+                <img src="shutdown.png" alt="Shutdown" width="16">
             </button>
         </div>
         <div id="time-date">
             <center><span id="time"></span></center>
             <span id="date"></span>
         </div>
-        <button id="settings-button" onclick="openSettings()">
-            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/settings.png" alt="Nastavení" width="20">
-            Nastavení
-        </button>
+        <div class="taskbar-right">
+            <button id="desktop-button" onclick="showDesktop()">
+                <img src="./apps.png" alt="Desktop" width="20">
+            </button>
+            <button id="settings-button" onclick="openSettings()">
+                <img src="https://img.icons8.com/ios-glyphs/30/ffffff/settings.png" alt="Nastavení" width="20">
+            </button>
+        </div>
     </div>
     
     <div id="taskbar-base"></div>

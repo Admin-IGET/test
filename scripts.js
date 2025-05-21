@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         changeWallpaper('default');
     }
+
+    loadDesktopIcons();
 });
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -28,10 +30,24 @@ window.addEventListener('DOMContentLoaded', () => {
 let isAltPressed = false;
 let isDragging = false;
 
+// handle alt key for window dragging
 document.addEventListener('keydown', function(event) {
     if (event.altKey) {
+        document.body.classList.add('alt-pressed');
         if (activeDragCancel) activeDragCancel();
         if (activeResizeCancel) activeResizeCancel();
+    }
+    
+    // reset icons when ctrl + alt is pressed
+    if (event.ctrlKey && event.altKey) {
+        localStorage.removeItem('desktopIcons');
+        loadDesktopIcons();
+    }
+});
+
+document.addEventListener('keyup', function(event) {
+    if (!event.altKey) {
+        document.body.classList.remove('alt-pressed');
     }
 });
 
@@ -226,161 +242,130 @@ function redirectToMobile() {
 }
 
 function openApp(appName) {
-    switch(appName) {
-        case 'notepad':
-            createWindow('Poznámkový blok', '<iframe src="notepad.html" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'internet':
-            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSEARCH2.html" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'youtube':
-            createWindow('YouTube', '<iframe src="https://admin-iget.github.io/test/youtube.html" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'game':
-            createWindow('Hry', '<iframe src="https://admin-iget.github.io/test/Uvikhry.html" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'paint':
-            createWindow('Malování', '<iframe src="https://paintz.app/" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'screenshot':
-            createWindow('Screenshot', '<iframe src="screenshot.html" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'apps':
-            createWindow('Všechny Aplikace', '<iframe src="https://admin-iget.github.io/test/UvikObchod.html" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'video':
-            createWindow('Video', '<iframe src="https://admin-iget.github.io/test/yt.html" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'UvikChat':
-            createWindow('UvíkChat', '<iframe src="https://admin-iget.github.io/test/UvikChat" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        case 'calc':
-            createWindow('Kalkulačka', '<iframe src="https://admin-iget.github.io/test/calc" style="width: 100%; height: 100%; border: none;"></iframe>');
-            break;
-        default:
-            console.error(`Invalid app name: ${appName}`);
-            return;
-    }
-
+    // Close the start menu first
     var startMenu = document.getElementById('start-menu');
     if (!startMenu.classList.contains('hidden')) {
         startMenu.classList.add('hidden');
     }
+
+    switch(appName) {
+        case 'notepad':
+            createWindow('Poznámkový blok', '<iframe src="notepad.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'calc':
+            createWindow('Kalkulačka', '<iframe src="https://admin-iget.github.io/test/calc" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'uvikdraw':
+            createWindow('UvíkDraw', '<iframe src="https://admin-iget.github.io/test/UvikPaint" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'paint':
+            createWindow('Paint', '<iframe src="https://paintz.app" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'screenshot':
+            createWindow('Screenshot', '<iframe src="https://admin-iget.github.io/test/screenshot.html" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'UvikChat':
+            createWindow('UvikChat', '<iframe src="https://admin-iget.github.io/test/UvikChat" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'internet':
+            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSearch" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'youtube':
+            createWindow('YouTube', '<iframe src="https://admin-iget.github.io/test/youtube" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'game':
+            createWindow('Hry', '<iframe src="https://admin-iget.github.io/test/Uvikhry" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'apps':
+            createWindow('Aplikace', '<iframe src="https://admin-iget.github.io/test/UvikObchod" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        case 'vid':
+            createWindow('VideoPřehrávač', '<iframe src="https://admin-iget.github.io/test/vid" style="width: 100%; height: 100%; border: none;"></iframe>');
+            break;
+        default:
+            console.error(`Neplatný název aplikace: ${appName}`);
+            return;
+    }
 }
 
-function createWindow(title, content) {
-    var appContainer = document.getElementById('app-container');
-    var windowDiv = document.createElement('div');
+function createWindow(title, content, width = 800, height = 600) {
+    const windowDiv = document.createElement('div');
     windowDiv.className = 'window';
-
-    var windowId = Date.now();
-    windowDiv.dataset.windowId = windowId;
-
-    windowDiv.innerHTML = `
-        <div class="window-titlebar">
-            <span>${title}</span>
-            <div class="window-buttons" style="display: inline-flex; gap: 2px;">
-                <button class="minimize-header" onclick="minimizeWindow(this)">-</button>
-                <button class="maximize-header" onclick="maximizeWindow(this)">□</button>
-                <button onclick="closeWindow(this)">X</button>
-            </div>
+    windowDiv.id = 'window-' + Date.now();
+    
+    // Center the window
+    const centerX = (window.innerWidth - width) / 2;
+    const centerY = (window.innerHeight - height) / 2;
+    windowDiv.style.left = centerX + 'px';
+    windowDiv.style.top = centerY + 'px';
+    windowDiv.style.width = width + 'px';
+    windowDiv.style.height = height + 'px';
+    
+    const titlebar = document.createElement('div');
+    titlebar.className = 'window-titlebar';
+    titlebar.innerHTML = `
+        <span>${title}</span>
+        <div class="window-buttons">
+            <button class="minimize-btn" onclick="minimizeWindow(this)">&#x2212;</button>
+            <button class="maximize-btn" onclick="maximizeWindow(this)">&#x2610;</button>
+            <button class="close-btn" onclick="closeWindow(this)">&#x2715;</button>
         </div>
-        <div class="window-content">${content}</div>
-        <div class="window-resize-handle"></div>`;
-
-    appContainer.appendChild(windowDiv);
+    `;
+    
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'window-content';
+    contentDiv.innerHTML = content;
+    
+    const resizeHandle = document.createElement('div');
+    resizeHandle.className = 'window-resize-handle-se';
+    
+    windowDiv.appendChild(titlebar);
+    windowDiv.appendChild(contentDiv);
+    windowDiv.appendChild(resizeHandle);
+    
+    document.getElementById('app-container').appendChild(windowDiv);
+    addTaskbarButton(title, windowDiv);
+    bringToFront(windowDiv);
+    
     makeDraggable(windowDiv);
     makeResizable(windowDiv);
-    bringToFront(windowDiv);
-
-    addTaskbarButton(title, windowDiv);
+    
+    return windowDiv;
 }
 
 function minimizeWindow(button) {
-    var windowDiv = button.closest('.window');
-
-    if (windowDiv.classList.contains('mini-mode')) {
-        windowDiv.classList.remove('mini-mode');
-        button.textContent = '-';
-        windowDiv.style.width = windowDiv.dataset.originalWidth;
-        windowDiv.style.height = windowDiv.dataset.originalHeight;
-        windowDiv.style.left = windowDiv.dataset.originalLeft;
-        windowDiv.style.top = windowDiv.dataset.originalTop;
-        windowDiv.querySelector('.window-resize-handle').style.display = 'block';
-        return;
+    const windowDiv = button.closest('.window');
+    const taskbarButton = document.querySelector(`[data-window-id="${windowDiv.id}"]`);
+    
+    windowDiv.classList.add('minimized');
+    windowDiv.style.display = 'none';
+    if (taskbarButton) {
+        taskbarButton.classList.remove('active');
     }
-
-    if (windowDiv.classList.contains('maximized')) {
-        windowDiv.classList.remove('maximized');
-        windowDiv.style.width = windowDiv.dataset.originalWidth;
-        windowDiv.style.height = windowDiv.dataset.originalHeight;
-        windowDiv.style.left = windowDiv.dataset.originalLeft;
-        windowDiv.style.top = windowDiv.dataset.originalTop;
-    }
-
-    windowDiv.dataset.originalWidth = windowDiv.style.width;
-    windowDiv.dataset.originalHeight = windowDiv.style.height;
-    windowDiv.dataset.originalLeft = windowDiv.style.left;
-    windowDiv.dataset.originalTop = windowDiv.style.top;
-
-    const taskbar = document.getElementById('taskbar');
-    const taskbarTop = taskbar.offsetTop;
-    const minimizedHeight = 40;
-    const minimizedWidth = 150;
-
-    // nerd math
-    const existingMinimized = document.querySelectorAll('.mini-mode');
-    let miniLeft = 10;
-    let takenPositions = Array.from(existingMinimized).map(win => parseInt(win.style.left));
-
-    while (takenPositions.includes(miniLeft)) {
-        miniLeft += minimizedWidth + 10;
-    }
-
-    windowDiv.classList.add('mini-mode');
-    button.textContent = '^';
-    windowDiv.style.width = minimizedWidth + 'px';
-    windowDiv.style.height = minimizedHeight + 'px';
-    windowDiv.style.left = miniLeft + 'px';
-    windowDiv.style.top = (taskbarTop - minimizedHeight - 5) + 'px';
-    windowDiv.querySelector('.window-resize-handle').style.display = 'none';
 }
 
 function maximizeWindow(button) {
     const windowDiv = button.closest('.window');
-    const taskbar = document.getElementById('taskbar');
-    const taskbarHeight = taskbar.offsetHeight;
-    const isMinimized = windowDiv.classList.contains('mini-mode');
-
-    if (isMinimized) {
-        const minimizeBtn = windowDiv.querySelector('.minimize-header');
-        if (minimizeBtn) minimizeBtn.textContent = '-';
-        windowDiv.classList.remove('mini-mode');
-        windowDiv.style.width = windowDiv.dataset.originalWidth;
-        windowDiv.style.height = windowDiv.dataset.originalHeight;
-        windowDiv.style.left = windowDiv.dataset.originalLeft;
-        windowDiv.style.top = windowDiv.dataset.originalTop;
-        windowDiv.querySelector('.window-resize-handle').style.display = 'block';
-    }
-
+    
     if (windowDiv.classList.contains('maximized')) {
         windowDiv.classList.remove('maximized');
-        windowDiv.style.width = windowDiv.dataset.originalWidth;
-        windowDiv.style.height = windowDiv.dataset.originalHeight;
-        windowDiv.style.left = windowDiv.dataset.originalLeft;
-        windowDiv.style.top = windowDiv.dataset.originalTop;
+        // Restore previous position and size
+        const centerX = (window.innerWidth - 800) / 2;
+        const centerY = (window.innerHeight - 600) / 2;
+        windowDiv.style.left = centerX + 'px';
+        windowDiv.style.top = centerY + 'px';
+        windowDiv.style.width = '800px';
+        windowDiv.style.height = '600px';
+        button.innerHTML = '&#x2610;';
     } else {
-        windowDiv.dataset.originalWidth = windowDiv.style.width;
-        windowDiv.dataset.originalHeight = windowDiv.style.height;
-        windowDiv.dataset.originalLeft = windowDiv.style.left;
-        windowDiv.dataset.originalTop = windowDiv.style.top;
-
         windowDiv.classList.add('maximized');
-        windowDiv.style.top = '0';
         windowDiv.style.left = '0';
-        windowDiv.style.width = '100vw';
-        windowDiv.style.height = `calc(100vh - ${taskbarHeight}px)`;
+        windowDiv.style.top = '0';
+        windowDiv.style.width = '100%';
+        windowDiv.style.height = 'calc(100vh - 40px)';
+        button.innerHTML = '&#x2611;';
     }
+    bringToFront(windowDiv);
 }
 
 function placeTheHolder() {
@@ -388,48 +373,42 @@ function placeTheHolder() {
 }
 
 function addTaskbarButton(title, windowDiv) {
-    var taskbarApps = document.getElementById('taskbar-apps');
-    var taskbarButton = document.createElement('div');
-    taskbarButton.className = 'taskbar-button';
-    taskbarButton.dataset.windowId = windowDiv.dataset.windowId;
-    taskbarButton.innerHTML = `<span>${title}</span>`;
-
-    taskbarButton.onclick = function (e) {
-        bringToFront(windowDiv);
-
-        if (!e.target.classList.contains('window-resize-handle') && !e.target.closest('.window-buttons')) {
-            cancelActiveDragOrResize();
-        }
-
-        if (windowDiv.classList.contains('mini-mode')) {
-            windowDiv.classList.remove('mini-mode');
-            const minimizeBtn = windowDiv.querySelector('.minimize-header');
-            if (minimizeBtn) minimizeBtn.textContent = '-';
-            windowDiv.style.width = windowDiv.dataset.originalWidth;
-            windowDiv.style.height = windowDiv.dataset.originalHeight;
-            windowDiv.style.left = windowDiv.dataset.originalLeft;
-            windowDiv.style.top = windowDiv.dataset.originalTop;
-            windowDiv.querySelector('.window-resize-handle').style.display = 'block';
+    const taskbarApps = document.getElementById('taskbar-apps');
+    const button = document.createElement('button');
+    button.className = 'taskbar-button active';
+    button.innerHTML = title;
+    button.setAttribute('data-window-id', windowDiv.id);
+    
+    button.onclick = function() {
+        const window = document.getElementById(windowDiv.id);
+        if (window.classList.contains('minimized')) {
+            window.classList.remove('minimized');
+            window.style.display = 'flex';
+            button.classList.add('active');
+            bringToFront(window);
+        } else {
+            bringToFront(window);
         }
     };
-
-    taskbarApps.appendChild(taskbarButton);
+    
+    taskbarApps.appendChild(button);
 }
 
 function closeWindow(button) {
-    var windowElement = button.closest('.window');
-    if (windowElement) {
-        windowElement.remove(); 
+    const windowDiv = button.closest('.window');
+    if (windowDiv) {
+        const taskbarButton = document.querySelector(`.taskbar-button[data-window-id="${windowDiv.id}"]`);
+        if (taskbarButton) {
+            taskbarButton.remove();
+        }
+        windowDiv.remove();
     }
-
-    removeTaskbarButton(windowElement);
 }
 
 function removeTaskbarButton(windowElement) {
-    var taskbarApps = document.getElementById('taskbar-apps');
-    var taskbarButton = taskbarApps.querySelector(`.taskbar-button[data-window-id="${windowElement.dataset.windowId}"]`);
+    const taskbarButton = document.querySelector(`.taskbar-button[data-window-id="${windowElement.id}"]`);
     if (taskbarButton) {
-        taskbarButton.remove(); 
+        taskbarButton.remove();
     }
 }
 
@@ -477,7 +456,6 @@ function makeDraggable(element) {
 
         bringToFront(element);
         disableIframes();
-        disableTaskbar();
 
         const shiftX = event.clientX - element.offsetLeft;
         const shiftY = event.clientY - element.offsetTop;
@@ -499,7 +477,6 @@ function makeDraggable(element) {
             document.removeEventListener('mousemove', onMouseMove);
             titlebar.onmouseup = null;
             enableIframes();
-            enableTaskbar();
             activeDragCancel = null;
         }
 
@@ -514,62 +491,272 @@ function makeDraggable(element) {
 }
 
 function makeResizable(element) {
-    const resizeHandle = element.querySelector('.window-resize-handle');
-
-    resizeHandle.onmousedown = function (event) {
+    const handle = element.querySelector('.window-resize-handle-se');
+    
+    handle.onmousedown = function(event) {
         if (event.altKey) return;
+        event.preventDefault();
 
         disableIframes();
-        disableTaskbar();
+
+        const startX = event.clientX;
+        const startY = event.clientY;
+        const startWidth = element.offsetWidth;
+        const startHeight = element.offsetHeight;
+        const startLeft = element.offsetLeft;
+        const startTop = element.offsetTop;
 
         function onMouseMove(event) {
             if (event.altKey) {
                 cancelResize();
                 return;
             }
-            element.style.width = (event.pageX - element.offsetLeft) + 'px';
-            element.style.height = (event.pageY - element.offsetTop) + 'px';
+
+            const deltaX = event.clientX - startX;
+            const deltaY = event.clientY - startY;
+
+            const newWidth = Math.max(200, startWidth + deltaX);
+            const newHeight = Math.max(100, startHeight + deltaY);
+
+            element.style.width = newWidth + 'px';
+            element.style.height = newHeight + 'px';
         }
 
         function cancelResize() {
             document.removeEventListener('mousemove', onMouseMove);
-            resizeHandle.onmouseup = null;
+            document.removeEventListener('mouseup', onMouseUp);
             enableIframes();
-            enableTaskbar();
-            activeResizeCancel = null;
+        }
+
+        function onMouseUp() {
+            cancelResize();
         }
 
         document.addEventListener('mousemove', onMouseMove);
-        resizeHandle.onmouseup = cancelResize;
-        activeResizeCancel = cancelResize;
-    };
-
-    resizeHandle.ondragstart = function () {
-        return false;
+        document.addEventListener('mouseup', onMouseUp);
     };
 }
 
 function disableTaskbar() {
-    var taskbar = document.getElementById('taskbar');
-    taskbar.style.pointerEvents = 'none'; 
+    // No longer needed - taskbar is always clickable
 }
 
 function enableTaskbar() {
-    var taskbar = document.getElementById('taskbar');
-    taskbar.style.pointerEvents = 'auto'; 
+    // No longer needed - taskbar is always clickable
 }
 
 function disableIframes() {
-    var iframes = document.querySelectorAll('iframe');
-    for (var i = 0; i < iframes.length; i++) {
-        iframes[i].style.pointerEvents = 'none';
-    }
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+        iframe.style.pointerEvents = 'none';
+    });
 }
 
 function enableIframes() {
-    var iframes = document.querySelectorAll('iframe');
-    for (var i = 0; i < iframes.length; i++) {
-        iframes[i].style.pointerEvents = 'auto';
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+        iframe.style.pointerEvents = 'auto';
+    });
+}
+
+function openFile(fileId) {
+    const icon = document.querySelector(`[data-id="${fileId}"]`);
+    if (icon) {
+        const fileName = icon.querySelector('span').textContent;
+        const fileUrl = icon.querySelector('img').src;
+        
+        // Create a smaller preview window
+        const windowDiv = createWindow(fileName, '', 400, 300);
+        
+        // Add content based on file type
+        const contentDiv = windowDiv.querySelector('.window-content');
+        if (fileName.endsWith('.html')) {
+            contentDiv.innerHTML = `<iframe src="${fileUrl}" style="width: 100%; height: 100%; border: none;"></iframe>`;
+        } else if (fileName.match(/\.(png|jpg|jpeg|gif)$/i)) {
+            contentDiv.innerHTML = `<img src="${fileUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
+        } else if (fileName.endsWith('.txt')) {
+            fetch(fileUrl)
+                .then(response => response.text())
+                .then(text => {
+                    contentDiv.innerHTML = `<pre style="white-space: pre-wrap; padding: 10px;">${text}</pre>`;
+                })
+                .catch(error => {
+                    contentDiv.innerHTML = `<div style="padding: 10px; color: red;">Error loading file: ${error.message}</div>`;
+                });
+        } else {
+            contentDiv.innerHTML = `<div style="padding: 10px;">This file type cannot be previewed.</div>`;
+        }
+    }
+}
+
+function showBatteryInfo() {
+    if ('getBattery' in navigator) {
+        navigator.getBattery().then(battery => {
+            const percentage = Math.round(battery.level * 100);
+            const isCharging = battery.charging;
+            
+            createWindow('Baterie', `
+                <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; color: black;">
+                    <h2>Stav baterie(Nastavení wifi je jen na Windows verzi)</h2>
+                    <p>Úroveň baterie: ${percentage}%</p>
+                    <p>Nabíjení: ${isCharging ? 'Ano' : 'Ne'}</p>
+                    <div style="width: 100%; height: 20px; background: #eee; border-radius: 10px; margin-top: 10px;">
+                        <div style="width: ${percentage}%; height: 100%; background: ${percentage > 20 ? '#4CAF50' : '#f44336'}; border-radius: 10px;"></div>
+                    </div>
+                </div>
+            `);
+        });
+    } else {
+        createWindow('Baterie', `
+            <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; color: black;">
+                <h2>Stav baterie</h2>
+                <p>Informace o baterii nejsou na tomto zařízení dostupné.</p>
+            </div>
+        `);
+    }
+}
+
+function showVolumeMixer() {
+    createWindow('Mixer hlasitosti', `
+        <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; color: black;">
+            <h2>Mixer hlasitosti</h2>
+            <div style="margin: 20px 0;">
+                <label>Toto funguje jen na Windows verzi!</label>
+            </div>
+        </div>
+    `);
+}
+
+function showShutdown() {
+    createWindow('Vypnutí', `
+        <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; text-align: center; color: black;">
+            <h2>Co chcete udělat?</h2>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+                <button onclick="window.close()" style="padding: 10px; background: #e81123; color: white; border: none; border-radius: 4px; cursor: pointer;">Zpět do Windows (Pokud nefunguje, stiskni CTRL+W)</button>
+            </div>
+        </div>
+    `);
+}
+
+// desktop icons that show up by default
+const defaultIcons = [
+    { id: 'notepad', name: 'Textový editor', icon: './notepad.png', x: 20, y: 20 },
+    { id: 'calc', name: 'Kalkulačka', icon: './calc.png', x: 20, y: 140 },
+    { id: 'uvikdraw', name: 'UvíkDraw', icon: './uvikdraw.png', x: 20, y: 260 }
+];
+
+// load icons from storage or use defaults
+function loadDesktopIcons() {
+    // clear existing icons first
+    const desktopIcons = document.getElementById('desktop-icons');
+    desktopIcons.innerHTML = '';
+    
+    // get icons from storage or use defaults
+    const savedIcons = localStorage.getItem('desktopIcons');
+    const icons = savedIcons ? JSON.parse(savedIcons) : defaultIcons;
+    
+    // create all the icons
+    icons.forEach(icon => {
+        createDesktopIcon(icon);
+    });
+}
+
+// save icon positions to storage
+function saveDesktopIcons() {
+    const icons = Array.from(document.querySelectorAll('.desktop-icon')).map(icon => ({
+        id: icon.dataset.id,
+        name: icon.querySelector('span').textContent,
+        icon: icon.querySelector('img').src,
+        x: parseInt(icon.style.left) || 20,
+        y: parseInt(icon.style.top) || 20
+    }));
+    
+    localStorage.setItem('desktopIcons', JSON.stringify(icons));
+}
+
+// create a new desktop icon
+function createDesktopIcon(iconData) {
+    const icon = document.createElement('div');
+    icon.className = 'desktop-icon';
+    icon.dataset.id = iconData.id;
+    icon.style.left = (iconData.x || 20) + 'px';
+    icon.style.top = (iconData.y || 20) + 'px';
+    
+    icon.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
+            <img src="${iconData.icon}" alt="${iconData.name}" onerror="this.src='./file.png'" style="width: 64px; height: 64px;">
+            <span style="display: block; text-align: center; margin-top: 8px; max-width: 100px; word-wrap: break-word; font-size: 14px;">${iconData.name}</span>
+        </div>
+    `;
+    
+    // handle double click to open app or file
+    icon.addEventListener('dblclick', () => {
+        if (iconData.id.startsWith('file')) {
+            openFile(iconData.id);
+        } else {
+            openApp(iconData.id);
+        }
+    });
+
+    // right click to delete
+    icon.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        icon.remove();
+        saveDesktopIcons();
+    });
+    
+    makeIconDraggable(icon);
+    document.getElementById('desktop-icons').appendChild(icon);
+}
+
+// make icons draggable
+function makeIconDraggable(icon) {
+    icon.style.position = 'absolute';
+    icon.style.cursor = 'move';
+    
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+
+    icon.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    function dragStart(e) {
+        if (e.button === 2) return; // skip if right click
+        
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+
+        if (e.target === icon || e.target.parentNode === icon) {
+            isDragging = true;
+        }
+    }
+
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+            
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+
+            xOffset = currentX;
+            yOffset = currentY;
+
+            icon.style.left = currentX + 'px';
+            icon.style.top = currentY + 'px';
+        }
+    }
+
+    function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+        isDragging = false;
+        saveDesktopIcons();
     }
 }
 
@@ -603,74 +790,9 @@ function openFileExplorer() {
     input.click(); 
 }
 
-function showBatteryInfo() {
-    let batteryPercentage = "N/A";
-    
-    if (navigator.getBattery) {
-        navigator.getBattery().then(function(battery) {
-            batteryPercentage = Math.round(battery.level * 100) + "%";
-            updateBatteryWindow(batteryPercentage);
-        });
-    } else {
-        updateBatteryWindow(batteryPercentage);
-    }
+// Update showDesktop function to open file explorer
+function showDesktop() {
+    openFileExplorer();
 }
-
-function updateBatteryWindow(batteryPercentage) {
-    const content = `
-        <div style="padding: 20px;">
-            <font face="Arial" size="3" color="black">
-                <p>Wifi připojení funguje jen na Windows verzi.</p>
-                <p>Procento baterie: ${batteryPercentage}</p>
-            </font>
-        </div>
-    `;
-    createWindow("UvíkOS Wi-Fi a Baterie", content);
-}
-
-function showVolumeMixer() {
-    const content = `
-        <div style="padding: 20px;">
-            <font face="Arial" size="3" color="black">
-                <p>Toto funguje jen na Windows verzi!</p>
-            </font>
-        </div>
-    `;
-    createWindow("Směšovač hlasitosti", content);
-}
-
-function showShutdown() {
-    const content = `
-        <div style="padding: 20px;">
-            <font face="Arial" size="3" color="black">
-                <p>Toto funguje jen na Windows verzi!</p>
-            </font>
-        </div>
-    `;
-    createWindow("Vypnutí systému", content);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const batteryButton = document.querySelector('.control-button[title="Battery"]');
-    if (batteryButton) {
-        batteryButton.onclick = showBatteryInfo;
-        batteryButton.querySelector('img').style.width = '40px';
-        batteryButton.querySelector('img').style.height = '40px';
-    }
-
-    const soundButton = document.querySelector('.control-button[title="Sound"]');
-    if (soundButton) {
-        soundButton.onclick = showVolumeMixer;
-        soundButton.querySelector('img').style.width = '40px';
-        soundButton.querySelector('img').style.height = '40px';
-    }
-
-    const shutdownButton = document.querySelector('.control-button[title="Shutdown"]');
-    if (shutdownButton) {
-        shutdownButton.onclick = showShutdown;
-        shutdownButton.querySelector('img').style.width = '40px';
-        shutdownButton.querySelector('img').style.height = '40px';
-    }
-});
 
 

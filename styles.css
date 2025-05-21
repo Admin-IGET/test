@@ -12,14 +12,14 @@ body {
 }
 
 #start-menu, #settings {
-    position: absolute;
-    bottom: 60px;
+    position: fixed;
+    bottom: 40px;
     left: 10px;
     background-color: rgba(255, 255, 255, 0.9);
     border: 1px solid #ccc;
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 9999;
 }
 
 .hidden {
@@ -38,7 +38,7 @@ body {
 
 #time-date {
     position: absolute;
-    right: 95px;
+    right: 90px;
     bottom: 15px;
     display: flex;
     align-items: center;
@@ -82,24 +82,69 @@ body {
     align-items: center;
 }
 
+#desktop-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+
+
+#desktop-button {
+    position: absolute;
+    right: 13px;
+    bottom: 10px;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#settings-button {
+    right: 10px;
+    position: absolute;
+}
+
 #start-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
     z-index: 1001;
+    padding: 5px;
+    margin: 0 5px;
+    transition: background-color 0.2s;
+}
+
+#start-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
 }
 
 #taskbar {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
-    right: 0;
-    height: 50px;
-    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    height: 40px;
+    background-color: #2e7d32;
     display: flex;
     align-items: center;
-    padding: 5px;
-    z-index: 100;
+    padding: 0 10px;
+    box-sizing: border-box;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #taskbar-apps {
@@ -107,14 +152,18 @@ body {
     align-items: center;
     margin-left: 10px;
     flex-grow: 1;
+    gap: 2px;
 }
 
 .taskbar-right {
     display: flex;
     align-items: center;
     gap: 5px;
-    margin-left: auto;
-    margin-right: 150px;
+    position: absolute;
+    right: 10px;
+    height: 40px;
+    transform: translateY(4px);
+    z-index: 10000;
 }
 
 .control-button {
@@ -127,10 +176,14 @@ body {
     justify-content: center;
     width: 40px;
     height: 40px;
+    transition: background-color 0.2s;
+    z-index: 10000;
+    position: relative;
 }
 
 .control-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
 }
 
 .control-button img {
@@ -138,120 +191,116 @@ body {
     height: 20px;
 }
 
-
-
-#settings-button {
-    background-color: #0078d4;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-}
-
-.taskbar-right {
-    display: flex;
-    position: absolute;
-    align-items: center;
-    gap: 5px;
-    right: 50px;
-    margin-left: auto;
-}
-
 .taskbar-button {
-    background-color: #fff;
-    color: black; 
-    border: none;
-    padding: 10px;
-    margin-right: 5px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
-.taskbar-button img {
-    margin-right: 5px;
-}
-
-.taskbar-button .minimize-btn {
-    margin-left: auto;
-    background-color: #0078d4;
+    background-color: #388e3c;
     color: white;
     border: none;
-    padding: 2px 5px;
+    padding: 5px 10px;
+    margin: 0 2px;
     cursor: pointer;
-    border-radius: 2px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 12px;
+    transition: background-color 0.2s;
+    border-radius: 0;
+}
+
+.taskbar-button:hover {
+    background-color: #43a047;
+}
+
+.taskbar-button.active {
+    background-color: #4caf50;
+    border-bottom: 2px solid #81c784;
 }
 
 .window {
     position: absolute;
-    width: 400px;
-    height: 300px;
-    background-color: white;
-    border: 1px solid #aaa;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
-    z-index: 200; 
+    z-index: 1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.window-resize-handle-se {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    cursor: se-resize;
+    z-index: 201;
+    background-color: transparent;
+}
+
+.window-resize-handle-se:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.window-resize-handle-nw,
+.window-resize-handle-ne,
+.window-resize-handle-sw {
+    display: none !important;
 }
 
 .window.maximized {
     left: 0 !important;
     top: 0 !important;
     width: 100% !important;
-    height: calc(100vh - 53px) !important;
+    height: calc(100vh - 40px) !important;
+    border-radius: 0 !important;
+    z-index: 1;
 }
 
 .window-titlebar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2px 5px;
-    background-color: #333;
-    color: white;
-    height: 28px;
+    padding: 0 10px;
+    background-color: #f0f0f0;
+    color: #333;
+    height: 32px;
     cursor: move;
-    font-family: sans-serif;
-    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    border-bottom: 1px solid #ddd;
+    user-select: none;
 }
 
-.window-buttons { 
+.window-buttons {
     display: flex;
-    gap: 4px;
+    gap: 2px;
 }
 
-.window-buttons button { 
+.window-buttons button {
     background: none;
     border: none;
-    color: white;
-    font-size: 14px;
-    width: 24px;
-    height: 24px;
+    color: #333;
+    font-size: 16px;
+    width: 46px;
+    height: 32px;
     cursor: pointer;
-} 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .window-buttons button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.window-buttons button.close-btn:hover {
+    background-color: #e81123;
+    color: white;
 }
 
 .window-content {
     flex-grow: 1;
-    overflow: hidden;
-}
-
-.window-resize-handle {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 15px;
-    height: 15px;
-    cursor: se-resize;
-    background-color: transparent;
-    z-index: 201; 
+    overflow: auto;
+    position: relative;
 }
 
 .hidden-window {
@@ -285,39 +334,34 @@ button:focus {
 }
 
 #taskbar-base {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 53px; 
-    background-color: rgba(0, 255, 0, 0.70); 
-    z-index: 98; 
-    pointer-events: none; 
-}
-
-.window.maximized {
-  border-radius: 0 !important;
+    display: none;
 }
 
 #system-tray {
     display: flex;
     align-items: center;
     gap: 5px;
-    z-index: 1003;
-    margin: 0 10px;
+    bottom: 10px;
+    position: absolute;
+    right: 200px;
+    height: 40px;
+    transform: translateY(4px);
+    z-index: 10000;
 }
 
 .system-tray-button {
-    background-color: transparent;
+    background: none;
     border: none;
     padding: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s;
     height: 40px;
     width: 40px;
+    transition: background-color 0.2s;
+    z-index: 10000;
+    position: relative;
 }
 
 .system-tray-button:hover {
@@ -328,4 +372,145 @@ button:focus {
     width: 20px;
     height: 20px;
     object-fit: contain;
+}
+
+#start-menu {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    background-color: rgba(32, 32, 32, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    min-width: 200px;
+}
+
+#start-menu button {
+    width: 100%;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#start-menu button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#time-date {
+    color: white;
+    font-size: 12px;
+    padding: 0 10px;
+    text-align: right;
+    font-family: 'Segoe UI', sans-serif;
+    position: absolute;
+    right: 90px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transform: translateY(4px);
+}
+
+#time {
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+#date {
+    font-size: 11px;
+    opacity: 0.8;
+    line-height: 1.2;
+}
+
+#settings-button, #desktop-button {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    transition: background-color 0.2s;
+    z-index: 10000;
+    position: relative;
+}
+
+#settings-button:hover, #desktop-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#settings-button img, #desktop-button img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Remove all other resize handles */
+.window-resize-handle-nw,
+.window-resize-handle-ne,
+.window-resize-handle-sw {
+    display: none !important;
+}
+
+/* Keep only the bottom-right resize handle */
+.window-resize-handle-se {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15px;
+    height: 15px;
+    cursor: se-resize;
+    z-index: 201;
+}
+
+/* Remove the Alt key handling since we only have one resize handle now */
+body.alt-pressed .window-resize-handle-nw,
+body.alt-pressed .window-resize-handle-ne,
+body.alt-pressed .window-resize-handle-sw {
+    display: none !important;
+}
+
+#app-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 40px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+#app-container > * {
+    pointer-events: auto;
+}
+
+#taskbar, #taskbar * {
+    pointer-events: auto !important;
+}
+
+/* Ensure all taskbar buttons are clickable */
+#taskbar button,
+#taskbar .control-button,
+#taskbar .system-tray-button,
+#taskbar #settings-button,
+#taskbar #desktop-button {
+    pointer-events: auto !important;
+    z-index: 10000;
+    position: relative;
+}
+
+/* Ensure the taskbar container doesn't block clicks */
+#taskbar > * {
+    pointer-events: auto !important;
 }
