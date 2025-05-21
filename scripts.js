@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
 let isAltPressed = false;
 let isDragging = false;
 
-// handle alt key for window dragging
+// handlee alt key for window dragging
 document.addEventListener('keydown', function(event) {
     if (event.altKey) {
         document.body.classList.add('alt-pressed');
@@ -268,7 +268,7 @@ function openApp(appName) {
             createWindow('UvikChat', '<iframe src="https://admin-iget.github.io/test/UvikChat" style="width: 100%; height: 100%; border: none;"></iframe>');
             break;
         case 'internet':
-            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSEARCH2" style="width: 100%; height: 100%; border: none;"></iframe>');
+            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSearch" style="width: 100%; height: 100%; border: none;"></iframe>');
             break;
         case 'youtube':
             createWindow('YouTube', '<iframe src="https://admin-iget.github.io/test/youtube" style="width: 100%; height: 100%; border: none;"></iframe>');
@@ -595,7 +595,7 @@ function showBatteryInfo() {
             const percentage = Math.round(battery.level * 100);
             const isCharging = battery.charging;
             
-            createWindow('Baterie', `
+            createWindow('UvíkOS Wi-FI a Baterie.', `
                 <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; color: black;">
                     <h2>Stav baterie(Nastavení wifi je jen na Windows verzi)</h2>
                     <p>Úroveň baterie: ${percentage}%</p>
@@ -617,7 +617,7 @@ function showBatteryInfo() {
 }
 
 function showVolumeMixer() {
-    createWindow('Mixer hlasitosti', `
+    createWindow('Směšovač hlasitosti', `
         <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; color: black;">
             <h2>Mixer hlasitosti</h2>
             <div style="margin: 20px 0;">
@@ -628,7 +628,7 @@ function showVolumeMixer() {
 }
 
 function showShutdown() {
-    createWindow('Vypnutí', `
+    createWindow('Vypnutí systému', `
         <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; text-align: center; color: black;">
             <h2>Co chcete udělat?</h2>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
