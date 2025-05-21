@@ -514,3 +514,42 @@ body.alt-pressed .window-resize-handle-sw {
 #taskbar > * {
     pointer-events: auto !important;
 }
+
+#desktop-icons {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 40px; /* Height of taskbar */
+    pointer-events: none;
+    z-index: 1;
+}
+
+.desktop-icon {
+    pointer-events: auto;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: move;
+    user-select: none;
+}
+
+.desktop-icon img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+.desktop-icon span {
+    margin-top: 8px;
+    text-align: center;
+    max-width: 100px;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}

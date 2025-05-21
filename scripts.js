@@ -663,15 +663,23 @@ function loadDesktopIcons() {
 
 // save icon positions to storage
 function saveDesktopIcons() {
-    const icons = Array.from(document.querySelectorAll('.desktop-icon')).map(icon => ({
-        id: icon.dataset.id,
-        name: icon.querySelector('span').textContent,
-        icon: icon.querySelector('img').src,
-        x: parseInt(icon.style.left) || 20,
-        y: parseInt(icon.style.top) || 20
-    }));
-    
-    localStorage.setItem('desktopIcons', JSON.stringify(icons));
+    try {
+        const icons = Array.from(document.querySelectorAll('.desktop-icon')).map(icon => {
+            const x = parseInt(icon.style.left) || 20;
+            const y = parseInt(icon.style.top) || 20;
+            return {
+                id: icon.dataset.id,
+                name: icon.querySelector('span').textContent,
+                icon: icon.querySelector('img').src,
+                x: x,
+                y: y
+            };
+        });
+        
+        localStorage.setItem('desktopIcons', JSON.stringify(icons));
+    } catch (error) {
+        console.error('Error saving desktop icons:', error);
+    }
 }
 
 // create a new desktop icon
@@ -711,53 +719,64 @@ function createDesktopIcon(iconData) {
 
 // make icons draggable
 function makeIconDraggable(icon) {
-    icon.style.position = 'absolute';
-    icon.style.cursor = 'move';
-    
     let isDragging = false;
-    let currentX;
-    let currentY;
-    let initialX;
-    let initialY;
-    let xOffset = 0;
-    let yOffset = 0;
+    let startX, startY;
+    let startLeft, startTop;
+    const GRID_SIZE = 20;
 
-    icon.addEventListener('mousedown', dragStart);
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', dragEnd);
+    function snapToGrid(value) {
+        return Math.round(value / GRID_SIZE) * GRID_SIZE;
+    }
 
     function dragStart(e) {
         if (e.button === 2) return; // skip if right click
         
-        initialX = e.clientX - xOffset;
-        initialY = e.clientY - yOffset;
-
-        if (e.target === icon || e.target.parentNode === icon) {
-            isDragging = true;
-        }
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startLeft = parseInt(icon.style.left) || 0;
+        startTop = parseInt(icon.style.top) || 0;
+        
+        icon.style.zIndex = '1000';
+        e.preventDefault();
     }
 
     function drag(e) {
-        if (isDragging) {
-            e.preventDefault();
-            
-            currentX = e.clientX - initialX;
-            currentY = e.clientY - initialY;
-
-            xOffset = currentX;
-            yOffset = currentY;
-
-            icon.style.left = currentX + 'px';
-            icon.style.top = currentY + 'px';
-        }
+        if (!isDragging) return;
+        
+        const deltaX = e.clientX - startX;
+        const deltaY = e.clientY - startY;
+        
+        let newLeft = startLeft + deltaX;
+        let newTop = startTop + deltaY;
+        
+        // Snap to grid
+        newLeft = snapToGrid(newLeft);
+        newTop = snapToGrid(newTop);
+        
+        // Keep within desktop bounds
+        const desktop = document.getElementById('desktop-icons');
+        const maxX = desktop.clientWidth - icon.offsetWidth;
+        const maxY = desktop.clientHeight - icon.offsetHeight;
+        
+        newLeft = Math.max(0, Math.min(newLeft, maxX));
+        newTop = Math.max(0, Math.min(newTop, maxY));
+        
+        icon.style.left = newLeft + 'px';
+        icon.style.top = newTop + 'px';
     }
 
     function dragEnd(e) {
-        initialX = currentX;
-        initialY = currentY;
+        if (!isDragging) return;
         isDragging = false;
+        icon.style.zIndex = '';
         saveDesktopIcons();
     }
+
+    icon.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+    icon.addEventListener('dragstart', (e) => e.preventDefault());
 }
 
 function openFileExplorer() {
