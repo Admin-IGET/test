@@ -250,7 +250,7 @@ function redirectToMobile() {
 }
 
 function openApp(appName) {
-    // Close the start menu first
+    // clsoe start
     var startMenu = document.getElementById('start-menu');
     if (!startMenu.classList.contains('hidden')) {
         startMenu.classList.add('hidden');

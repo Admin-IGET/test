@@ -91,15 +91,17 @@ body {
     border: none;
     z-index: 1001;
     padding: 5px;
+	height: 40px;
     margin: 0 5px;
 }
 
 #start-button:hover {
     background-color: green;
-    border: none;
-    z-index: 1001;
-    padding: 5px;
-    margin: 0 5px;
+}
+
+#start-button img {
+    width: 60px;
+    height: 32px;
 }
 
 #taskbar {
