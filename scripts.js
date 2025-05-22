@@ -178,11 +178,19 @@ function toggleStartMenu() {
 }
 
 function openSettings() {
-    document.getElementById('settings').classList.remove('hidden');
-}
-
-function closeSettings() {
-    document.getElementById('settings').classList.add('hidden');
+    createWindow('Nastavení', `
+        <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; color: black;">
+            <h2>Nastavení</h2>
+            <div style="margin: 20px 0;">
+                <div style="margin: 10px 0;">
+                    <input type="file" id="custom-wallpaper" accept="image/*" style="margin: 5px;">
+                    <button onclick="changeWallpaper('custom')" style="padding: 8px 16px; margin: 5px;">Použít vlastní tapetu</button>
+                    <p></p>
+                    <i> PS : na Windows verzi je nastavení více, a je tam i více programů, stáhněte si ji pokud možno!!</i>
+                </div>
+            </div>
+        </div>
+    `, 400, 300);
 }
 
 function toggleWindowVisibility(windowDiv) {
@@ -268,7 +276,7 @@ function openApp(appName) {
             createWindow('UvikChat', '<iframe src="https://admin-iget.github.io/test/UvikChat" style="width: 100%; height: 100%; border: none;"></iframe>');
             break;
         case 'internet':
-            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSearch" style="width: 100%; height: 100%; border: none;"></iframe>');
+            createWindow('Internet', '<iframe src="https://admin-iget.github.io/test/UvikSEARCH2" style="width: 100%; height: 100%; border: none;"></iframe>');
             break;
         case 'youtube':
             createWindow('YouTube', '<iframe src="https://admin-iget.github.io/test/youtube" style="width: 100%; height: 100%; border: none;"></iframe>');
@@ -288,13 +296,13 @@ function openApp(appName) {
     }
 }
 
-function createWindow(title, content, width = 800, height = 600) {
+function createWindow(title, content, width = 600, height = 400) {
     const windowDiv = document.createElement('div');
     windowDiv.className = 'window';
     windowDiv.id = 'window-' + Date.now();
     
-    // Center the window
-    const centerX = (window.innerWidth - width) / 2;
+    // window center
+    const centerX = (window.innerWidth - width) / 2; //
     const centerY = (window.innerHeight - height) / 2;
     windowDiv.style.left = centerX + 'px';
     windowDiv.style.top = centerY + 'px';
@@ -348,7 +356,7 @@ function maximizeWindow(button) {
     const windowDiv = button.closest('.window');
     
     if (windowDiv.classList.contains('maximized')) {
-        // Unmaximize - restore previous size and position
+        // Unmaximize
         windowDiv.classList.remove('maximized');
         
         windowDiv.style.left = windowDiv.dataset.prevLeft;
@@ -358,13 +366,13 @@ function maximizeWindow(button) {
         
         button.innerHTML = '&#x2610;'; // icon for maximize
     } else {
-        // Save current size and position before maximizing
+        // save
         windowDiv.dataset.prevLeft = windowDiv.style.left;
         windowDiv.dataset.prevTop = windowDiv.style.top;
         windowDiv.dataset.prevWidth = windowDiv.style.width;
         windowDiv.dataset.prevHeight = windowDiv.style.height;
 
-        // Maximize
+        // maximize
         windowDiv.classList.add('maximized');
         windowDiv.style.left = '0';
         windowDiv.style.top = '0';
@@ -425,8 +433,16 @@ function bringToFront(element) {
     var allWindows = document.querySelectorAll('.window');
     for (var i = 0; i < allWindows.length; i++) {
         allWindows[i].style.zIndex = 100;
+        allWindows[i].classList.remove('active-window');
     }
     element.style.zIndex = 101;
+    element.classList.add('active-window');
+
+    const taskbarApps = document.getElementById('taskbar-apps');
+    const taskbarButton = document.querySelector(`.taskbar-button[data-window-id="${element.id}"]`);
+    if (taskbarButton) {
+        taskbarApps.insertBefore(taskbarButton, taskbarApps.firstChild);
+    }
 }
 
 function changeWallpaper(type) {
@@ -546,14 +562,6 @@ function makeResizable(element) {
     };
 }
 
-function disableTaskbar() {
-    // No longer needed - taskbar is always clickable
-}
-
-function enableTaskbar() {
-    // No longer needed - taskbar is always clickable
-}
-
 function disableIframes() {
     const iframes = document.querySelectorAll('iframe');
     iframes.forEach(iframe => {
@@ -568,34 +576,378 @@ function enableIframes() {
     });
 }
 
-function openFile(fileId) {
-    const icon = document.querySelector(`[data-id="${fileId}"]`);
-    if (icon) {
-        const fileName = icon.querySelector('span').textContent;
-        const fileUrl = icon.querySelector('img').src;
-        
-        // Create a smaller preview window
-        const windowDiv = createWindow(fileName, '', 400, 300);
-        
-        // Add content based on file type
-        const contentDiv = windowDiv.querySelector('.window-content');
-        if (fileName.endsWith('.html')) {
-            contentDiv.innerHTML = `<iframe src="${fileUrl}" style="width: 100%; height: 100%; border: none;"></iframe>`;
-        } else if (fileName.match(/\.(png|jpg|jpeg|gif)$/i)) {
-            contentDiv.innerHTML = `<img src="${fileUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
-        } else if (fileName.endsWith('.txt')) {
-            fetch(fileUrl)
-                .then(response => response.text())
-                .then(text => {
-                    contentDiv.innerHTML = `<pre style="white-space: pre-wrap; padding: 10px;">${text}</pre>`;
-                })
-                .catch(error => {
-                    contentDiv.innerHTML = `<div style="padding: 10px; color: red;">Error loading file: ${error.message}</div>`;
-                });
-        } else {
-            contentDiv.innerHTML = `<div style="padding: 10px;">This file type cannot be previewed.</div>`;
+function openFileExplorer() {
+    // close start window / menu
+    var startMenu = document.getElementById('start-menu');
+    if (!startMenu.classList.contains('hidden')) {
+        startMenu.classList.add('hidden');
+    }
+
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.html,.png,.txt,.jpg';
+
+    input.onchange = function(event) {
+        var file = event.target.files[0];
+        if (file) {
+            if (file.type.indexOf('image') !== -1) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var contentUrl = e.target.result;
+                    createWindow(file.name, '<img src="' + contentUrl + '" alt="' + file.name + '" style="width:100%;height:100%;">');
+                };
+                reader.readAsDataURL(file);
+            } else if (file.type === 'text/plain') {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    // Create notepad window
+                    const windowDiv = createWindow(file.name, '', 600, 400);
+                    const contentDiv = windowDiv.querySelector('.window-content');
+                    contentDiv.innerHTML = `
+                        <div class="menu-bar">
+                            <div class="menu">
+                                <button>Soubor</button>
+                                <div class="submenu">
+                                    <button onclick="saveFile(this.closest('.window'))">Uložit (Alt+S)</button>
+                                    <button onclick="saveAsFile(this.closest('.window'))">Uložit jako</button>
+                                </div>
+                            </div>
+                            <div class="menu">
+                                <button>Úprava</button>
+                                <div class="submenu">
+                                    <button onclick="undo(this.closest('.window'))">Zpět (Alt+Z)</button>
+                                    <button onclick="redo(this.closest('.window'))">Dopředu (Alt+Y)</button>
+                                    <button onclick="findText(this.closest('.window'))">Najít (Alt+F)</button>
+                                    <button onclick="replaceText(this.closest('.window'))">Nahradit (Alt+H)</button>
+                                </div>
+                            </div>
+                            <div class="menu">
+                                <button>Písmo</button>
+                                <div class="submenu">
+                                    <button onclick="changeFontSize(1, this.closest('.window'))">Zvětšit</button>
+                                    <button onclick="changeFontSize(-1, this.closest('.window'))">Zmenšit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <textarea id="notepad" spellcheck="false" style="width: 100%; height: calc(100% - 32px); border: none; resize: none; padding: 10px; font-size: 14px; outline: none; box-sizing: border-box; font-family: 'Consolas', 'Courier New', monospace;"></textarea>
+                    `;
+                    
+                    // Set the file content
+                    const textarea = contentDiv.querySelector('#notepad');
+                    textarea.value = e.target.result;
+                    currentFileName = file.name;
+                };
+                reader.readAsText(file);
+            } else if (file.type === 'text/html') {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var contentUrl = e.target.result;
+                    createWindow(file.name, '<iframe src="' + contentUrl + '" width="100%" height="100%"></iframe>');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Nepodporovaný typ souboru.');
+            }
+        }
+    };
+
+    input.click(); 
+}
+
+function showDesktop() {
+    openFileExplorer();
+}
+
+// Notepad functions
+let lastSearchIndex = 0;
+let currentFileName = '';
+let fileHandle = null;
+let lastReplaceIndex = 0;
+
+function getNotepadTextarea(windowElement) {
+    if (!windowElement) {
+        windowElement = document.querySelector('.window:not(.minimized)');
+    }
+    if (!windowElement) return null;
+    return windowElement.querySelector('#notepad');
+}
+
+function undo(windowElement) {
+    const textarea = getNotepadTextarea(windowElement);
+    if (textarea) document.execCommand("undo");
+}
+
+function redo(windowElement) {
+    const textarea = getNotepadTextarea(windowElement);
+    if (textarea) document.execCommand("redo");
+}
+
+function findText(windowElement) {
+    const textarea = getNotepadTextarea(windowElement);
+    if (!textarea) return;
+    
+    let searchText = prompt("Zadejte hledaný text:");
+    let text = textarea.value;
+
+    if (!searchText) return;
+
+    let index = text.indexOf(searchText, lastSearchIndex);
+    if (index === -1) {
+        lastSearchIndex = 0;
+        index = text.indexOf(searchText);
+    }
+
+    if (index !== -1) {
+        textarea.focus();
+        textarea.setSelectionRange(index, index + searchText.length);
+        lastSearchIndex = index + 1;
+    } else {
+        alert("Text nebyl nalezen.");
+        lastSearchIndex = 0;
+    }
+}
+
+function replaceText(windowElement) {
+    const textarea = getNotepadTextarea(windowElement);
+    if (!textarea) return;
+    
+    let searchText = prompt("Zadejte hledaný text:");
+    if (!searchText) return;
+
+    let replaceText = prompt("Zadejte text pro nahrazení:");
+    if (replaceText === null) return;
+
+    let text = textarea.value;
+    let newText = text.replace(new RegExp(searchText, 'g'), replaceText);
+    
+    if (newText !== text) {
+        textarea.value = newText;
+        alert("Nahrazení dokončeno.");
+    } else {
+        alert("Text nebyl nalezen.");
+    }
+}
+
+function changeFontSize(delta, windowElement) {
+    const textarea = getNotepadTextarea(windowElement);
+    if (!textarea) return;
+    
+    const currentSize = parseInt(window.getComputedStyle(textarea).fontSize);
+    textarea.style.fontSize = (currentSize + delta) + 'px';
+}
+
+function saveFile(windowElement) {
+    const textarea = getNotepadTextarea(windowElement);
+    if (!textarea) return;
+    
+    const text = textarea.value;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = currentFileName || 'untitled.txt';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+}
+
+function saveAsFile(windowElement) {
+    const textarea = getNotepadTextarea(windowElement);
+    if (!textarea) return;
+    
+    const text = textarea.value;
+    let filename = prompt("Zadejte název souboru:", currentFileName.replace(/\.[^/.]+$/, "") || "filename");
+
+    if (!filename) return; // user cancelled
+
+    filename = filename.trim();
+    if (!filename.toLowerCase().endsWith('.txt')) {
+        filename += ".txt";
+    }
+
+    const blob = new Blob([text], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+
+    currentFileName = filename;
+}
+
+// Add keyboard shortcuts for notepad
+document.addEventListener("keydown", function(event) {
+    if (event.altKey) {
+        const activeWindow = document.querySelector('.window.active-window:not(.minimized)');
+        if (!activeWindow) return;
+
+        const textarea = activeWindow.querySelector('#notepad');
+        if (!textarea) return;
+
+        switch (event.key.toLowerCase()) {
+            case "s":
+                event.preventDefault();
+                saveFile(activeWindow);
+                break;
+            case "z":
+                event.preventDefault();
+                undo(activeWindow);
+                break;
+            case "y":
+                event.preventDefault();
+                redo(activeWindow);
+                break;
+            case "f":
+                event.preventDefault();
+                findText(activeWindow);
+                break;
+            case "h":
+                event.preventDefault();
+                replaceText(activeWindow);
+                break;
         }
     }
+});
+
+// desktop icons that show up by default
+const defaultIcons = [
+    { id: 'notepad', name: 'Textový editor', icon: './notepad.png', x: 20, y: 20 },
+    { id: 'calc', name: 'Kalkulačka', icon: './calc.png', x: 20, y: 140 },
+    { id: 'uvikdraw', name: 'UvíkDraw', icon: './uvikdraw.png', x: 20, y: 260 }
+];
+
+function loadDesktopIcons() {
+    // clear existing icons first
+    const desktopIcons = document.getElementById('desktop-icons');
+    desktopIcons.innerHTML = '';
+    
+    const savedIcons = localStorage.getItem('desktopIcons');
+    const icons = savedIcons ? JSON.parse(savedIcons) : defaultIcons;
+    
+    // create icons
+    icons.forEach(icon => {
+        createDesktopIcon(icon);
+    });
+}
+
+// save icon positions
+function saveDesktopIcons() {
+    try {
+        const icons = Array.from(document.querySelectorAll('.desktop-icon')).map(icon => {
+            const x = parseInt(icon.style.left) || 20;
+            const y = parseInt(icon.style.top) || 20;
+            return {
+                id: icon.dataset.id,
+                name: icon.querySelector('span').textContent,
+                icon: icon.querySelector('img').src,
+                x: x,
+                y: y
+            };
+        });
+        
+        localStorage.setItem('desktopIcons', JSON.stringify(icons));
+    } catch (error) {
+        console.error('Error saving desktop icons:', error);
+    }
+}
+
+// create a icon
+function createDesktopIcon(iconData) {
+    const icon = document.createElement('div');
+    icon.className = 'desktop-icon';
+    icon.dataset.id = iconData.id;
+    icon.style.left = (iconData.x || 20) + 'px';
+    icon.style.top = (iconData.y || 20) + 'px';
+    
+    icon.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
+            <img src="${iconData.icon}" alt="${iconData.name}" onerror="this.src='./file.png'" style="width: 64px; height: 64px;">
+            <span style="display: block; text-align: center; margin-top: 8px; max-width: 100px; word-wrap: break-word; font-size: 14px;">${iconData.name}</span>
+        </div>
+    `;
+    
+    // doubleclick = open
+    icon.addEventListener('dblclick', () => {
+        if (iconData.id.startsWith('file')) {
+            openFile(iconData.id);
+        } else {
+            openApp(iconData.id);
+        }
+    });
+
+    // right click to delete
+    icon.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        icon.remove();
+        saveDesktopIcons();
+    });
+    
+    makeIconDraggable(icon);
+    document.getElementById('desktop-icons').appendChild(icon);
+}
+
+// make icons draggable
+function makeIconDraggable(icon) {
+    let isDragging = false;
+    let startX, startY;
+    let startLeft, startTop;
+    const GRID_SIZE = 20;
+
+    function snapToGrid(value) {
+        return Math.round(value / GRID_SIZE) * GRID_SIZE;
+    }
+
+    function dragStart(e) {
+        if (e.button === 2) return;
+        
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startLeft = parseInt(icon.style.left) || 0;
+        startTop = parseInt(icon.style.top) || 0;
+        
+        icon.style.zIndex = '1000';
+        e.preventDefault();
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+        
+        const deltaX = e.clientX - startX;
+        const deltaY = e.clientY - startY;
+        
+        let newLeft = startLeft + deltaX;
+        let newTop = startTop + deltaY;
+        
+        newLeft = snapToGrid(newLeft);
+        newTop = snapToGrid(newTop);
+        
+        const desktop = document.getElementById('desktop-icons');
+        const maxX = desktop.clientWidth - icon.offsetWidth;
+        const maxY = desktop.clientHeight - icon.offsetHeight;
+        
+        newLeft = Math.max(0, Math.min(newLeft, maxX));
+        newTop = Math.max(0, Math.min(newTop, maxY));
+        
+        icon.style.left = newLeft + 'px';
+        icon.style.top = newTop + 'px';
+    }
+
+    function dragEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        icon.style.zIndex = '';
+        saveDesktopIcons();
+    }
+
+    icon.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+    icon.addEventListener('dragstart', (e) => e.preventDefault());
 }
 
 function showBatteryInfo() {
@@ -646,181 +998,3 @@ function showShutdown() {
         </div>
     `);
 }
-
-// desktop icons that show up by default
-const defaultIcons = [
-    { id: 'notepad', name: 'Textový editor', icon: './notepad.png', x: 20, y: 20 },
-    { id: 'calc', name: 'Kalkulačka', icon: './calc.png', x: 20, y: 140 },
-    { id: 'uvikdraw', name: 'UvíkDraw', icon: './uvikdraw.png', x: 20, y: 260 }
-];
-
-// load icons from storage or use defaults
-function loadDesktopIcons() {
-    // clear existing icons first
-    const desktopIcons = document.getElementById('desktop-icons');
-    desktopIcons.innerHTML = '';
-    
-    // get icons from storage or use defaults
-    const savedIcons = localStorage.getItem('desktopIcons');
-    const icons = savedIcons ? JSON.parse(savedIcons) : defaultIcons;
-    
-    // create all the icons
-    icons.forEach(icon => {
-        createDesktopIcon(icon);
-    });
-}
-
-// save icon positions to storage
-function saveDesktopIcons() {
-    try {
-        const icons = Array.from(document.querySelectorAll('.desktop-icon')).map(icon => {
-            const x = parseInt(icon.style.left) || 20;
-            const y = parseInt(icon.style.top) || 20;
-            return {
-                id: icon.dataset.id,
-                name: icon.querySelector('span').textContent,
-                icon: icon.querySelector('img').src,
-                x: x,
-                y: y
-            };
-        });
-        
-        localStorage.setItem('desktopIcons', JSON.stringify(icons));
-    } catch (error) {
-        console.error('Error saving desktop icons:', error);
-    }
-}
-
-// create a new desktop icon
-function createDesktopIcon(iconData) {
-    const icon = document.createElement('div');
-    icon.className = 'desktop-icon';
-    icon.dataset.id = iconData.id;
-    icon.style.left = (iconData.x || 20) + 'px';
-    icon.style.top = (iconData.y || 20) + 'px';
-    
-    icon.innerHTML = `
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
-            <img src="${iconData.icon}" alt="${iconData.name}" onerror="this.src='./file.png'" style="width: 64px; height: 64px;">
-            <span style="display: block; text-align: center; margin-top: 8px; max-width: 100px; word-wrap: break-word; font-size: 14px;">${iconData.name}</span>
-        </div>
-    `;
-    
-    // handle double click to open app or file
-    icon.addEventListener('dblclick', () => {
-        if (iconData.id.startsWith('file')) {
-            openFile(iconData.id);
-        } else {
-            openApp(iconData.id);
-        }
-    });
-
-    // right click to delete
-    icon.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        icon.remove();
-        saveDesktopIcons();
-    });
-    
-    makeIconDraggable(icon);
-    document.getElementById('desktop-icons').appendChild(icon);
-}
-
-// make icons draggable
-function makeIconDraggable(icon) {
-    let isDragging = false;
-    let startX, startY;
-    let startLeft, startTop;
-    const GRID_SIZE = 20;
-
-    function snapToGrid(value) {
-        return Math.round(value / GRID_SIZE) * GRID_SIZE;
-    }
-
-    function dragStart(e) {
-        if (e.button === 2) return; // skip if right click
-        
-        isDragging = true;
-        startX = e.clientX;
-        startY = e.clientY;
-        startLeft = parseInt(icon.style.left) || 0;
-        startTop = parseInt(icon.style.top) || 0;
-        
-        icon.style.zIndex = '1000';
-        e.preventDefault();
-    }
-
-    function drag(e) {
-        if (!isDragging) return;
-        
-        const deltaX = e.clientX - startX;
-        const deltaY = e.clientY - startY;
-        
-        let newLeft = startLeft + deltaX;
-        let newTop = startTop + deltaY;
-        
-        // Snap to grid
-        newLeft = snapToGrid(newLeft);
-        newTop = snapToGrid(newTop);
-        
-        // Keep within desktop bounds
-        const desktop = document.getElementById('desktop-icons');
-        const maxX = desktop.clientWidth - icon.offsetWidth;
-        const maxY = desktop.clientHeight - icon.offsetHeight;
-        
-        newLeft = Math.max(0, Math.min(newLeft, maxX));
-        newTop = Math.max(0, Math.min(newTop, maxY));
-        
-        icon.style.left = newLeft + 'px';
-        icon.style.top = newTop + 'px';
-    }
-
-    function dragEnd(e) {
-        if (!isDragging) return;
-        isDragging = false;
-        icon.style.zIndex = '';
-        saveDesktopIcons();
-    }
-
-    icon.addEventListener('mousedown', dragStart);
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', dragEnd);
-    icon.addEventListener('dragstart', (e) => e.preventDefault());
-}
-
-function openFileExplorer() {
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.html,.png,.txt,.jpg';
-
-    input.onchange = function(event) {
-        var file = event.target.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var contentUrl = e.target.result;
-                var fileType = file.type;
-
-                if (fileType.indexOf('image') !== -1) {
-                    createWindow(file.name, '<img src="' + contentUrl + '" alt="' + file.name + '" style="width:100%;height:100%;">');
-                } else if (fileType === 'text/plain') {
-                    createWindow(file.name, '<pre style="white-space: pre-wrap;">' + e.target.result + '</pre>');
-                } else if (fileType === 'text/html') {
-                    createWindow(file.name, '<iframe src="' + contentUrl + '" width="100%" height="100%"></iframe>');
-                } else {
-                    alert('Nepodporovaný typ souboru.');
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    input.click(); 
-}
-
-// Update showDesktop function to open file explorer
-function showDesktop() {
-    openFileExplorer();
-}
-
-

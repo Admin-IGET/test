@@ -159,24 +159,20 @@ function saveAsFile() {
     }
 
     async function loadFile() {
-        try {
-            const [handle] = await window.showOpenFilePicker({
-                types: [{
-                    description: 'Text files',
-                    accept: {
-                        'text/plain': ['.txt', '.html', '.text']
-                    }
-                }],
-                multiple: false
-            });
-            fileHandle = handle;
-            const file = await handle.getFile();
-            currentFileName = file.name;
-            const contents = await file.text();
-            document.getElementById('notepad').value = contents;
-        } catch (err) {
-            console.log("Open cancelled or failed:", err);
-        }
+        const fileInput = document.getElementById('fileInput');
+        fileInput.click();
+        
+        fileInput.onchange = async function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('notepad').value = e.target.result;
+                    currentFileName = file.name;
+                };
+                reader.readAsText(file);
+            }
+        };
     }
 
     function undo() {

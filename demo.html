@@ -13,7 +13,7 @@
         <button onclick="openApp('calc')">Kalkulačka</button>
         <button onclick="openApp('paint')">Malování</button>
         <button onclick="openApp('screenshot')">Screenshot</button>
-        <button onclick="openFileExplorer()">Soubory</button>
+        <button onclick="openFileExplorer()" onclick="toggleStartMenu()">Soubory</button>
         <button onclick="openApp('UvikChat')">UvikChat</button>
         <button onclick="openApp('youtube')">YouTube</button>
         <button onclick="openApp('game')">Hry</button>
@@ -21,25 +21,7 @@
         <button onclick="toggleStartMenu()">Zavřít</button>
     </div>
 
-    <div id="settings" class="hidden">
-        <font face="Arial" size="3" color="black">
-        <h2>Nastavení</h2>
-        <div class="settings-section">
-            <h3>Vzhled</h3>
-            <button onclick="changeWallpaper('default')">Výchozí tapeta</button>
-            <input type="file" id="custom-wallpaper" accept="image/*">
-            <button onclick="changeWallpaper('custom')">Použít vlastní tapetu</button>
-        </div>
-        <div class="settings-section">
-            <h3>Systém</h3>
-            <button onclick="redirectToMobile()">Přepnout na mobilní verzi</button>
-        </div>
-        <button onclick="closeSettings()">Zavřít</button>
-    </font>
-    </div>
-
     <div id="desktop-icons">
-        <!-- Icons will be dynamically added here -->
     </div>
 
     <div id="app-container"></div>
@@ -74,12 +56,10 @@
                 <img src="./apps.png" alt="Desktop" width="20">
             </button>
             <button id="settings-button" onclick="openSettings()">
-                <img src="https://img.icons8.com/ios-glyphs/30/ffffff/settings.png" alt="Nastavení" width="20">
+                <img src="settings.png" alt="Settings">
             </button>
         </div>
     </div>
-    
-    <div id="taskbar-base"></div>
 
     <script src="scripts.js"></script>
 </body>

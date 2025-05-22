@@ -11,17 +11,6 @@ body {
     overflow: hidden;
 }
 
-#start-menu, #settings {
-    position: fixed;
-    bottom: 40px;
-    left: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
-}
-
 .hidden {
     display: none;
 }
@@ -33,26 +22,24 @@ body {
 }
 
 .taskbar-apps {
-    z-index: 1005; /* I HAVE THE HIGHGROUND */
+    z-index: 1005;
 }
 
 #time-date {
     position: absolute;
     right: 90px;
-    bottom: 15px;
+    bottom: 10px;
     display: flex;
     align-items: center;
     color: white;
     font-size: 14px;
     white-space: nowrap;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     color: white;
     margin: 0 10px;
     font-size: 14px;
     white-space: nowrap;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 #time-date span {
@@ -71,7 +58,7 @@ body {
 #settings-button {
     position: absolute;
     right: 10px;
-    bottom: 10px;
+    bottom: 5px;
     background-color: #0078d4;
     color: white;
     border: none;
@@ -84,22 +71,7 @@ body {
 #desktop-button {
     position: absolute;
     right: 10px;
-    bottom: 10px;
-    background-color: #0078d4;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-}
-
-
-
-#desktop-button {
-    position: absolute;
-    right: 13px;
-    bottom: 10px;
+    bottom: 5px;
     background-color: #0078d4;
     color: white;
     border: none;
@@ -136,13 +108,13 @@ body {
     left: 0;
     width: 100%;
     height: 40px;
-    background-color: #2e7d32;
+    background-color: #009900;
+    opacity: 0.9;
     display: flex;
     align-items: center;
     padding: 0 10px;
     box-sizing: border-box;
     z-index: 1000;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #taskbar-apps {
@@ -179,32 +151,30 @@ body {
 }
 
 .control-button img {
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
 }
 
 .taskbar-button {
-    background-color: #388e3c;
-    color: white;
+    background-color: #007700;
     border: none;
-    padding: 5px 10px;
-    margin: 0 2px;
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 12px;
-    transition: background-color 0.2s;
-    border-radius: 0;
+    color: white;
+    padding: 0 10px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
 }
 
-.taskbar-button.active {
-    background-color: #4caf50;
-    border-bottom: 2px solid #81c784;
+.taskbar-button:hover {
+    background-color: #00AA00;
 }
 
 .window {
     position: absolute;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     z-index: 1;
@@ -227,12 +197,6 @@ body {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.window-resize-handle-nw,
-.window-resize-handle-ne,
-.window-resize-handle-sw {
-    display: none !important;
-}
-
 .window.maximized {
     left: 0 !important;
     top: 0 !important;
@@ -250,7 +214,6 @@ body {
     background-color: #f0f0f0;
     color: #333;
     height: 32px;
-    cursor: move;
     font-family: 'Segoe UI', sans-serif;
     font-size: 13px;
     border-bottom: 1px solid #ddd;
@@ -288,21 +251,30 @@ body {
     flex-grow: 1;
     overflow: auto;
     position: relative;
+    border: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.window-content iframe::-webkit-scrollbar {
+    display: none;
+}
+
+.window-content iframe {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .hidden-window {
     display: none !important;
 }
 
-#taskbar-base {
-    display: none;
-}
-
 #system-tray {
     display: flex;
     align-items: center;
     gap: 5px;
-    bottom: 10px;
+    bottom: 5px;
     position: absolute;
     right: 200px;
     height: 40px;
@@ -325,8 +297,8 @@ body {
 }
 
 .system-tray-button img {
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
     object-fit: contain; 
 }
 
@@ -337,12 +309,9 @@ body {
     left: 0;
     text-align: center;
     background-color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     align-items: center;
-    backdrop-filter: blur(10px);
     min-width: 150px;
     justify-content: center;
 }
@@ -416,8 +385,8 @@ body {
 }
 
 #settings-button img, #desktop-button img {
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
     object-fit: contain;
 }
 
@@ -474,7 +443,7 @@ body.alt-pressed .window-resize-handle-sw {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 40px; /* Height of taskbar */
+    bottom: 40px;
     pointer-events: none;
     z-index: 1;
 }
@@ -504,5 +473,63 @@ body.alt-pressed .window-resize-handle-sw {
     word-wrap: break-word;
     font-size: 14px;
     color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Notepad styles */
+.menu-bar {
+    display: flex;
+    background-color: #e0e0e0;
+    padding: 0;
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+    height: 32px;
+}
+
+.menu {
+    position: relative;
+}
+
+.menu > button {
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    height: 32px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    z-index: 10;
+    min-width: 120px;
+}
+
+.submenu button {
+    width: 100%;
+    text-align: left;
+    padding: 6px 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+}
+
+.submenu button:hover {
+    background-color: #e0e0e0;
+}
+
+.menu:hover .submenu {
+    display: block;
+}
+
+#notepad {
+    font-family: "Consolas", "Courier New", monospace;
+    background-color: #ffffff;
+    color: #000000;
+    line-height: 1.5;
 }
