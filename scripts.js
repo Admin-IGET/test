@@ -993,7 +993,7 @@ function showShutdown() {
         <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; text-align: center; color: black;">
             <h2>Co chcete udělat?</h2>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-                <button onclick="window.close()" style="padding: 10px; background: #e81123; color: white; border: none; border-radius: 4px; cursor: pointer;">Zpět do Windows (Pokud nefunguje, stiskni CTRL+W)</button>
+                <button onclick="window.close()" style="padding: 10px; background: #BEBEBE; color: white; border: none; border-radius: 4px;">Zpět do OS (Pokud nefunguje, stiskni CTRL+W)</button>
             </div>
         </div>
     `);
