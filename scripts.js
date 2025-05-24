@@ -956,21 +956,17 @@ function showBatteryInfo() {
             const percentage = Math.round(battery.level * 100);
             const isCharging = battery.charging;
             
-            createWindow('UvíkOS Wi-FI a Baterie.', `
+            createWindow('UvíkOS Wi-FI a Baterie', `
                 <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; color: black;">
                     <h2>Stav baterie(Nastavení wifi je jen na Windows verzi)</h2>
                     <p>Úroveň baterie: ${percentage}%</p>
-                    <p>Nabíjení: ${isCharging ? 'Ano' : 'Ne'}</p>
-                    <div style="width: 100%; height: 20px; background: #eee; border-radius: 10px; margin-top: 10px;">
-                        <div style="width: ${percentage}%; height: 100%; background: ${percentage > 20 ? '#4CAF50' : '#f44336'}; border-radius: 10px;"></div>
-                    </div>
                 </div>
             `);
         });
     } else {
-        createWindow('Baterie', `
+        createWindow('UvíkOS Wi-FI a Baterie', `
             <div style="padding: 20px; font-family: 'Segoe UI', sans-serif; color: black;">
-                <h2>Stav baterie</h2>
+                <h2>Stav baterie(Nastavení wifi je jen na Windows verzi)</h2>
                 <p>Informace o baterii nejsou na tomto zařízení dostupné.</p>
             </div>
         `);
