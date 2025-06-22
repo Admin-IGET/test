@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BadgerOS</title>
   <style>
     body, html {
@@ -18,9 +18,12 @@
       color: white;
       overflow-x: auto;
       white-space: nowrap;
+      align-items: center;
     }
     .tab {
-      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      padding: 10px 10px;
       cursor: pointer;
       border-right: 1px solid #555;
       background: #333;
@@ -28,35 +31,59 @@
     .tab.active {
       background: #555;
     }
+    .tab .close {
+      margin-left: 8px;
+      color: red;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #clock {
+      margin-left: auto;
+      padding: 0 10px;
+      font-weight: bold;
+      color: #fff;
+    }
     #content {
       height: calc(100vh - 40px);
       overflow: hidden;
       position: relative;
     }
-    iframe {
+    iframe, .app-container {
       position: absolute;
       border: none;
       width: 100%;
       height: 100%;
       display: none;
     }
-    iframe.active {
-      display: block;
+    .active {
+      display: block !important;
     }
-    .startpage {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px;
-      padding: 15px;
-    }
+.startpage {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 10px;
+}
+
+.startpage .buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-auto-rows: 100px;
+  gap: 10px;
+}
+
     .app-icon {
       background: white;
-      padding: 10px;
       border-radius: 8px;
       text-align: center;
       cursor: pointer;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       transition: transform 0.1s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
     }
     .app-icon:hover {
       transform: scale(1.05);
@@ -73,35 +100,77 @@
 </head>
 <body>
 
-<div id="taskbar"></div>
+<div id="taskbar">
+  <div id="clock">--:--</div>
+</div>
 <div id="content"></div>
 
 <script>
+  const BASE_URL = "https://admin-iget.github.io/test/";
   const apps = {
     "Start": {
-      icon: "🦡",
-      url: "",
       render: () => {
-        const div = document.createElement('div');
-        div.className = "startpage";
-        [
-          { name: "Poznámky", file: "notepad.html" },
-          { name: "Hledat", file: "UvikSEARCH2.html" },
-          { name: "Snímek", file: "screenshot.html" },
-          { name: "Chat", file: "UvikChat.html" },
-          { name: "Hry", file: "Uvikhry.html" },
-          { name: "Kalkulačka", file: "calc.html" },
-          { name: "Soubory", file: "files.html" },
-          { name: "Obchod", file: "UvikObchod.html" },
-        ].forEach(app => {
-          const icon = document.createElement('div');
-          icon.className = "app-icon";
-          icon.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Badger.svg/48px-Badger.svg.png" alt="🦡"><div class="app-name">${app.name}</div>`;
-          icon.onclick = () => openApp(app.name, app.file);
-          div.appendChild(icon);
-        });
-        return div;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'startpage';
+  wrapper.style.display = 'flex';
+  wrapper.style.flexDirection = 'column';
+  wrapper.style.padding = '15px';
+  wrapper.style.gap = '10px';
+
+  const title = document.createElement('h1');
+  title.textContent = "Vítejte v BadgerOS! Vyberte si aplikaci.";
+  title.style.textAlign = "center";
+  title.style.margin = "0";
+  title.style.transition = "font-size 0.3s";
+
+  function updateTitleFontSize() {
+    const width = window.innerWidth;
+   
+    let size = Math.max(16, Math.min(48, width / 20));
+    title.style.fontSize = size + "px";
+  }
+  updateTitleFontSize();
+  window.addEventListener('resize', updateTitleFontSize);
+
+  wrapper.appendChild(title);
+
+  const grid = document.createElement('div');
+  grid.className = 'buttons-grid';
+  grid.style.display = 'grid';
+  grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(100px, 1fr))';
+  grid.style.gridAutoRows = '100px';
+  grid.style.gap = '10px';
+
+  [
+    { name: "Poznámky", file: "notepad.html" },
+    { name: "Internet", file: "UvikSEARCH2.html" },
+    { name: "Screenshot", file: "screenshot.html" },
+    { name: "UvikChat", file: "UvikUvikChat.html" },
+    { name: "Hry", file: "Uvikhry.html" },
+    { name: "Kalkulačka", file: "calc.html" },
+    { name: "Soubory", file: "files.html" },
+    { name: "Více aplikací", file: "UvikObchod.html" },
+    { name: "Baterie", file: null }
+  ].forEach(app => {
+    const icon = document.createElement('div');
+    icon.className = "app-icon";
+    icon.innerHTML = `<img src="https://admin-iget.github.io/test/jezevec.jpg" alt=""><div class="app-name">${app.name}</div>`;
+    icon.onclick = () => {
+      if (app.name === "Baterie") {
+        openBatteryApp();
+      } else {
+        openApp(app.name, BASE_URL + app.file);
       }
+    };
+    grid.appendChild(icon);
+  });
+
+  wrapper.appendChild(grid);
+
+  return wrapper;
+}
+
+
     }
   };
 
@@ -109,45 +178,142 @@
   const content = document.getElementById('content');
   const iframes = {};
   const tabs = {};
+  const appInstanceCounters = {};
+  let clock = document.getElementById("clock");
 
   function openApp(name, file) {
-    if (tabs[name]) {
-      setActiveTab(name);
+    if (name === "Start" && tabs["Start"]) {
+      setActiveTab("Start");
       return;
     }
 
+    if (!appInstanceCounters[name]) appInstanceCounters[name] = 1;
+
+    let instanceId;
+    do {
+      instanceId = name === "Start" ? "Start" : `${name} #${appInstanceCounters[name]++}`;
+    } while (tabs[instanceId]);
+
     const tab = document.createElement('div');
     tab.className = 'tab';
-    tab.textContent = name;
-    tab.onclick = () => setActiveTab(name);
-    taskbar.appendChild(tab);
+    const label = document.createElement('span');
+    label.textContent = instanceId;
+    tab.appendChild(label);
 
-    let frame;
+    if (name !== "Start") {
+      const closeBtn = document.createElement('span');
+      closeBtn.className = 'close';
+      closeBtn.textContent = '×';
+      closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        closeTab(instanceId);
+      };
+      tab.appendChild(closeBtn);
+    }
+
+    tab.onclick = () => setActiveTab(instanceId);
+    taskbar.insertBefore(tab, clock);
+
+    let container;
     if (file) {
-      frame = document.createElement('iframe');
-      frame.src = file;
+      container = document.createElement('iframe');
+      container.src = file;
     } else {
-      frame = document.createElement('div');
-      frame.appendChild(apps[name].render());
+      container = document.createElement('div');
+      container.appendChild(apps[name].render());
     }
 
-    frame.className = 'active';
-    content.appendChild(frame);
+    container.className = name === "Start" ? 'app-container active' : 'app-container';
+    content.appendChild(container);
 
-    iframes[name] = frame;
-    tabs[name] = tab;
-    setActiveTab(name);
+    iframes[instanceId] = container;
+    tabs[instanceId] = tab;
+
+    setActiveTab(instanceId);
   }
 
-  function setActiveTab(name) {
-    for (let n in iframes) {
-      iframes[n].classList.remove('active');
-      tabs[n].classList.remove('active');
+  function openBatteryApp() {
+    const name = "Baterie";
+    let instanceId;
+    do {
+      instanceId = `${name} #${appInstanceCounters[name] = (appInstanceCounters[name] || 1)}`;
+      appInstanceCounters[name]++;
+    } while (tabs[instanceId]);
+
+    const tab = document.createElement('div');
+    tab.className = 'tab';
+    const label = document.createElement('span');
+    label.textContent = instanceId;
+    tab.appendChild(label);
+
+    const closeBtn = document.createElement('span');
+    closeBtn.className = 'close';
+    closeBtn.textContent = '×';
+    closeBtn.onclick = (e) => {
+      e.stopPropagation();
+      closeTab(instanceId);
+    };
+    tab.appendChild(closeBtn);
+    tab.onclick = () => setActiveTab(instanceId);
+    taskbar.insertBefore(tab, clock);
+
+    const container = document.createElement('div');
+    container.className = 'app-container';
+    const text = document.createElement('h1');
+    text.style.padding = "20px";
+    text.textContent = "Baterie: načítání...";
+    container.appendChild(text);
+    content.appendChild(container);
+
+    navigator.getBattery().then(battery => {
+      function updateBattery() {
+        text.textContent = `Baterie: ${Math.round(battery.level * 100)}%`;
+      }
+      updateBattery();
+      battery.addEventListener('levelchange', updateBattery);
+    });
+
+    iframes[instanceId] = container;
+    tabs[instanceId] = tab;
+    setActiveTab(instanceId);
+  }
+
+  function setActiveTab(instanceId) {
+    Object.keys(iframes).forEach(id => {
+      iframes[id].classList.remove('active');
+      tabs[id].classList.remove('active');
+    });
+    if (iframes[instanceId]) iframes[instanceId].classList.add('active');
+    if (tabs[instanceId]) tabs[instanceId].classList.add('active');
+  }
+
+  function closeTab(instanceId) {
+    if (instanceId === "Start") return;
+    if (iframes[instanceId]) {
+      content.removeChild(iframes[instanceId]);
+      delete iframes[instanceId];
     }
-    iframes[name].classList.add('active');
-    tabs[name].classList.add('active');
+    if (tabs[instanceId]) {
+      taskbar.removeChild(tabs[instanceId]);
+      delete tabs[instanceId];
+    }
+    const remaining = Object.keys(tabs);
+    if (remaining.length > 0) {
+      setActiveTab(remaining[remaining.length - 1]);
+    } else {
+      openApp("Start");
+    }
   }
 
+  function updateClock() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    clock.textContent = `${hours}:${minutes}`;
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
   openApp("Start");
 </script>
 
