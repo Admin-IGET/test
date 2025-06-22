@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BadgerOS</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      height: 100%;
+      background: #f4f4f4;
+    }
+    #taskbar {
+      display: flex;
+      background: #333;
+      color: white;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .tab {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-right: 1px solid #555;
+      background: #333;
+    }
+    .tab.active {
+      background: #555;
+    }
+    #content {
+      height: calc(100vh - 40px);
+      overflow: hidden;
+      position: relative;
+    }
+    iframe {
+      position: absolute;
+      border: none;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+    iframe.active {
+      display: block;
+    }
+    .startpage {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      padding: 15px;
+    }
+    .app-icon {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.1s;
+    }
+    .app-icon:hover {
+      transform: scale(1.05);
+    }
+    .app-icon img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 5px;
+    }
+    .app-name {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="taskbar"></div>
+<div id="content"></div>
+
+<script>
+  const apps = {
+    "Start": {
+      icon: "🦡",
+      url: "",
+      render: () => {
+        const div = document.createElement('div');
+        div.className = "startpage";
+        [
+          { name: "Poznámky", file: "notepad.html" },
+          { name: "Hledat", file: "UvikSEARCH2.html" },
+          { name: "Snímek", file: "screenshot.html" },
+          { name: "Chat", file: "UvikChat.html" },
+          { name: "Hry", file: "Uvikhry.html" },
+          { name: "Kalkulačka", file: "calc.html" },
+          { name: "Soubory", file: "files.html" },
+          { name: "Obchod", file: "UvikObchod.html" },
+        ].forEach(app => {
+          const icon = document.createElement('div');
+          icon.className = "app-icon";
+          icon.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Badger.svg/48px-Badger.svg.png" alt="🦡"><div class="app-name">${app.name}</div>`;
+          icon.onclick = () => openApp(app.name, app.file);
+          div.appendChild(icon);
+        });
+        return div;
+      }
+    }
+  };
+
+  const taskbar = document.getElementById('taskbar');
+  const content = document.getElementById('content');
+  const iframes = {};
+  const tabs = {};
+
+  function openApp(name, file) {
+    if (tabs[name]) {
+      setActiveTab(name);
+      return;
+    }
+
+    const tab = document.createElement('div');
+    tab.className = 'tab';
+    tab.textContent = name;
+    tab.onclick = () => setActiveTab(name);
+    taskbar.appendChild(tab);
+
+    let frame;
+    if (file) {
+      frame = document.createElement('iframe');
+      frame.src = file;
+    } else {
+      frame = document.createElement('div');
+      frame.appendChild(apps[name].render());
+    }
+
+    frame.className = 'active';
+    content.appendChild(frame);
+
+    iframes[name] = frame;
+    tabs[name] = tab;
+    setActiveTab(name);
+  }
+
+  function setActiveTab(name) {
+    for (let n in iframes) {
+      iframes[n].classList.remove('active');
+      tabs[n].classList.remove('active');
+    }
+    iframes[name].classList.add('active');
+    tabs[name].classList.add('active');
+  }
+
+  openApp("Start");
+</script>
+
+</body>
+</html>
