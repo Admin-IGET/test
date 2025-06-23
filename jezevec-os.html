@@ -101,7 +101,8 @@
 <body>
 
 <div id="taskbar">
-  <div id="clock">--:--</div>
+ <div id="clock">--:--</div>
+ <div id="battery" style="padding: 0 10px; font-weight: bold; color: #fff;">---%</div>
 </div>
 <div id="content"></div>
 
@@ -150,14 +151,14 @@
     { name: "Kalkulačka", file: "calc.html" },
     { name: "Soubory", file: "files.html" },
     { name: "Více aplikací", file: "UvikObchod.html" },
-    { name: "Baterie", file: null }
+    { name: "Malování", file: null }
   ].forEach(app => {
     const icon = document.createElement('div');
     icon.className = "app-icon";
     icon.innerHTML = `<img src="https://admin-iget.github.io/test/jezevec.jpg" alt=""><div class="app-name">${app.name}</div>`;
     icon.onclick = () => {
-      if (app.name === "Baterie") {
-        openBatteryApp();
+      if (app.name === "Malování") {
+        openApp("Malování", "https://paintz.app");
       } else {
         openApp(app.name, BASE_URL + app.file);
       }
@@ -311,7 +312,22 @@
     const minutes = now.getMinutes().toString().padStart(2, '0');
     clock.textContent = `${hours}:${minutes}`;
   }
+const batteryEl = document.getElementById('battery');
 
+if (navigator.getBattery) {
+  navigator.getBattery().then(battery => {
+    function updateBattery() {
+      const level = Math.round(battery.level * 100);
+      batteryEl.textContent = `${level}%`;
+    }
+
+    updateBattery();
+    battery.addEventListener('levelchange', updateBattery);
+    battery.addEventListener('chargingchange', updateBattery);
+  });
+} else {
+  batteryEl.textContent = "---%";
+}
   setInterval(updateClock, 1000);
   updateClock();
   openApp("Start");
