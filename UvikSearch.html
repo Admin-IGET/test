@@ -191,6 +191,10 @@ display: inline;
   </div>
   
   <script>
+    function isMobileDevice() {
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
     window.__gcse = {
       callback: function () {
         const input = document.querySelector('input.gsc-input');
@@ -207,7 +211,7 @@ display: inline;
         }
 
         function moveUpAndAlign() {
-  const isMobile = window.innerWidth < 768;
+  const isMobile = isMobileDevice
   moveResultsContainer(true);
   if (!isMobile) {
     document.body.classList.add('top');
