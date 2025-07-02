@@ -14,13 +14,13 @@
     }
 
     body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #fff;
-      transition: all 0.3s ease;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+background-color: #fff;
+transition: all 0.3s ease;
     }
 
     .top-container {
@@ -55,6 +55,7 @@
     }
 
     .close-button {
+position: absolute;
       display: none;
       top: 12px;
       right: 30px;
@@ -131,6 +132,38 @@
       flex-direction: column;
       gap: 8px;
     }
+@media (max-width: 767px) {
+body {
+justify-content: flex-start;
+min-height: auto;
+align-items: stretch;
+}
+}
+body.top .top-container {
+flex-direction: row;
+align-items: flex-start;
+padding: 10px 30px;
+border-bottom: 1px solid #ddd;
+max-width: 100%;
+}
+body.top .image-container {
+margin: 0;
+margin-right: 20px;
+margin-top: 5px;
+width: 250px;
+flex-shrink: 0;
+}
+body.top .image-container img {
+width: 100%;
+height: auto;
+}
+body.top .content {
+flex-grow: 1;
+max-width: none;
+}
+body.top .close-button {
+display: inline;
+}
 
     * {
       box-sizing: border-box;
@@ -174,28 +207,24 @@
         }
 
         function moveUpAndAlign() {
-          document.body.classList.add('top');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          moveResultsContainer(true);
-        }
+  const isMobile = window.innerWidth < 768;
+  if (!isMobile) {
+    document.body.classList.add('top');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  moveResultsContainer(true);
+}
 
-        if (input) {
-          input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') moveUpAndAlign();
-          });
-        }
 
-        if (searchBtn) {
-          searchBtn.addEventListener('click', moveUpAndAlign);
-        }
+ window.addEventListener('pageshow', function () {
+  const isMobile = window.innerWidth < 768;
+  const results = document.querySelector('.gsc-results-wrapper-visible');
+  if (results && !isMobile) {
+    document.body.classList.add('top');
+    moveResultsContainer(true);
+  }
+});
 
-        window.addEventListener('pageshow', function () {
-          const results = document.querySelector('.gsc-results-wrapper-visible');
-          if (results) {
-            document.body.classList.add('top');
-            moveResultsContainer(true);
-          }
-        });
       }
     };
   </script>
