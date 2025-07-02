@@ -208,21 +208,26 @@ display: inline;
 
         function moveUpAndAlign() {
   const isMobile = window.innerWidth < 768;
+  moveResultsContainer(true);
   if (!isMobile) {
     document.body.classList.add('top');
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  moveResultsContainer(true);
 }
 
-
- window.addEventListener('pageshow', function () {
+// Extra safety on reload or if results load late
+const observer = new MutationObserver(() => {
   const isMobile = window.innerWidth < 768;
   const results = document.querySelector('.gsc-results-wrapper-visible');
-  if (results && !isMobile) {
+  if (results && !isMobile && !document.body.classList.contains('top')) {
     document.body.classList.add('top');
     moveResultsContainer(true);
   }
+});
+
+observer.observe(document.body, {
+  childList: true,
+  subtree: true
 });
 
       }
