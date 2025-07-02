@@ -164,6 +164,19 @@ max-width: none;
 body.top .close-button {
 display: inline;
 }
+@media (max-width: 767px) {
+  body.mobile-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  #search-results-container {
+    display: none !important;
+  }
+}
 
     * {
       box-sizing: border-box;
@@ -190,52 +203,69 @@ display: inline;
     <a href="https://admin-iget.github.io/test/uvikdark.html">Noční mód</a>
   </div>
   
-  <script>
-    function isMobileDevice() {
-  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
+<script>
+  function isMobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
 
-    window.__gcse = {
-      callback: function () {
-        const input = document.querySelector('input.gsc-input');
-        const searchBtn = document.querySelector('button.gsc-search-button');
-        const resultsContainer = document.getElementById('search-results-container');
+  window.__gcse = {
+    callback: function () {
+      const input = document.querySelector('input.gsc-input');
+      const searchBtn = document.querySelector('button.gsc-search-button');
+      const resultsContainer = document.getElementById('search-results-container');
+      const isMobile = isMobileDevice();
 
-        function moveResultsContainer(force) {
-          const results = document.querySelector('.gsc-results-wrapper-visible');
-          if (results && resultsContainer && !resultsContainer.contains(results)) {
-            resultsContainer.appendChild(results);
-          } else if (force) {
-            setTimeout(() => moveResultsContainer(true), 200);
+      function moveResultsContainer(force) {
+        const results = document.querySelector('.gsc-results-wrapper-visible');
+        if (results && resultsContainer && !resultsContainer.contains(results)) {
+          resultsContainer.appendChild(results);
+        } else if (force) {
+          setTimeout(() => moveResultsContainer(true), 200);
+        }
+      }
+
+      function moveUpAndAlign() {
+        if (!isMobile) {
+          document.body.classList.add('top');
+        } else {
+          document.body.classList.remove('mobile-centered');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        moveResultsContainer(true);
+      }
+
+      if (isMobile) {
+        document.body.classList.add('mobile-centered');
+      }
+
+      if (input) {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') moveUpAndAlign();
+        });
+      }
+
+      if (searchBtn) {
+        searchBtn.addEventListener('click', moveUpAndAlign);
+      }
+
+      const observer = new MutationObserver(() => {
+        const results = document.querySelector('.gsc-results-wrapper-visible');
+        if (results) {
+          moveResultsContainer(true);
+          if (!isMobile) {
+            document.body.classList.add('top');
+          } else {
+            document.body.classList.remove('mobile-centered');
           }
         }
+      });
 
-        function moveUpAndAlign() {
-  const isMobile = isMobileDevice
-  moveResultsContainer(true);
-  if (!isMobile) {
-    document.body.classList.add('top');
-  }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Extra safety on reload or if results load late
-const observer = new MutationObserver(() => {
-  const isMobile = window.innerWidth < 768;
-  const results = document.querySelector('.gsc-results-wrapper-visible');
-  if (results && !isMobile && !document.body.classList.contains('top')) {
-    document.body.classList.add('top');
-    moveResultsContainer(true);
-  }
-});
-
-observer.observe(document.body, {
-  childList: true,
-  subtree: true
-});
-
-      }
-    };
-  </script>
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    }
+  };
+</script>
 </body>
 </html>
