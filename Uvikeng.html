@@ -56,8 +56,6 @@
 
     .close-button {
       display: none;
-      top: 12px;
-      right: 30px;
       font-size: 50px;
       border: 1px solid #E1F3DA;
       color: #1a0dab;
@@ -131,6 +129,61 @@
       flex-direction: column;
       gap: 8px;
     }
+@media (max-width: 767px) {
+body {
+justify-content: flex-start;
+min-height: auto;
+align-items: stretch;
+}
+}
+body.top .top-container {
+flex-direction: row;
+align-items: flex-start;
+padding: 10px 30px;
+border-bottom: 1px solid #ddd;
+max-width: 100%;
+}
+body.top .image-container {
+margin: 0;
+margin-right: 20px;
+margin-top: 5px;
+width: 250px;
+flex-shrink: 0;
+}
+body.top .image-container img {
+width: 100%;
+height: auto;
+}
+body.top .content {
+flex-grow: 1;
+max-width: none;
+}
+body.top .close-button {
+display: inline;
+}
+@media (max-width: 767px) {
+  body.mobile-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+}
+#search-results-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 20px auto 40px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  display: none;
+}
+
+body.top #search-results-container,
+body.show-results #search-results-container {
+  display: block;
+}
+
 
     * {
       box-sizing: border-box;
@@ -158,47 +211,81 @@
     <p> These links are not available on the english version!</p>
   </div>
   
-  <script>
-    window.__gcse = {
-      callback: function () {
-        const input = document.querySelector('input.gsc-input');
-        const searchBtn = document.querySelector('button.gsc-search-button');
-        const resultsContainer = document.getElementById('search-results-container');
+<script>
+  function isMobileDevice() {
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+}
 
-        function moveResultsContainer(force) {
-          const results = document.querySelector('.gsc-results-wrapper-visible');
-          if (results && resultsContainer && !resultsContainer.contains(results)) {
-            resultsContainer.appendChild(results);
-          } else if (force) {
-            setTimeout(() => moveResultsContainer(true), 200);
-          }
-        }
 
-        function moveUpAndAlign() {
-          document.body.classList.add('top');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          moveResultsContainer(true);
-        }
+  window.__gcse = {
+  callback: function () {
+    const input = document.querySelector('input.gsc-input');
+    const searchBtn = document.querySelector('button.gsc-search-button');
+    const resultsContainer = document.getElementById('search-results-container');
+    const isMobile = isMobileDevice();
 
-        if (input) {
-          input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') moveUpAndAlign();
-          });
-        }
-
-        if (searchBtn) {
-          searchBtn.addEventListener('click', moveUpAndAlign);
-        }
-
-        window.addEventListener('pageshow', function () {
-          const results = document.querySelector('.gsc-results-wrapper-visible');
-          if (results) {
-            document.body.classList.add('top');
-            moveResultsContainer(true);
-          }
-        });
+    function moveResultsContainer(force) {
+      const results = document.querySelector('.gsc-results-wrapper-visible');
+      if (results && resultsContainer && !resultsContainer.contains(results)) {
+        resultsContainer.appendChild(results);
+      } else if (force) {
+        setTimeout(() => moveResultsContainer(true), 200);
       }
-    };
-  </script>
+    }
+
+    function updateLayoutAfterSearch() {
+      moveResultsContainer(true);
+      if (!isMobile) {
+        document.body.classList.add('top');
+        document.body.classList.remove('mobile-centered');
+        document.body.classList.remove('show-results');
+      } else {
+        document.body.classList.remove('mobile-centered');
+        document.body.classList.add('show-results');
+        document.body.classList.remove('top');
+      }
+    }
+
+    function resetLayoutBeforeSearch() {
+      if (isMobile) {
+        document.body.classList.add('mobile-centered');
+        document.body.classList.remove('top');
+        document.body.classList.remove('show-results');
+      } else {
+        document.body.classList.remove('mobile-centered');
+        document.body.classList.remove('top');
+        document.body.classList.remove('show-results');
+      }
+    }
+
+    if (isMobile) {
+      resetLayoutBeforeSearch();
+    }
+
+    if (input) {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') updateLayoutAfterSearch();
+      });
+    }
+
+    if (searchBtn) {
+      searchBtn.addEventListener('click', updateLayoutAfterSearch);
+    }
+
+    const observer = new MutationObserver(() => {
+      const results = document.querySelector('.gsc-results-wrapper-visible');
+      if (results) {
+        updateLayoutAfterSearch();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+};
+
+</script>
 </body>
 </html>
