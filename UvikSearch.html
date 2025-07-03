@@ -173,9 +173,21 @@ display: inline;
     min-height: 100vh;
   }
 
-  body.mobile-centered #search-results-container {
-    display: none !important;
-  }
+  /* Do NOT forcibly hide results container here! */
+  /* Show results container always; control visibility via JS classes */
+}
+#search-results-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 20px auto 40px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  display: none;
+}
+
+body.top #search-results-container,
+body.show-results #search-results-container {
+  display: block;
 }
 
 
@@ -206,67 +218,80 @@ display: inline;
   
 <script>
   function isMobileDevice() {
-    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  }
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+}
+
 
   window.__gcse = {
-    callback: function () {
-      const input = document.querySelector('input.gsc-input');
-      const searchBtn = document.querySelector('button.gsc-search-button');
-      const resultsContainer = document.getElementById('search-results-container');
-      const isMobile = isMobileDevice();
+  callback: function () {
+    const input = document.querySelector('input.gsc-input');
+    const searchBtn = document.querySelector('button.gsc-search-button');
+    const resultsContainer = document.getElementById('search-results-container');
+    const isMobile = isMobileDevice();
 
-      function moveResultsContainer(force) {
-        const results = document.querySelector('.gsc-results-wrapper-visible');
-        if (results && resultsContainer && !resultsContainer.contains(results)) {
-          resultsContainer.appendChild(results);
-        } else if (force) {
-          setTimeout(() => moveResultsContainer(true), 200);
-        }
+    function moveResultsContainer(force) {
+      const results = document.querySelector('.gsc-results-wrapper-visible');
+      if (results && resultsContainer && !resultsContainer.contains(results)) {
+        resultsContainer.appendChild(results);
+      } else if (force) {
+        setTimeout(() => moveResultsContainer(true), 200);
       }
+    }
 
-      function moveUpAndAlign() {
-        if (!isMobile) {
-          document.body.classList.add('top');
-        } else {
-          document.body.classList.remove('mobile-centered');
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        moveResultsContainer(true);
+    function updateLayoutAfterSearch() {
+      moveResultsContainer(true);
+      if (!isMobile) {
+        document.body.classList.add('top');
+        document.body.classList.remove('mobile-centered');
+        document.body.classList.remove('show-results');
+      } else {
+        document.body.classList.remove('mobile-centered');
+        document.body.classList.add('show-results');
+        document.body.classList.remove('top');
       }
+    }
 
+    function resetLayoutBeforeSearch() {
       if (isMobile) {
         document.body.classList.add('mobile-centered');
+        document.body.classList.remove('top');
+        document.body.classList.remove('show-results');
+      } else {
+        document.body.classList.remove('mobile-centered');
+        document.body.classList.remove('top');
+        document.body.classList.remove('show-results');
       }
+    }
 
-      if (input) {
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') moveUpAndAlign();
-        });
-      }
+    if (isMobile) {
+      resetLayoutBeforeSearch();
+    }
 
-      if (searchBtn) {
-        searchBtn.addEventListener('click', moveUpAndAlign);
-      }
-
-      const observer = new MutationObserver(() => {
-        const results = document.querySelector('.gsc-results-wrapper-visible');
-        if (results) {
-          moveResultsContainer(true);
-          if (!isMobile) {
-            document.body.classList.add('top');
-          } else {
-            document.body.classList.remove('mobile-centered');
-          }
-        }
-      });
-
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
+    if (input) {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') updateLayoutAfterSearch();
       });
     }
-  };
+
+    if (searchBtn) {
+      searchBtn.addEventListener('click', updateLayoutAfterSearch);
+    }
+
+    // Observe results insertion to update layout automatically
+    const observer = new MutationObserver(() => {
+      const results = document.querySelector('.gsc-results-wrapper-visible');
+      if (results) {
+        updateLayoutAfterSearch();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+};
+
 </script>
 </body>
 </html>
