@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -14,13 +14,13 @@
     }
 
     body {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
-background-color: #fff;
-transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #fff;
+      transition: all 0.3s ease;
     }
 
     .top-container {
@@ -55,10 +55,7 @@ transition: all 0.3s ease;
     }
 
     .close-button {
-position: absolute;
       display: none;
-      top: 12px;
-      right: 30px;
       font-size: 50px;
       border: 1px solid #E1F3DA;
       color: #1a0dab;
@@ -172,9 +169,6 @@ display: inline;
     align-items: center;
     min-height: 100vh;
   }
-
-  /* Do NOT forcibly hide results container here! */
-  /* Show results container always; control visibility via JS classes */
 }
 #search-results-container {
   max-width: 1000px;
@@ -277,7 +271,6 @@ body.show-results #search-results-container {
       searchBtn.addEventListener('click', updateLayoutAfterSearch);
     }
 
-    // Observe results insertion to update layout automatically
     const observer = new MutationObserver(() => {
       const results = document.querySelector('.gsc-results-wrapper-visible');
       if (results) {
