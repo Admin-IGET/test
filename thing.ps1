@@ -21,7 +21,7 @@ public class Something
         IntPtr taskBar = FindWindow("Shell_TrayWnd", null);
         ShowWindow(taskBar, SW_HIDE);
 
-        string imageUrl = "https://cdn.mos.cms.futurecdn.net/Wh46bS2Gw8vUC6iQh2wEd6-1020-80.png.webp";
+        string imageUrl = "https://admin-iget.github.io/test/bsod.png";
         Image image;
 
         try
