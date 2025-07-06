@@ -24,10 +24,25 @@ public class Something
         string imageUrl = "https://cdn.mos.cms.futurecdn.net/Wh46bS2Gw8vUC6iQh2wEd6-1020-80.png.webp";
         Image image;
 
-        using (WebClient client = new WebClient())
-        using (var stream = client.OpenRead(imageUrl))
+        try
         {
-            image = Image.FromStream(stream);
+            using (WebClient client = new WebClient())
+            {
+                client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
+                using (var stream = client.OpenRead(imageUrl))
+                {
+                    if (stream == null)
+                        throw new Exception("Stream is null when trying to open image URL.");
+
+                    image = Image.FromStream(stream);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowWindow(taskBar, SW_SHOW);
+            MessageBox.Show("Failed to load image: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
         }
 
         Form form = new Form();
@@ -51,6 +66,15 @@ public class Something
         };
 
         form.KeyPreview = true;
+        form.KeyDown += (sender, e) =>
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                ShowWindow(taskBar, SW_SHOW);
+                Application.Exit();
+            }
+        };
+
         Application.Run(form);
     }
 }
