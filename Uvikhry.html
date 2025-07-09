@@ -138,6 +138,12 @@ iframe {
 
         <button class="play-button" onclick="startGame()">▶</button>
         <button class="close-button" onclick="closeTitleScreen()">X</button>
+        <div id="blockbuild-promo" style="display: none; margin-top: 20px;">
+            <p style="color: white;">Chcete si ukládat stavby v BlockBuildu? Stáhněte si Plnou verzi! 
+                <a href="https://drive.google.com/file/d/1F7xiyTDgMbwxuM39kTGK9-75uEsl1H5k/view?usp=sharing" target="_blank" style="color: #4CAF50; text-decoration: underline;">Stáhnout</a>
+            </p>
+        </div>
+
     </div>
 
     <div class="iframe-container" id="iframe-container">
@@ -148,11 +154,18 @@ iframe {
     <script>
         let currentGameUrl = '';
 
-        function showTitleScreen(gameName, gameUrl) {
-            document.getElementById('game-title').innerText = gameName;
-            currentGameUrl = gameUrl;
-            document.getElementById('title-screen').style.display = 'flex';
+    function showTitleScreen(gameName, gameUrl) {
+        document.getElementById('game-title').innerText = gameName;
+        currentGameUrl = gameUrl;
+        document.getElementById('title-screen').style.display = 'flex';
+        const promo = document.getElementById('blockbuild-promo');
+        if (gameName.includes('BlockBuild')) {
+            promo.style.display = 'block';
+        } else {
+            promo.style.display = 'none';
         }
+    }
+
 
         function closeTitleScreen() {
             document.getElementById('title-screen').style.display = 'none';
