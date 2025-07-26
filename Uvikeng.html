@@ -258,15 +258,9 @@ window.__gcse = {
       moveResultsContainer(true);
       updateBodyClasses(isMobile, true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    function updateLayoutAfterSearch() {
-      const isMobile = isMobileDevice();
-      moveResultsContainer(true);
-      updateBodyClasses(isMobile, true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     
       const query = input?.value?.trim();
-      if (query) {
+      if (query && document.title !== query + ' - UvikSearch') {
         document.title = query + ' - UvikSearch';
       }
     }
