@@ -252,13 +252,6 @@ window.__gcse = {
         setTimeout(() => moveResultsContainer(true), 200);
       }
     }
-
-    function updateLayoutAfterSearch() {
-      const isMobile = isMobileDevice();
-      moveResultsContainer(true);
-      updateBodyClasses(isMobile, true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
     
     function updateLayoutAfterSearch() {
       const isMobile = isMobileDevice();
@@ -267,7 +260,7 @@ window.__gcse = {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     
       const query = input?.value?.trim();
-      if (query) {
+      if (query && document.title !== query + ' - Uvík Vyhledávač') {
         document.title = query + ' - Uvík Vyhledávač';
       }
     }
