@@ -259,6 +259,18 @@ window.__gcse = {
       updateBodyClasses(isMobile, true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    
+    function updateLayoutAfterSearch() {
+      const isMobile = isMobileDevice();
+      moveResultsContainer(true);
+      updateBodyClasses(isMobile, true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+      const query = input?.value?.trim();
+      if (query) {
+        document.title = query + ' - Uvík Vyhledávač';
+      }
+    }
 
     function resetLayoutBeforeSearch() {
       const isMobile = isMobileDevice();
