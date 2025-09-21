@@ -11,7 +11,8 @@
     button:disabled {background:#ccc;cursor:not-allowed}
     button:hover:not(:disabled) {background:#0056b3}
     video {width:80%;max-height:400px;border:2px solid black;background:black}
-    #lang {margin-top:15px;font-size:14px;padding:5px 10px;background:#ffcc00;border:2px solid black}
+    #lang {margin-top:15px;font-size:14px;padding:5px 10px;background:#ffdd00;border:2px solid black}
+    #convert {margin-top:20px;font-size:14px;padding:5px 10px;background:#3312ff;border:2px solid black}
   </style>
 </head>
 <body>
