@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="cz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UEXFILE</title>
+  <style>
+    body {font-family:"Comic Sans MS",cursive,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;background:#f5f5f5}
+    #controls {margin-bottom:20px;display:flex;gap:10px}
+    button {padding:10px 15px;font-size:16px;border:2px solid black;background:#007BFF;color:white;border-radius:0;cursor:pointer}
+    button:disabled {background:#ccc;cursor:not-allowed}
+    button:hover:not(:disabled) {background:#0056b3}
+    video {width:80%;max-height:400px;border:2px solid black;background:black}
+    #lang {margin-top:15px;font-size:14px;padding:5px 10px;background:#ffcc00;border:2px solid black}
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button id="start">Začít nahrávání</button>
+    <button id="stop" disabled>Zastavit nahrávání</button>
+    <button id="download" disabled>Stáhnout</button>
+  </div>
+  <video id="preview" autoplay muted playsinline></video>
+  <button id="lang">CZ / ENG</button>
+
+<script>
+const startButton=document.getElementById("start");
+const stopButton=document.getElementById("stop");
+const downloadButton=document.getElementById("download");
+const preview=document.getElementById("preview");
+const langBtn=document.getElementById("lang");
+
+let mediaRecorder,recordedChunks=[],cz=true;
+
+const labels={cz:{start:"Začít nahrávání",stop:"Zastavit nahrávání",download:"Stáhnout"},en:{start:"Start Recording",stop:"Stop Recording",download:"Download"}};
+langBtn.onclick=()=>{cz=!cz;const set=cz?labels.cz:labels.en;startButton.textContent=set.start;stopButton.textContent=set.stop;downloadButton.textContent=set.download};
+
+startButton.onclick=async()=>{
+  try{
+    const screenStream=await navigator.mediaDevices.getDisplayMedia({video:{cursor:"always"},audio:true});
+    const micStream=await navigator.mediaDevices.getUserMedia({audio:true});
+
+    const audioContext=new AudioContext();
+    const destination=audioContext.createMediaStreamDestination();
+
+    if(screenStream.getAudioTracks().length>0){
+      const sysSource=audioContext.createMediaStreamSource(screenStream);
+      sysSource.connect(destination);
+    }
+    if(micStream.getAudioTracks().length>0){
+      const micSource=audioContext.createMediaStreamSource(micStream);
+      micSource.connect(destination);
+    }
+
+    const combinedStream=new MediaStream([
+      ...screenStream.getVideoTracks(),
+      ...destination.stream.getAudioTracks()
+    ]);
+
+    preview.srcObject=combinedStream;
+    recordedChunks=[];
+    mediaRecorder=new MediaRecorder(combinedStream,{mimeType:"video/webm"});
+    mediaRecorder.ondataavailable=e=>{if(e.data.size>0)recordedChunks.push(e.data)};
+    mediaRecorder.onstop=()=>{stopButton.disabled=true;downloadButton.disabled=false};
+    mediaRecorder.start();
+
+    startButton.disabled=true;
+    stopButton.disabled=false;
+    downloadButton.disabled=true;
+  }catch(err){
+    alert((cz?"Chyba: ":"Error: ")+err.message);
+  }
+};
+
+stopButton.onclick=()=>{
+  mediaRecorder.stop();
+  preview.srcObject.getTracks().forEach(t=>t.stop());
+  preview.srcObject=null;
+  startButton.disabled=false;stopButton.disabled=true;
+};
+
+downloadButton.onclick=()=>{
+  const blob=new Blob(recordedChunks,{type:"video/webm"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="video.webm";
+  document.body.appendChild(a);a.click();
+  URL.revokeObjectURL(url);a.remove();
+};
+</script>
+</body>
+</html>
