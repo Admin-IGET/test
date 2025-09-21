@@ -2,59 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Extra sofware</title>
+    <title>Extra software</title>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-        main {
-            flex: 1;
-            padding: 20px;
-            align: "cener";
-        }
-        footer {
-            padding: 10px;
-        }
+        html, body {height:100%;margin:0;}
+        body {display:flex;flex-direction:column;font-family:Arial;}
+        main {flex:1;padding:20px;text-align:center;}
+        footer {padding:10px;text-align:center;}
+        .cz {display:inline;}
+        .en {display:none;}
+        #toggleBtn {position:absolute;top:10px;left:10px;padding:5px 10px;cursor:pointer;background-color : blue; color : white;}
     </style>
 </head>
 <body>
- <main>
-    <font face="Arial"><h1><center>Zde si můžete stáhnout extra software do UvíkOS / Windows. </h1>
-    <h1>Here you can download extra software for UvikOS / Windows. </center></h1>
-    <p>
-        <center><a href="https://drive.google.com/file/d/1xtOwXkAPF6RfcCkY0KDe2TxVnYWaL0Om/view?usp=sharing" target="_blank">
-            FolderLocker (Jen anglicky, Bezpečné,od StarLaeTech)<br>
-            FolderLocker (Only English, safe to use,by StarLaeTech)</br>
+<button id="toggleBtn">Česky / English</button>
+<main>
+<p></p>
+    <h1 class="cz">Zde si můžete stáhnout extra software do UvíkOS / Windows.</h1>
+    <h1 class="en">Here you can download extra software for UvikOS / Windows.</h1>
+	
+	<p>
+        <a href="uex.html" target="_blank">
+            <span class="cz">UEX Spouštěč (UEX Loader)(Česky, Bezpečné, od AdminIGET)</span><br>
+            <span class="en">UEX Loader (English, safe to use, by AdminIGET)</span>
         </a>
     </p>
+
     <p>
-        <a href="https://www.videolan.org/vlc/index.html" target="_blank">
-            VLC přehrávač médií(cz i eng, Bezpečné,od VideoLAN,použijte pokud vám nefunguje přehrávání médií)<br>
-            VLC media player (cz and eng, safe to use,by VideoLAN,use if media does not play)</br>
+        <a href="https://admin-iget.github.io/test/uvikvideorecorder.uex" target="_blank">
+            <span class="cz">UvíkOS Nahrávač videí (Česky, Bezpečné, od AdminIGET)</span><br>
+            <span class="en">UvikOS Video Recorder (English, safe to use, by AdminIGET)</span>
+        </a>
+    </p>
+
+    <p>
+        <a href="https://drive.google.com/file/d/1xtOwXkAPF6RfcCkY0KDe2TxVnYWaL0Om/view?usp=sharing" target="_blank">
+            <span class="cz">FolderLocker (Jen anglicky, Bezpečné, od StarLaeTech)</span><br>
+            <span class="en">FolderLocker (Only English, safe to use, by StarLaeTech)</span>
         </a>
     </p>
     <p>
         <a href="https://drive.google.com/file/d/1N3OYeriMxoZ5zW9gylgfskaJroZbARKy/view?usp=sharing" target="_blank">
-            Uvíkovy základy - mód od mé mladší sestry(jen cz, bezpečné, od MAJDA)<br>
-            Uvík's Basics - modded by my little sister(only cz, safe to use, from MAJDA)</br>
+            <span class="cz">Uvíkovy základy - mód od mé mladší sestry (jen cz, bezpečné, od MAJDA)</span><br>
+            <span class="en">Uvík's Basics - modded by my little sister (only cz, safe to use, from MAJDA)</span>
         </a>
-    </p>   
-    <p>
-        <a href="https://github.com/jp9000/obs-studio/releases/download/18.0.1/OBS-Studio-18.0.1-Full-Installer.exe" target="_blank">
-            Záznamník obrazovky OBS (cz i eng , bezpečné, od OBS Projekt)<br>
-            OBS screen recorder (cz and eng, safe to use, from OBS Project)</br>
-        </a>
-    </p>  
-    </center>
-</font>
+    </p>
 </main>
 <footer>
-<font face="Arial">PS: Tyto softwary nejsou udělané mnou! Note : These softwares are not made by me!</font>
+    <span class="cz">PS: Některé tyto softwary nejsou udělané mnou!</span>
+    <span class="en">Note: Some of these softwares are not made by me!</span>
 </footer>
+
+<script>
+let czVisible=true;
+document.getElementById("toggleBtn").onclick=function(){
+  czVisible=!czVisible;
+  document.querySelectorAll(".cz").forEach(e=>e.style.display=czVisible?"inline":"none");
+  document.querySelectorAll(".en").forEach(e=>e.style.display=czVisible?"none":"inline");
+}
+</script>
 </body>
 </html>

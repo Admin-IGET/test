@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UEX Loader</title>
+  <style>
+    body{margin:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Arial}
+    #openBtn{font-size:40px;padding:20px 40px;cursor:pointer;background-color: blue;color: white;}
+    #langBtn{margin-top:20px;font-size:16px;padding:5px 10px;cursor:pointer;background-color: blue;color: white;}
+    #viewer{width:100%;height:100%;border:none;display:none}
+    #closeBtn{position:fixed;top:10px;right:10px;font-size:20px;color:red;background:none;border:none;border-radius:50%;cursor:pointer;width:40px;height:40px;display:none;z-index:9999}
+  </style>
+</head>
+<body>
+  <button id="openBtn">OTEVŘÍT SOUBOR</button>
+  <button id="langBtn">cz / eng</button>
+  <button id="closeBtn">X</button>
+  <iframe id="viewer"></iframe>
+
+<script>
+let cz=true;
+langBtn.onclick=()=>{cz=!cz;openBtn.textContent=cz?"OTEVŘÍT SOUBOR":"OPEN FILE";document.title=cz?"UEX Loader":"UEX Loader (ENG)";}
+openBtn.onclick=()=>{
+  let i=document.createElement("input");
+  i.type="file";i.accept=".uex";
+  i.onchange=e=>{
+    let f=e.target.files[0];if(!f)return;
+
+    // check file extension
+    if(!f.name.toLowerCase().endsWith(".uex")){
+      alert(cz?"Neplatný typ souboru!":"Invalid file type!");
+      return;
+    }
+
+    let r=new FileReader();
+    r.onload=ev=>{
+      let content = ev.target.result;
+      if(!content.includes("<title>UEXFILE</title>")){
+        alert(cz?"Neplatný UEX soubor!":"Invalid UEX file!");
+        return;
+      }
+      openBtn.style.display="none";
+      langBtn.style.display="none";
+      viewer.style.display="block";
+      closeBtn.style.display="block";
+      viewer.srcdoc=content;
+    };
+    r.readAsText(f);
+  };
+  i.click();
+};
+closeBtn.onclick=()=>location.reload();
+</script>
+</body>
+</html>
