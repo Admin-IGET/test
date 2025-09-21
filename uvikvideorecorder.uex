@@ -21,7 +21,7 @@
     <button id="download" disabled>Stáhnout</button>
   </div>
   <video id="preview" autoplay muted playsinline></video>
-  <button id="lang">CZ / ENG</button>
+  <button id="lang">English</button> <button id="convert">Převést .webm na .mp4 ( FreeConvert )</button>
 
 <script>
 const startButton=document.getElementById("start");
@@ -29,11 +29,29 @@ const stopButton=document.getElementById("stop");
 const downloadButton=document.getElementById("download");
 const preview=document.getElementById("preview");
 const langBtn=document.getElementById("lang");
+const convBtn=document.getElementById("convert");
 
 let mediaRecorder,recordedChunks=[],cz=true;
 
-const labels={cz:{start:"Začít nahrávání",stop:"Zastavit nahrávání",download:"Stáhnout"},en:{start:"Start Recording",stop:"Stop Recording",download:"Download"}};
-langBtn.onclick=()=>{cz=!cz;const set=cz?labels.cz:labels.en;startButton.textContent=set.start;stopButton.textContent=set.stop;downloadButton.textContent=set.download};
+const labels = {
+  cz: { start: "Začít nahrávání", stop: "Zastavit nahrávání", download: "Stáhnout", lang: "English", convert: "Převést .webm na .mp4 ( FreeConvert )" },
+  en: { start: "Start Recording", stop: "Stop Recording", download: "Download", lang: "Česky", convert : "Convert .webm to .mp4 ( FreeConvert )" }
+};
+
+langBtn.onclick = () => {
+  cz = !cz;
+  const set = cz ? labels.cz : labels.en;
+  startButton.textContent = set.start;
+  stopButton.textContent = set.stop;
+  downloadButton.textContent = set.download;
+  langBtn.textContent = set.lang;
+  convBtn.textContent = set.convert;
+};
+
+
+document.getElementById("convert").onclick=function(){
+  window.open("https://www.freeconvert.com/webm-to-mp4", "_blank");
+}
 
 startButton.onclick=async()=>{
   try{
