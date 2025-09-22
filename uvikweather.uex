@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>UEXFILE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 { margin-bottom: 10px; }
+    input {
+      padding: 8px;
+      border: 1px solid #333;
+      margin-right: 5px;
+    }
+    button {
+      padding: 8px 12px;
+      border: 1px solid #333;
+      background: #4cafef;
+      color: white;
+      cursor: pointer;
+      margin: 5px;
+    }
+    #weather { margin-top: 20px; }
+    .forecast {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .day {
+      border: 1px solid #333;
+      padding: 10px;
+      width: 120px;
+    }
+    .day h3 {
+      margin: 5px 0;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">UvíkPočasí</h1>
+	<input id="city" type="text" placeholder="Zadejte jméno oblasti"
+		   onkeydown="if(event.key==='Enter'){ searchCity(); }">
+  <button onclick="searchCity()" id="btnWeather">Získat počasí</button>
+  <button onclick="switchLang()">CZ / ENG</button>
+
+  <div id="weather">Zadejte název města výše.</div>
+  <div class="forecast" id="forecast"></div>
+
+  <script>
+    const translations = {
+      en: {
+        title: "UvikWeather",
+        placeholder: "Enter a city...",
+        getWeather: "Get Weather",
+        defaultMsg: "Enter a city name above.",
+        notFound: "Uvik cloud not find the city",
+        error: "Uvik doesn't know the weather ( Cannot load weather )",
+        temp: "Temperature",
+        wind: "Wind",
+        time: "Time"
+      },
+      cz: {
+        title: "UvíkPočasí",
+        placeholder: "Zadejte jméno oblasti",
+        getWeather: "Získat počasí",
+        defaultMsg: "Zadejte název města výše.",
+        notFound: "Uvík nenašel město. Zkontrolujte jestli je jméno správně napsáno.",
+        error: "Uvíkova rosnička umřela... ( Nelze zjistit počasí )",
+        temp: "Teplota",
+        wind: "Vítr",
+        time: "Čas"
+      }
+    };
+
+    let currentLang = "cz";
+    let lastCity = "";
+
+    function switchLang() {
+      currentLang = (currentLang === "en") ? "cz" : "en";
+      const t = translations[currentLang];
+      document.getElementById("title").innerText = t.title;
+      document.getElementById("city").placeholder = t.placeholder;
+      document.getElementById("btnWeather").innerText = t.getWeather;
+      document.getElementById("weather").innerText = t.defaultMsg;
+
+      if (lastCity) {
+        searchCity(lastCity);
+      }
+    }
+
+    async function searchCity(forceCity) {
+      const city = forceCity || document.getElementById("city").value.trim();
+      if (!city) {
+        return;
+      }
+      lastCity = city;
+      const t = translations[currentLang];
+
+      try {
+        const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=${currentLang}`;
+        const geoRes = await fetch(geoUrl);
+        const geoData = await geoRes.json();
+
+        if (!geoData.results || geoData.results.length === 0) {
+          document.getElementById("weather").innerText = t.notFound;
+          document.getElementById("forecast").innerHTML = "";
+          return;
+        }
+
+        const location = geoData.results[0];
+        const lat = location.latitude;
+        const lon = location.longitude;
+
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=auto`;
+        const weatherRes = await fetch(weatherUrl);
+        const data = await weatherRes.json();
+
+        const current = data.current_weather;
+        document.getElementById("weather").innerHTML = `
+          <h2>${location.name}, ${location.country}</h2>
+            ${t.temp}: ${current.temperature}°C<br>
+          💨 ${t.wind}: ${current.windspeed} km/h<br>
+          🕒 ${t.time}: ${current.time}
+        `;
+
+        const days = data.daily.time;
+        const maxTemps = data.daily.temperature_2m_max;
+        const minTemps = data.daily.temperature_2m_min;
+
+        let forecastHTML = "";
+        for (let i = 0; i < days.length; i++) {
+          forecastHTML += `
+            <div class="day">
+              <h3>${days[i]}</h3>
+              🔺${maxTemps[i]}°C<br>
+              🔻${minTemps[i]}°C
+            </div>
+          `;
+        }
+        document.getElementById("forecast").innerHTML = forecastHTML;
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById("weather").innerText = translations[currentLang].error;
+        document.getElementById("forecast").innerHTML = "";
+      }
+    }
+  </script>
+</body>
+</html>
