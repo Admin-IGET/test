@@ -206,46 +206,50 @@
     if (audioCtx) audioCtx.close();
   }
 
-  function startTimer(timerId) {
-    const minInput = document.getElementById(`${timerId}Min`);
-    const secInput = document.getElementById(`${timerId}Sec`);
-    const display = document.getElementById(`${timerId}Display`);
-    const button = document.getElementById(`${timerId}Btn`);
+	function startTimer(timerId) {
+	  const minInput = document.getElementById(`${timerId}Min`);
+	  const secInput = document.getElementById(`${timerId}Sec`);
+	  const display = document.getElementById(`${timerId}Display`);
+	  const button = document.getElementById(`${timerId}Btn`);
 
-    let minutes = parseInt(minInput.value) || 0;
-    let seconds = parseInt(secInput.value) || 0;
-    let totalSeconds = minutes * 60 + seconds;
+	  let minutes = parseInt(minInput.value) || 0;
+	  let seconds = parseInt(secInput.value) || 0;
+	  let totalSeconds = minutes * 60 + seconds;
 
-    if (totalSeconds <= 0) {
-      alert(isCzech ? "Zadejte platný čas." : "Enter a valid time.");
-      return;
-    }
+	  if (totalSeconds <= 0) {
+		alert(isCzech ? "Zadejte platný čas." : "Enter a valid time.");
+		return;
+	  }
 
-    minInput.disabled = true;
-    secInput.disabled = true;
-    button.disabled = true;
+	  minInput.disabled = true;
+	  secInput.disabled = true;
+	  button.disabled = true;
 
-    const interval = setInterval(() => {
-      let min = Math.floor(totalSeconds / 60);
-      let sec = totalSeconds % 60;
-      display.textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+	  const endTime = Date.now() + totalSeconds * 1000;
 
-      if (totalSeconds <= 0) {
-        clearInterval(interval);
-        display.textContent = isCzech ? "ČAS VYPRŠEL!" : "TIME'S UP!";
-        startBeeping();
+	  const interval = setInterval(() => {
+		let remaining = Math.round((endTime - Date.now()) / 1000);
 
-        button.textContent = isCzech ? "Zastavit alarm" : "Stop Alarm";
-        button.onclick = () => {
-          stopBeeping();
-          removeTimer(timerId);
-        };
-        button.disabled = false;
-      }
+		if (remaining < 0) remaining = 0;
 
-      totalSeconds--;
-    }, 1000);
-  }
+		let min = Math.floor(remaining / 60);
+		let sec = remaining % 60;
+		display.textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+
+		if (remaining <= 0) {
+		  clearInterval(interval);
+		  display.textContent = isCzech ? "ČAS VYPRŠEL!" : "TIME'S UP!";
+		  startBeeping();
+
+		  button.textContent = isCzech ? "Zastavit alarm" : "Stop Alarm";
+		  button.onclick = () => {
+			stopBeeping();
+			removeTimer(timerId);
+		  };
+		  button.disabled = false;
+		}
+	  }, 250); 
+	}
 </script>
 
 </body>
