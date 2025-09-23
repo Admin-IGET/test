@@ -95,45 +95,44 @@
 <script>
   let lang = localStorage.getItem('language');
   if (lang !== 'cz' && lang !== 'en') {
-    lang = 'cz'; // default to Czech (visually Czech words)
+    lang = 'cz';
     localStorage.setItem('language', 'cz');
   }
-
   let isCzech = lang === 'cz';
-  const timers = []; // Store all timer IDs
+  const timers = [];
 
   function applyLanguageStatic() {
-    document.getElementById('mainTitle').textContent = isCzech ? 'Timers' : 'Časovače';
-    document.getElementById('addTimerBtn').textContent = isCzech ? 'Add Timer' : 'Přidat časovač';
-    document.getElementById('langToggle').textContent = isCzech ? 'Česky' : 'English';
-    document.documentElement.lang = isCzech ? 'en' : 'cs'; // flipped on purpose
+    document.getElementById('mainTitle').textContent = isCzech ? 'Časovače' : 'Timers';
+    document.getElementById('addTimerBtn').textContent = isCzech ? 'Přidat časovač' : 'Add Timer';
+    document.getElementById('langToggle').textContent = isCzech ? 'English' : 'Česky';
+    document.documentElement.lang = isCzech ? 'cs' : 'en';
 
-    // Update all existing timers
     for (const timerId of timers) {
       const timerDiv = document.getElementById(timerId);
       if (!timerDiv) continue;
-
       const labelInput = timerDiv.querySelector('.label-input');
       const minInput = document.getElementById(`${timerId}Min`);
       const secInput = document.getElementById(`${timerId}Sec`);
       const button = document.getElementById(`${timerId}Btn`);
       const display = document.getElementById(`${timerId}Display`);
 
-      if (labelInput) {
-        labelInput.placeholder = isCzech ? "Timer name..." : "Název časovače...";
-      }
+      if (labelInput) labelInput.placeholder = isCzech ? "Název časovače..." : "Timer name...";
       if (minInput) minInput.placeholder = isCzech ? "Min" : "Min";
-      if (secInput) secInput.placeholder = isCzech ? "Sec" : "Sek";
+      if (secInput) secInput.placeholder = isCzech ? "Sek" : "Sec";
 
-      // Update only if timer hasn't finished
-      if (display && display.textContent !== (isCzech ? "TIME'S UP!" : "ČAS VYPRŠEL!")) {
+      if (display && display.textContent !== (isCzech ? "ČAS VYPRŠEL!" : "TIME'S UP!")) {
         button.textContent = isCzech ? "Start" : "Start";
+        button.onclick = () => startTimer(timerId);
       }
 
-      // If timer has already ended, update alarm text and button label
       if (display && (display.textContent === "ČAS VYPRŠEL!" || display.textContent === "TIME'S UP!")) {
-        display.textContent = isCzech ? "TIME'S UP!" : "ČAS VYPRŠEL!";
-        button.textContent = isCzech ? "Stop Alarm" : "Zastavit alarm";
+        display.textContent = isCzech ? "ČAS VYPRŠEL!" : "TIME'S UP!";
+        button.textContent = isCzech ? "Zastavit alarm" : "Stop Alarm";
+        button.onclick = () => {
+          stopBeeping();
+          removeTimer(timerId);
+        };
+        button.disabled = false;
       }
     }
   }
@@ -152,22 +151,22 @@
 
   function addTimer() {
     if (timerCount >= MAX_TIMERS) {
-      alert(isCzech ? "You can only have up to 10 timers." : "Můžete mít maximálně 10 časovačů.");
+      alert(isCzech ? "Můžete mít maximálně 10 časovačů." : "You can only have up to 10 timers.");
       return;
     }
 
     const timerId = `timer${timerCount}`;
-    timers.push(timerId); // Save this timer's ID
+    timers.push(timerId);
     const timerDiv = document.createElement('div');
     timerDiv.className = 'timer';
     timerDiv.id = timerId;
 
     timerDiv.innerHTML = `
       <button class="close-btn" onclick="stopBeeping(); removeTimer('${timerId}')">X</button>
-      <input type="text" class="label-input" style="width: 160px;" placeholder="${isCzech ? "Timer name..." : "Název časovače..."}" />
+      <input type="text" class="label-input" style="width: 160px;" placeholder="${isCzech ? "Název časovače..." : "Timer name..."}" />
       <p></p>
       <input type="number" placeholder="${isCzech ? "Min" : "Min"}" min="0" id="${timerId}Min">
-      <input type="number" placeholder="${isCzech ? "Sec" : "Sek"}" min="0" max="59" id="${timerId}Sec">
+      <input type="number" placeholder="${isCzech ? "Sek" : "Sec"}" min="0" max="59" id="${timerId}Sec">
       <br>
       <button id="${timerId}Btn" onclick="startTimer('${timerId}')">${isCzech ? "Start" : "Start"}</button>
       <p id="${timerId}Display">00:00</p>
@@ -218,7 +217,7 @@
     let totalSeconds = minutes * 60 + seconds;
 
     if (totalSeconds <= 0) {
-      alert(isCzech ? "Enter a valid time." : "Zadejte platný čas.");
+      alert(isCzech ? "Zadejte platný čas." : "Enter a valid time.");
       return;
     }
 
@@ -233,10 +232,10 @@
 
       if (totalSeconds <= 0) {
         clearInterval(interval);
-        display.textContent = isCzech ? "TIME'S UP!" : "ČAS VYPRŠEL!";
+        display.textContent = isCzech ? "ČAS VYPRŠEL!" : "TIME'S UP!";
         startBeeping();
 
-        button.textContent = isCzech ? "Stop Alarm" : "Zastavit alarm";
+        button.textContent = isCzech ? "Zastavit alarm" : "Stop Alarm";
         button.onclick = () => {
           stopBeeping();
           removeTimer(timerId);
@@ -248,7 +247,6 @@
     }, 1000);
   }
 </script>
-
 
 </body>
 </html>
