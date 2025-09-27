@@ -18,7 +18,7 @@ button { background:blue; color:white; cursor:pointer; }
 <p></p>
 <button id="goBtn" onclick="openUrl()">OK</button>
 <button onclick="window.open('https://admin-iget.github.io/test/browser.html','_blank')">+</button>
-<button onclick="toggleLang()" id="langBtn">CZ</button>
+<button onclick="toggleLang()" id="langBtn">ENG</button>
 </div>
 <script>
 function openUrl(){
@@ -37,12 +37,12 @@ function toggleLang(){
   let b=document.getElementById('langBtn');
   let go=document.getElementById('goBtn');
   let input=document.getElementById('urlInput');
-  if(b.innerText==='CZ'){
-    b.innerText='ENG';
+  if(b.innerText==='ENG'){
+    b.innerText='CZ';
     input.placeholder='Enter URL';
     go.innerText='GO';
   }else{
-    b.innerText='CZ';
+    b.innerText='ENG';
     input.placeholder='Zadej URL';
     go.innerText='OK';
   }
