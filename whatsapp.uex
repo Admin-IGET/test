@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UEXFILE</title>
+  <meta charset="utf-8">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center; 
+      align-items: center;
+      font-family: sans-serif;
+      background: #f4f4f4;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;    
+    }
+
+    .message {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    #lang, #open {
+      font-size: 14px;
+      padding: 5px 10px;
+      border: 2px solid black;
+      cursor: pointer;
+      margin: 5px; 
+    }
+
+    #lang { background: #ffdd00; }
+    #open { background: #3211ff; color: white; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="message" id="msg">Stiskněte tlačítko otevřít WhatsApp</div>
+    <button id="open">Otevřít WhatsApp</button>
+    <button id="lang">English</button>
+  </div>
+
+  <script>
+    document.getElementById("open").onclick=function(){
+      window.open("https://web.whatsapp.com", "_blank");
+    }
+
+    const langBtn=document.getElementById("lang");
+    const openBtn=document.getElementById("open");
+    const msgLbl=document.getElementById("msg");
+
+    let cz=true;
+
+    const labels = {
+      cz: { lang: "English", open: "Otevřít WhatsApp", msg : "Stiskněte tlačítko otevřít WhatsApp" },
+      en: { lang: "Česky", open : "Open WhatsApp", msg : "Press the open WhatsApp button" }
+    };
+
+    langBtn.onclick = () => {
+      cz = !cz;
+      const set = cz ? labels.cz : labels.en;
+
+      langBtn.textContent = set.lang;
+      openBtn.textContent = set.open;
+      msgLbl.textContent = set.msg;
+    };
+  </script>
+</body>
+</html>
