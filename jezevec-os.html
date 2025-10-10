@@ -178,34 +178,52 @@ inner.className = 'startpage';
  <button class="app-icon" data-name="YouTube" data-file="youtube.html">
     <img src="https://admin-iget.github.io/test/jezevec.jpg" alt=""><div class="app-name">YouTube</div>
   </button>
-<button class="app-icon" data-name="Více aplikací" data-file="UvikObchod.html">
-    <img src="https://admin-iget.github.io/test/jezevec.jpg" alt=""><div class="app-name">Více aplikací</div>
-  </button>
-  <button class="app-icon" data-name="Stáhnout JezevecOS exe " data-file="JezevecOS.exe">
-    <img src="https://admin-iget.github.io/test/jezevec.jpg" alt=""><div class="app-name">Stáhnout JezevecOS exe </div>
-  </button>
-<a href="tel:" style="text-decoration: none;">
-  <button class="app-icon">
-    <img src="https://admin-iget.github.io/test/jezevec.jpg" alt="">
-    <div class="app-name">Volání</div>
-  </button>
-</a>
+<button class="app-icon" data-action="download" data-url="https://admin-iget.github.io/test/JezevecOS.exe">
+  <img src="https://admin-iget.github.io/test/jezevec.jpg" alt="">
+  <div class="app-name">Stáhnout JezevecOS exe</div>
+</button>
+
+<button class="app-icon" data-action="call">
+  <img src="https://admin-iget.github.io/test/jezevec.jpg" alt="">
+  <div class="app-name">Volání</div>
+</button>
+
 
 `;
 
 
    
-    grid.querySelectorAll('button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const name = btn.getAttribute('data-name');
-        const file = btn.getAttribute('data-file');
-        if (name === "Malování") {
-          openApp("Malování", "https://paintz.app");
-        } else {
-          openApp(name, BASE_URL + file);
-        }
-      });
-    });
+grid.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const action = btn.getAttribute('data-action');
+    
+    if (action === "download") {
+      const url = btn.getAttribute('data-url');
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = '';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+
+    if (action === "call") {
+      window.location.href = "tel:";
+      return;
+    }
+
+    const name = btn.getAttribute('data-name');
+    const file = btn.getAttribute('data-file');
+
+    if (name === "Malování") {
+      openApp("Malování", "https://paintz.app");
+    } else {
+      openApp(name, BASE_URL + file);
+    }
+  });
+});
+
 
 inner.appendChild(title);
 inner.appendChild(grid);
