@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fotky a Videa</title>
+<style>
+:root{--bg:#0b0b0f;--fg:#e9eef6;--acc:#0ea5a4}
+html,body{height:100%;margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),#071016);color:var(--fg);display:flex;align-items:center;justify-content:center}
+.app{width:100%;max-width:700px;padding:16px;box-sizing:border-box}
+h1{font-size:22px;margin:0 0 12px 0;text-align:center}
+.controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+button{background:transparent;border:1px solid rgba(233,238,246,.12);color:var(--fg);padding:10px 14px;border-radius:8px;font-size:15px}
+button.primary{background:var(--acc);color:#021;box-shadow:0 6px 18px rgba(14,165,164,.12)}
+.preview{width:100%;background:#000;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:240px}
+.preview img,.preview video{max-width:100%;max-height:480px;display:block}
+.tools{text-align:center;margin-top:8px;font-size:14px;opacity:.9}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Fotky a Videa</h1>
+  <div class="controls">
+    <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none">
+    <input type="file" id="videoInput" accept="video/*" capture="camcorder" style="display:none">
+    <button id="takePhoto" class="primary">Vyfotit / Vybrat fotku</button>
+    <button id="takeVideo">Natočit / Vybrat video</button>
+    <button id="saveBtn">Uložit</button>
+  </div>
+  <div class="preview" id="previewBox">
+    <span>Žádný náhled</span>
+  </div>
+  <div class="tools" id="info">Připraveno</div>
+</div>
+<script>
+const photoInput=document.getElementById('photoInput')
+const videoInput=document.getElementById('videoInput')
+const previewBox=document.getElementById('previewBox')
+const info=document.getElementById('info')
+const saveBtn=document.getElementById('saveBtn')
+let currentFile=null
+document.getElementById('takePhoto').onclick=()=>photoInput.click()
+document.getElementById('takeVideo').onclick=()=>videoInput.click()
+photoInput.onchange=e=>handleFile(e.target.files[0],'photo')
+videoInput.onchange=e=>handleFile(e.target.files[0],'video')
+function handleFile(file,type){
+  if(!file)return
+  currentFile={file,type}
+  previewBox.innerHTML=''
+  if(type==='photo'){
+    const img=document.createElement('img')
+    img.src=URL.createObjectURL(file)
+    previewBox.appendChild(img)
+    info.textContent='Náhled fotky'
+  }else{
+    const vid=document.createElement('video')
+    vid.src=URL.createObjectURL(file)
+    vid.controls=true
+    previewBox.appendChild(vid)
+    info.textContent='Náhled videa'
+  }
+}
+saveBtn.onclick=()=>{
+  if(!currentFile){info.textContent='Nejprve pořiďte fotku nebo video';return}
+  const a=document.createElement('a')
+  a.href=URL.createObjectURL(currentFile.file)
+  const time=new Date().toISOString().replace(/[:.]/g,'-')
+  const ext=currentFile.type==='photo'?'.png':'.mp4'
+  a.download=`soubor-${time}${ext}`
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  info.textContent='Soubor uložen'
+}
+</script>
+</body>
+</html>
