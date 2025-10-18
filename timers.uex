@@ -93,6 +93,8 @@
 </div>
 
 <script>
+const timerIntervals = {};
+
   let lang = localStorage.getItem('language');
   if (lang !== 'cz' && lang !== 'en') {
     lang = 'cz';
@@ -175,10 +177,15 @@
     timerCount++;
   }
 
-  function removeTimer(timerId) {
-    const timer = document.getElementById(timerId);
-    if (timer) timer.remove();
-  }
+		function removeTimer(timerId) {
+		  if (timerIntervals[timerId]) {
+			clearInterval(timerIntervals[timerId]);
+			delete timerIntervals[timerId];
+		  }
+		  const timer = document.getElementById(timerId);
+		  if (timer) timer.remove();
+		}
+
 
   let beepInterval;
   let audioCtx;
@@ -249,6 +256,8 @@
 		  button.disabled = false;
 		}
 	  }, 250); 
+	  timerIntervals[timerId] = interval;
+
 	}
 </script>
 
