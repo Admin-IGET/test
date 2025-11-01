@@ -7,19 +7,19 @@
   <font face="Arial" size=5 color=black>Woah, you actually clicked on the link! well, heres the</font><font face="Comic Sans MS" size=5 color=blue> INFORMATION</font><font face="Arial" size=5 color=black> you wanted!</font>
   <p></p>
   <font face="Comic Sans MS" size=6 color=black>  Question : Why does UvikOS not work well with an antivirus? </font> <p></p>
-  <font face="Arial" size=5 color=black>Answer : Antiviruses like AVG or Avast take a little time to ACTUALLY scan the file, and then say its safe ( or in UvikOS, it sometimes says that some files have IDP.Generic infection , but that just means the software LOOKS like malware, not that it IS a malware. ) and while the antivirus is scanning, it pauses UvikOS ( or some part of it ), Because of how crappilly UvikOS is coded. </font>
+  <font face="Arial" size=5 color=black>Answer : Antiviruses like AVG or Avast take a little time to ACTUALLY scan the file, and then say its safe ( or in UvikOS, it sometimes says that some files have IDP.Generic infection , but that just means the software LOOKS like malware, not that it IS a malware. ) and while the antivirus is scanning, it pauses UvikOS ( or some part of it ), Because of how crappilly UvikOS is coded. </font><p></p>
   <font face="Comic Sans MS" size=6 color=black>  Question : Why is UvikOS being flagged as a virus? </font> <p></p>
-  <font face="Arial" size=5 color=black>Answer :  Windows Defender doesnt actually scan your files imidietally, and if you download a file that seems suspicous, it doesnt let you download it, or open it . Proper antiviruses that actually scan your files may say that some files have the IDP.Generic infection, which means it LOOKS like malware, not that it IS malware.</font>
+  <font face="Arial" size=5 color=black>Answer :  Windows Defender doesnt actually scan your files imidietally, and if you download a file that seems suspicous, it doesnt let you download it, or open it . Proper antiviruses that actually scan your files may say that some files have the IDP.Generic infection, which means it LOOKS like malware, not that it IS malware.</font><p></p>
   <font face="Comic Sans MS" size=6 color=black>  Question : Why does UvikOS look like a virus to some Antiviruses? </font> <p></p>
-  <font face="Arial" size=5 color=black>Answer :  UvikOS gets often flagged as IDP.Generic, Because of the File Format (.ps1) and the code that accesses some system DLLs, like dwmapi.dll for Window customization (remove ugly rounded corners) or gdi32.dll for managing bitmaps, ect..., Which AVG or Avast think have malicious intents, and warn you about it. </font>  
+  <font face="Arial" size=5 color=black>Answer :  UvikOS gets often flagged as IDP.Generic, Because of the File Format (.ps1) and the code that accesses some system DLLs, like dwmapi.dll for Window customization (remove ugly rounded corners) or gdi32.dll for managing bitmaps, ect..., Which AVG or Avast think have malicious intents, and warn you about it. </font>  <p></p>
   <font face="Comic Sans MS" size=6 color=black>  Question : Why did my UvikOS randomly chrash and doesnt go back again? </font> <p></p>
-  <font face="Arial" size=5 color=black>Answer : This can happen when the trashy code of UvikOS tries to access some files, like C:\edit\uvik.png like when you try to edit an icon on your panel, while you have AVG or Avast antivirus installed. They just think that UvikOS is editing or deleting your precious files trough mspaint that is being proc.WaitForExit-ed.</font> 
+  <font face="Arial" size=5 color=black>Answer : This can happen when the trashy code of UvikOS tries to access some files, like C:\edit\uvik.png like when you try to edit an icon on your panel, while you have AVG or Avast antivirus installed. They just think that UvikOS is editing or deleting your precious files trough mspaint that is being proc.WaitForExit-ed.</font> <p></p>
   <center>
-    <button onclick="showFoto()" style="background-color: blue; color: white;">Show screenshots proving UvikOS is safe</button>
+    <button onclick="showFoto()" style="background-color: blue; color: white; height: 50px">Show screenshots proving UvikOS is safe</button>
     <br><br>
-    <img src="virustotal.png" alt="0 Detections = Good" width="500" id="dasfoto1" style="display: none;">
+    <img src="virustotal.png" alt="0 Detections = Good" width="700" id="dasfoto1" style="display: none;">
     <br>
-    <img src="chatgpt.png" alt="ChatGPT says it’s safe" width="500" id="dasfoto2" style="display: none;">
+    <img src="chatgpt.png" alt="ChatGPT says it’s safe" width="700" id="dasfoto2" style="display: none;">
   </center>
   <script>
     function showFoto() {
