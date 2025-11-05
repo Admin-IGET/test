@@ -37,7 +37,28 @@
 	</font>
 	<p></p>
 	<center><font face="Comic Sans MS" size="20" color="Blue">
-		<a href="https://drive.google.com/file/d/1JGE3cGB-r0vzPw48I3WTZrn4QD1PpI7V/view?usp=sharing" onclick="gtag('event', 'download_click', { 'event_category': 'Downloads', 'event_label': 'GoogleDriveExe' });" target="_blank">STÁHNOUT</a>
+	  <div style="text-align:center; font-family: 'Comic Sans MS'; color: blue;">
+		<center>
+		  <button onclick="showFoto()" style="background-color: blue; color: white; height: 50px; cursor: pointer;" id="buton">Obrázky UvíkOS</button>
+		  <button onclick="hideFoto()" style="background-color: blue; color: white; height: 50px; cursor: pointer; display: none;" id="hide">Schovat obrázky</button>
+		</center>
+
+		<div id="screenshots" style="margin-top: 10px; text-align: center;">
+		  <img src="UvikOS_Screenshot_1.png" alt="Plocha UvíkOS" width="700" id="dasfoto1" style="display: none; margin: 5px auto;">
+		  <img src="UvikOS_Screenshot_2.png" alt="Nastavení UvíkOS" width="700" id="dasfoto2" style="display: none; margin: 5px auto;">
+		  <img src="UvikOS_Screenshot_3.png" alt="UvíkOS je přispůsobitenlý!" width="700" id="dasfoto3" style="display: none; margin: 5px auto;">
+		  <img src="UvikOS_Screenshot_4.png" alt="UvíkOS je kompatibilní s 99% aplikací!" width="700" id="dasfoto4" style="display: none; margin: 5px auto;">
+		</div>
+
+		<div style="margin-top: 10px;">
+		  <a href="https://drive.google.com/file/d/1JGE3cGB-r0vzPw48I3WTZrn4QD1PpI7V/view?usp=sharing" 
+			 onclick="gtag('event', 'download_click', { 'event_category': 'Downloads', 'event_label': 'GoogleDriveExe' });" 
+			 target="_blank"
+			 style="font-size: 59px; text-decoration: underline; color: blue; padding: 10px 20px; display:inline-block; margin-top:5px;">
+			 STÁHNOUT
+		  </a>
+		</div>
+	  </div>
 	</font>
 	<p></p>
 	<font face="Arial" size="5" color="blue">
@@ -52,4 +73,21 @@
 	</font>
 </center>
 <font face="Arial" size="5" color="black"> A pokud nemáte Windows, tak Klikněte <a href="demo.html"> zde. </a> Přesměruje vás to na neudržovanou Webovou verzi.</font><p><font face="Arial" size="5" color="black"> PS : UvíkOS je kompletně open-source. když si ho stahujete, stahujete si i source code.</font>
+  <script>
+  function showFoto() {
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById("dasfoto" + i).style.display = "block";
+    }
+    document.getElementById("buton").style.display = "none";
+    document.getElementById("hide").style.display = "block";
+  }
+
+  function hideFoto() {
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById("dasfoto" + i).style.display = "none";
+    }
+    document.getElementById("buton").style.display = "block";
+    document.getElementById("hide").style.display = "none";
+  }
+  </script>
 </p></body>
