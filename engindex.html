@@ -42,6 +42,7 @@
 		</center>
 
 		<div id="screenshots" style="margin-top: 10px; text-align: center;">
+		  <small> * These screenshots we're taken on the czech version of UvikOS. You're on the download page for English UvikOS.</small>
 		  <img src="UvikOS_Screenshot_1.png" alt="UvikOS Desktop" width="700" id="dasfoto1" style="display: none; margin: 5px auto;">
 		  <img src="UvikOS_Screenshot_2.png" alt="UvikOS Settings" width="700" id="dasfoto2" style="display: none; margin: 5px auto;">
 		  <img src="UvikOS_Screenshot_3.png" alt="UvikOS is customizable!" width="700" id="dasfoto3" style="display: none; margin: 5px auto;">
@@ -73,3 +74,20 @@
 <del><font face="Arial" size="5" color="black"> If you dont have windows , click here . It will open an abandoned web version.</font></del>
 	<p></p>
 <font face="Arial" size="5" color="black"> ↑ Not Available ↑</font></del><p></p><font face="Arial" size="5" color="black">UvikOS is comepletly open-source. by downloading the program, you're also downloading the open-souce code.</font>
+	<script>
+  function showFoto() {
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById("dasfoto" + i).style.display = "block";
+    }
+    document.getElementById("buton").style.display = "none";
+    document.getElementById("hide").style.display = "block";
+  }
+
+  function hideFoto() {
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById("dasfoto" + i).style.display = "none";
+    }
+    document.getElementById("buton").style.display = "block";
+    document.getElementById("hide").style.display = "none";
+  }
+  </script>
