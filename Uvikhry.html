@@ -18,7 +18,7 @@
             background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 0px;
         }
         .game-button:hover {
             background-color: #45a049;
@@ -46,7 +46,7 @@
             background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 0px;
             cursor: pointer;
         }
         .play-button:hover {
@@ -82,7 +82,7 @@ iframe {
     color: white;
     background: rgba(255, 0, 0, 0.7);
     border: none;
-    border-radius: 50%;
+    border-radius: 0%;
     padding: 10px;
     cursor: pointer;
     z-index: 1100; 
@@ -150,10 +150,11 @@ iframe {
     </div>
 
     <div class="iframe-container" id="iframe-container">
-        <button class="close-button" onclick="closeIframe()">X</button>
+        
         <iframe id="game-iframe" src=""></iframe>
     </div>
-
+	<button class="close-button" id="clos" style="display: none;" onclick="closeIframe()">X</button>
+	
     <script>
         let currentGameUrl = '';
 
@@ -179,6 +180,7 @@ function startGame() {
 
     let resolution = document.getElementById('resolution').value;
     let iframeContainer = document.getElementById('iframe-container');
+	let clos = document.getElementById('clos');
     let iframe = document.getElementById('game-iframe');
 
     let scale = 1; 
@@ -206,6 +208,7 @@ function startGame() {
 
     iframe.src = currentGameUrl;
     iframeContainer.style.display = 'flex';
+	clos.style.display = 'flex';
 }
 
 
@@ -214,6 +217,7 @@ function startGame() {
             var iframe = document.getElementById('game-iframe');
             iframe.src = '';
             iframeContainer.style.display = 'none';
+			clos.style.display = 'none';
         }
     </script>
 
