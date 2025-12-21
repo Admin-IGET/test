@@ -115,12 +115,12 @@ iframe {
     <button class="game-button" onclick="showTitleScreen('UvíkChase! (jen PC)', 'https://admin-iget.github.io/test/UvikChaseHML')">UvíkChase! (jen PC)</button>
     <button class="game-button" onclick="showTitleScreen('Uvíkovy šťastné vánoce (jen PC)', 'https://admin-iget.github.io/test/UvikVanoceHTML/')">Uvíkovy šťastné vánoce (jen PC)</button>
     <button class="game-button" onclick="showTitleScreen('Uvíkův Stanový výlet (jen PC)', 'https://admin-iget.github.io/test/UvikCampHTML/')">Uvíkův Stanový výlet (jen PC)</button>
-    <button class="game-button" onclick="showTitleScreen('BlockBuild (jen PC)', 'https://admin-iget.github.io/test/BlockBuild2HTML/')">BlockBuild (jen PC)</button>
     <button class="game-button" onclick="showTitleScreen('Uvíkovy Velikonoce (Jen PC)', 'https://admin-iget.github.io/test/UvikVelikonoceHTML/')">Uvíkovy Velikonoce (Jen PC)</button>
     <button class="game-button" onclick="showTitleScreen('UvíkEscape 3D (Jen PC)', 'https://admin-iget.github.io/test/UvikEscapeHTML/')">UvíkEscape 3D (Jen PC)</button>
     <button class="game-button" onclick="showTitleScreen('UvíkPlatformer 2 3D (Jen PC)', 'https://admin-iget.github.io/test/UvikPlatformer2HTML/')">UvíkPlatformer 2 3D (Jen PC)</button>
     <button class="game-button" onclick="showTitleScreen('Houbaření v UvíkLandu 3D (Jen PC)', 'https://admin-iget.github.io/test/UvikShroomHTML/')">Houbaření v UvíkLandu 3D (Jen PC)</button>
     <button class="game-button" onclick="showTitleScreen('Vaření v uvíkovy restauraci 3D : najďete recept na pravé straně! potom klikněte na správné ingredience! (Jen PC)', 'https://admin-iget.github.io/test/UvikCookHTML/')">Vaření v uvíkovy restauraci (Jen PC)</button>
+	<button class="game-button" onclick="showTitleScreen('BlockBuild (jen PC)', 'https://admin-iget.github.io/test/BlockBuild2HTML/')">BlockBuild (jen PC)</button>	
 	<button class="game-button" onclick="showTitleScreen('UvíkJump : 3D Platformer (Jen PC)', 'https://admin-iget.github.io/test/UvikCookHTML/')">UvíkJump (Jen PC)</button>
     <font face="Arial" size=3><center>Ano, jsem si vědom překlepu "Stisněte" v některých hrách, nemohu to opravit protože kompilace kódu trvá dvě století.</center></font>
 
@@ -148,6 +148,11 @@ iframe {
                 <p>(Ano , jsem si vědom překlepu , "Stisněte" . Jsem moc líný to opravit.)</p>
             </p>
         </div>
+		<div id="sorrymsg" style="display: none; margin-top: 20px;">
+            <p style="color: white;">
+				Poznámka : Při programování této hry se program Unity rozhodl celou hru vymazat. Po krátkém depresivním záchvatu a mírném přehodnocení mých životních rozhodnutí jsem se rozhodl hru předělat. Proto je tak krátká, ale možná se v budoucnosti zvětší.
+            </p>
+        </div>
     </div>
 
     <div class="iframe-container" id="iframe-container">
@@ -168,6 +173,12 @@ iframe {
             promo.style.display = 'block';
         } else {
             promo.style.display = 'none';
+        }
+		const srry = document.getElementById('sorrymsg');
+        if (gameName.includes('UvíkJump')) {
+            srry.style.display = 'block';
+        } else {
+            srry.style.display = 'none';
         }
     }
 
