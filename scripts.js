@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         changeWallpaper('default');
     }
-
+	createWindow("Reklama", "<iframe src='./reklama.html' style='width: 99%; height: 99%;'></iframe>", 500, 400);
     loadDesktopIcons();
 });
 
@@ -865,7 +865,7 @@ function createDesktopIcon(iconData) {
     
     icon.innerHTML = `
         <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
-            <img src="${iconData.icon}" alt="${iconData.name}" onerror="this.src='./file.png'" style="width: 64px; height: 64px;">
+            <img src="${iconData.icon}" alt="${iconData.name}" onerror="this.src='https://admin-iget.github.io/test/file.png'" style="width: 64px; height: 64px;">
             <span style="display: block; text-align: center; margin-top: 8px; max-width: 100px; word-wrap: break-word; font-size: 14px;">${iconData.name}</span>
         </div>
     `;
