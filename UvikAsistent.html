@@ -217,7 +217,7 @@ html, body {
 	  return div;
 	}
 	function confirmClear() {
-	  if (confirm("Vymazat chat?")) {
+	  if (confirm("Pokud vymažete chat, UvíkAsistent si nebude pamatovat nic co jste mu napsali. Opravdu chcete chat vymazat?")) {
 		chatEl.innerHTML = '';
 
 		conversation.length = 0;
@@ -225,7 +225,7 @@ html, body {
 		  role: "system",
 		  content: "Jmenuješ se UvíkAsistent. Mluv česky, pokud není řečeno jinak. Pokud dostaneš otázku na UvíkOS nebo BadgerOS/JezevecOS (či jména podobně napsané),a není to otázka na aktualizaci/stažení uvíkos, jen a pouze řekni 'Já jsem zatím v BETA fázi a nemůžu vám pomoci s UvíkOS. Můžu vám pomoci jinak?'. pro stažení uvíkos dej link na bit.ly/uvikos a pro aktualizaci řekni 'Klikněte pravým tlačítkem na UvíkPanel a vyberte možnost Stáhnout Aktualizace.'"
 		});
-		const msg = addMessage('Chat byl vymazán', 'system');
+		const msg = addMessage('Chat byl vymazán. UvíkAsistent si teď nepamatuje nic, co jste mu napsali.', 'system');
 		setTimeout(() => msg.remove(), 3000);
 	  }
 	}
@@ -294,4 +294,5 @@ html, body {
   </script>
 </body>
 </html>
+
 
