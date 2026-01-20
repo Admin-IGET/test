@@ -7,7 +7,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #008080; /* classic teal */
+  background-color: #008080;
   font-family: Tahoma, Arial, sans-serif;
   height: 100%;
 }
@@ -220,7 +220,6 @@ html, body {
 	  if (confirm("Vymazat chat?")) {
 		chatEl.innerHTML = '';
 
-		// reset conversation memory
 		conversation.length = 0;
 		conversation.push({
 		  role: "system",
@@ -258,7 +257,6 @@ html, body {
       addMessage(text, 'user');
 	  conversation.push({ role: "user", content: text });
 
-      // Vrátit UI na tlačítko
       const footer = document.getElementById('footer');
       footer.outerHTML = `
         <div id="footer" class="footer" onclick="activateInput()">
@@ -266,7 +264,6 @@ html, body {
         </div>
       `;
 
-      // Zobrazit placeholder "píše..."
       const typingMsg = addMessage("Čekejte prosím...", "assistant");
 
       try {
