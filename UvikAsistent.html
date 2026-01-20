@@ -53,6 +53,20 @@ html, body {
   font-size: 10px;
   color: black;
 }
+.chyby {
+  font-size: 11px;
+  color: black;
+  background-color: linear-gradient(#c0c0c0, #8c8c8c);
+  padding: 2px 8px;
+  margin: 0;
+}
+
+.warn {
+  background-color: linear-gradient(#c0c0c0, #8c8c8c);
+  padding: 6px 0;
+  margin: 0;
+  text-align: center;
+}
 
 .uvik {
   font-size: 25px;
@@ -176,6 +190,7 @@ html, body {
         <span class="beta">BETA!</span>
 		<small class="creator"> od StarLaeTech</small>
       </div>
+	  <div class="warn" id="warn"><center><small class="chyby">UvíkAsistent může dělat chyby. Ověřujte si důležité informace.</small></center></div>
       <div>
         <button class="btn-delete" onclick="confirmClear()">Smazat Chat</button>
         <span class="powered">Powered by Groq 3</span>
@@ -183,7 +198,8 @@ html, body {
     </div>
 
     <div id="chat" class="chat-area"></div>
-
+	
+	
     <div id="footer" class="footer" onclick="activateInput()">
       Klikněte sem pro poslání zprávy pro UvíkAsistenta
     </div>
@@ -217,7 +233,7 @@ html, body {
 	  return div;
 	}
 	function confirmClear() {
-	  if (confirm("Pokud vymažete chat, UvíkAsistent si nebude pamatovat nic co jste mu napsali. Opravdu chcete chat vymazat?")) {
+	  if (confirm("Vymazat chat?")) {
 		chatEl.innerHTML = '';
 
 		conversation.length = 0;
@@ -225,7 +241,7 @@ html, body {
 		  role: "system",
 		  content: "Jmenuješ se UvíkAsistent. Mluv česky, pokud není řečeno jinak. Pokud dostaneš otázku na UvíkOS nebo BadgerOS/JezevecOS (či jména podobně napsané),a není to otázka na aktualizaci/stažení uvíkos, jen a pouze řekni 'Já jsem zatím v BETA fázi a nemůžu vám pomoci s UvíkOS. Můžu vám pomoci jinak?'. pro stažení uvíkos dej link na bit.ly/uvikos a pro aktualizaci řekni 'Klikněte pravým tlačítkem na UvíkPanel a vyberte možnost Stáhnout Aktualizace.'"
 		});
-		const msg = addMessage('Chat byl vymazán. UvíkAsistent si teď nepamatuje nic, co jste mu napsali.', 'system');
+		const msg = addMessage('Chat byl vymazán', 'system');
 		setTimeout(() => msg.remove(), 3000);
 	  }
 	}
@@ -294,5 +310,3 @@ html, body {
   </script>
 </body>
 </html>
-
-
