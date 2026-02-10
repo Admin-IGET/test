@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UvikMobile</title>
-    <!-- Font Awesome CDN for icons -->
+ 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Fullscreen layout without borders */
-        body, html {
+             body, html {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -23,7 +22,7 @@
             height: 100%;
             padding: 10px;
             box-sizing: border-box;
-            position: relative; /* Set relative position for the container */
+            position: relative; 
         }
         .top-bar {
             display: flex;
@@ -36,37 +35,37 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url('https://admin-iget.github.io/test/f43981720.jpg'); /* Set desktop background */
-            background-size: cover; /* Cover the entire area */
-            background-position: center; /* Center the background */
-            transition: background 0.5s ease; /* Smooth transition for background change */
-            position: relative; /* Position relative for the main content */
+            background-image: url('https://admin-iget.github.io/test/f43981720.jpg'); 
+            background-size: cover; 
+            background-position: center;
+            transition: background 0.5s ease; 
+            position: relative; 
         }
         .main-content.iframe-active {
-            background: none; /* Hide background when iframe is active */
+            background: none;
         }
         .iframe-container {
             width: 100%;
-            height: 100%; /* Fill the iframe container */
+            height: 100%;
             display: flex;
             justify-content: center;
-            align-items: center; /* Center align the iframe */
-            position: relative; /* Position relative for absolute child */
-            z-index: 1; /* Ensure it's above the background */
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
         .iframe-container iframe {
             width: 100%;
-            height: 100%; /* Set the iframe to take full height */
-            border: 1px solid black; /* Add black border to iframe */
+            height: 100%; 
+            border: 1px solid black;
         }
         .white-box {
-            display: none; /* Hide the white box by default */
-            background-color: white; /* White box below iframe */
+            display: none; 
+            background-color: white; 
             width: 100%;
-            height: 20%; /* Height of the white box */
-            position: absolute; /* Position absolute to overlay on top */
-            bottom: 0; /* Align it to the bottom */
-            z-index: 2; /* On top of the iframe */
+            height: 20%; 
+            position: absolute; 
+            bottom: 0;
+            z-index: 2; 
         }
         .bottom-bar {
             display: flex;
@@ -84,7 +83,7 @@
         .button i {
             font-size: 24px;
         }
-        /* Hidden file input */
+
         input[type="file"] {
             display: none;
         }
@@ -93,87 +92,85 @@
 <body>
     <font face="Comic Sans MS">
     <div class="container">
-        <!-- Top bar with time and battery percentage -->
+
         <div class="top-bar">
             <span id="time">--:--</span>
             <span id="battery">Battery: --%</span>
         </div>
 
-        <!-- Main content (iframe area) -->
+ 
         <div id="mainContent" class="main-content">
             <div class="iframe-container">
-                <div class="white-box" id="whiteBox"></div> <!-- White box below the iframe -->
-                <!-- Content will be loaded here -->
+                <div class="white-box" id="whiteBox"></div>
+
             </div>
         </div>
 
-        <!-- Bottom navigation buttons -->
+  
         <div class="bottom-bar">
 
-            <!-- Call button (Caller Icon) using the tel: protocol -->
+
             <a href="tel:" class="button">
-                <i class="fas fa-phone"></i> <!-- Caller icon -->
+                <i class="fas fa-phone"></i> 
             </a>
 
-            <!-- Contacts button (Mail Icon) -->
+            
             <div class="button" onclick="openIframe('https://admin-iget.github.io/test/UvikChat.html');">
-                <i class="fas fa-envelope"></i> <!-- Mail icon -->
+                <i class="fas fa-envelope"></i> 
             </div>
 
-            <!-- Fullscreen window for iframe (Browser Icon) -->
+
             <div class="button" onclick="openIframe('https://browser.rammerhead.org');">
-                <i class="fas fa-globe"></i> <!-- Browser icon -->
+                <i class="fas fa-globe"></i> 
             </div>
 
-            <!-- Fullscreen window for iframe (Star Icon) -->
-            <div class="button" onclick="openIframe('https://admin-iget.github.io/test/UvikHra1.html');">
-                <i class="fas fa-star"></i> <!-- Star icon -->
+
+            <div class="button" onclick="openIframe('https://admin-iget.github.io/test/Uvikhry.html');">
+                <i class="fas fa-star"></i> 
             </div>
 
-            <!-- Store Button -->
+
             <div class="button" onclick="openIframe('https://admin-iget.github.io/test/UvikObchod');">
-                <i class="fas fa-store"></i> <!-- Store icon -->
+                <i class="fas fa-store"></i> 
             </div>
 
-            <!-- Files Button -->
             <label class="button" for="fileInput">
-                <i class="fas fa-folder-open"></i> <!-- Files icon -->
+                <i class="fas fa-folder-open"></i> 
             </label>
             <input type="file" id="fileInput" accept=".html" onchange="loadFile(event)">
 
         </div>
     </div>
 
-    <!-- Iframe handling script (in HTML as requested, no external JS) -->
+
     <script>
-        // Function to open iframe in the main content area
+
         function openIframe(url) {
             const mainContent = document.getElementById('mainContent');
             const iframeContainer = document.querySelector('.iframe-container');
             const whiteBox = document.getElementById('whiteBox');
 
-            // Create iframe and set source
+
             const iframe = document.createElement('iframe');
             iframe.src = url;
 
-            // Clear existing content and add iframe
-            iframeContainer.innerHTML = ''; // Clear previous iframe
-            iframeContainer.appendChild(iframe); // Add new iframe
-            mainContent.classList.add('iframe-active'); // Add class to hide background
-            whiteBox.style.display = 'block'; // Show the white box
+
+            iframeContainer.innerHTML = ''; 
+            iframeContainer.appendChild(iframe); 
+            mainContent.classList.add('iframe-active'); 
+            whiteBox.style.display = 'block'; 
         }
 
-        // Function to load the selected file in the iframe
+        
         function loadFile(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
-                openIframe(e.target.result); // Open the selected HTML file in the iframe
+                openIframe(e.target.result); 
             };
-            reader.readAsDataURL(file); // Read the file as a data URL
+            reader.readAsDataURL(file); 
         }
 
-        // Function to display the current time
         function updateTime() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -181,10 +178,9 @@
             document.getElementById('time').textContent = hours + ':' + minutes;
         }
 
-        // Update time every second
         setInterval(updateTime, 1000);
 
-        // Function to show battery status (using Battery Status API)
+    
         function updateBattery() {
             navigator.getBattery().then(function(battery) {
                 function updateAllBatteryInfo(){
@@ -200,24 +196,23 @@
             });
         }
 
-        // Make the page go fullscreen on load
+        
         function requestFullscreen() {
             if (document.documentElement.requestFullscreen) {
                 document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+            } else if (document.documentElement.mozRequestFullScreen) { 
                 document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
+            } else if (document.documentElement.webkitRequestFullscreen) { 
                 document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+            } else if (document.documentElement.msRequestFullscreen) { 
                 document.documentElement.msRequestFullscreen();
             }
         }
 
-        // Call functions on page load
         window.onload = function() {
-            requestFullscreen();  // Enter fullscreen mode
-            updateTime();  // Start clock
-            updateBattery();  // Get battery percentage
+            requestFullscreen(); 
+            updateTime();
+            updateBattery();  
         };
     </script>
     </font>
