@@ -241,10 +241,11 @@
     <div class="content" id="search-container">
       <gcse:search linktarget="_self"></gcse:search>
       <input id="mySearch" type="text" placeholder="Search UvíkOS…" />
-      <div class="buttons-wrapper">
-        <button id="myBtn">Search</button>
-        <a class="close-button" href="#">←</a>
-      </div>
+<div class="buttons-wrapper">
+  <button id="myBtn">Search</button>
+  <button class="close-button" id="backBtn">←</button>
+</div>
+
     </div>
   </div>
 
@@ -264,6 +265,14 @@ window.__gcse = {
     const myBtn = document.getElementById('myBtn');
 
     function isMobileDevice() { return window.innerWidth < 768; }
+    const backBtn = document.getElementById('backBtn');
+
+    backBtn.onclick = () => {
+      myInput.value = '';             
+      showBackButton(false);             
+      resultsContainer.innerHTML = '';   
+      updateBodyClasses(isMobileDevice(), false);
+    };
 
     function updateBodyClasses(isMobile, hasResults) {
       if(hasResults) {
