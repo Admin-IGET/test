@@ -275,6 +275,36 @@ body.show-results #search-results-container {
   pointer-events: auto;
 }
 
+/* Make search container flexible even in "top" layout */
+body.top #search-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+/* Stretch input to take remaining space */
+body.top #mySearch {
+  flex-grow: 1;
+  min-width: 0; /* ensures it can shrink if needed */
+}
+
+/* Align all buttons perfectly */
+body.top #myBtn,
+body.top .close-button {
+  flex-shrink: 0; /* don't shrink */
+  height: 24px;   /* match input height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+/* Ensure back button only shows when needed */
+.close-button {
+  display: none; /* already handled by JS */
+  margin-left: 4px;
+}
 
 
   </style>
