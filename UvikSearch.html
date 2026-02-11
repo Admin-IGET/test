@@ -188,56 +188,18 @@ body.show-results #search-results-container {
     * {
       box-sizing: border-box;
     }
-    
-
-
-
 .gsc-input-box {
-  height: 36px !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
+  display: none !important;
 }
 
 
-.gsc-input-box table,
-.gsc-input-box td {
-  height: 36px !important;
-  padding: 0 !important;
+.gsc-search-button {
+  opacity: 0;
+  position: absolute;
+  pointer-events: auto;
 }
 
 
-input.gsc-input {
-  height: 34px !important;
-  line-height: 34px !important;
-  padding: 0 8px !important;
-  margin: 0 !important;
-  font-size: 15px !important;
-  box-sizing: border-box !important;
-}
-
-
-.gsc-clear-button {
-  height: 34px !important;
-  line-height: 34px !important;
-}
-
-
-button.gsc-search-button {
-  height: 36px !important;
-  padding: 0 10px !important;
-  border-radius: 0 !important;
-}
-
-
-.gsc-input-box-focus,
-.gsc-input-box-hover {
-  box-shadow: none !important;
-}
-
-
-.gsc-control-cse {
-  -webkit-text-size-adjust: 100% !important;
-}
 
   </style>
   <script async src="https://cse.google.com/cse.js?cx=e5f2098c8d4d941ed"></script>
@@ -247,8 +209,12 @@ button.gsc-search-button {
     <div class="image-container" id="logo-container">
       <img src="https://admin-iget.github.io/test/uvik.png" alt="Uvík Vyhledávač" />
     </div>
+    
     <div class="content" id="search-container">
       <gcse:search linktarget="_self"></gcse:search>
+      <input id="mySearch" type="text" placeholder="Search UvíkOS…" />
+    <button id="myBtn">Search</button>
+
     </div>
     <a class="close-button" href="https://admin-iget.github.io/test/UvikSearch.html">←</a>
   </div>
@@ -291,9 +257,30 @@ function updateBodyClasses(isMobile, hasResults) {
 
 window.__gcse = {
   callback: function () {
-    const input = document.querySelector('input.gsc-input');
-    const searchBtn = document.querySelector('button.gsc-search-button');
     const resultsContainer = document.getElementById('search-results-container');
+
+    function isMobileDevice() {
+      return window.innerWidth < 768;
+    }
+
+    function updateBodyClasses(isMobile, hasResults) {
+      if (hasResults) {
+        if (isMobile) {
+          document.body.classList.add('show-results');
+          document.body.classList.remove('top', 'mobile-centered');
+        } else {
+          document.body.classList.add('top');
+          document.body.classList.remove('show-results', 'mobile-centered');
+        }
+      } else {
+        if (isMobile) {
+          document.body.classList.add('mobile-centered');
+          document.body.classList.remove('top', 'show-results');
+        } else {
+          document.body.classList.remove('mobile-centered', 'top', 'show-results');
+        }
+      }
+    }
 
     function moveResultsContainer(force) {
       const results = document.querySelector('.gsc-results-wrapper-visible');
@@ -303,57 +290,66 @@ window.__gcse = {
         setTimeout(() => moveResultsContainer(true), 200);
       }
     }
-    
+
     function updateLayoutAfterSearch() {
+      const gInput = document.querySelector('input.gsc-input');
       const isMobile = isMobileDevice();
       moveResultsContainer(true);
       updateBodyClasses(isMobile, true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-      const query = input?.value?.trim();
+
+      const query = gInput?.value?.trim();
       if (query && document.title !== query + ' - Uvík Vyhledávač') {
         document.title = query + ' - Uvík Vyhledávač';
       }
     }
 
-    function resetLayoutBeforeSearch() {
-      const isMobile = isMobileDevice();
-      updateBodyClasses(isMobile, false);
+    function triggerGSCSearch(query) {
+      const gInput = document.querySelector('input.gsc-input');
+      const gBtn = document.querySelector('button.gsc-search-button');
+      if (!gInput || !gBtn) return;
+
+      gInput.value = query;
+      gInput.dispatchEvent(new Event('input', { bubbles: true }));
+      gBtn.click();
+
+      updateLayoutAfterSearch();
     }
 
-    resetLayoutBeforeSearch();
+    // Hook up your custom input
+    const myInput = document.getElementById('mySearch');
+    const myBtn = document.getElementById('myBtn');
 
-    if (input) {
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') updateLayoutAfterSearch();
-      });
-    }
+    myBtn.onclick = () => triggerGSCSearch(myInput.value);
 
-    if (searchBtn) {
-      searchBtn.addEventListener('click', updateLayoutAfterSearch);
-    }
+    myInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') triggerGSCSearch(myInput.value);
+    });
 
+    // Hook up Google’s native button to update layout (keep results layout correct)
+    const gSearchBtn = document.querySelector('button.gsc-search-button');
+    if (gSearchBtn) gSearchBtn.addEventListener('click', updateLayoutAfterSearch);
+
+    // Observe results container for dynamically added results
     const observer = new MutationObserver(() => {
       const results = document.querySelector('.gsc-results-wrapper-visible');
-      if (results) {
-        updateLayoutAfterSearch();
-      }
+      if (results) updateLayoutAfterSearch();
     });
 
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+    observer.observe(document.body, { childList: true, subtree: true });
 
-    
+    // Handle window resize
     window.addEventListener('resize', () => {
-      const isMobile = isMobileDevice();
       const results = document.querySelector('.gsc-results-wrapper-visible');
       const hasResults = !!results;
-      updateBodyClasses(isMobile, hasResults);
+      updateBodyClasses(isMobileDevice(), hasResults);
     });
+
+    // Initial layout
+    updateBodyClasses(isMobileDevice(), false);
   }
 };
+
 
 </script>
 </body>
