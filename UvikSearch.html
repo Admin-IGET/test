@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -54,81 +54,22 @@
       transition: all 0.3s ease;
     }
 
-    /* Container for search input + buttons */
-    #search-container {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      width: 100%;
-      max-width: 700px;
-    }
-
-    /* Input field */
-    #mySearch {
-      flex-grow: 1;
-      padding: 4px 6px;
-      font-family: 'MS Sans Serif', Arial, sans-serif;
-      font-size: 14px;
-      border: 2px inset #ccc;
-      background-color: #fff;
-      color: #000;
-      box-sizing: border-box;
-      outline: none;
-      height: 24px;
-    }
-
-    #mySearch:focus {
-      border: 2px inset #999;
-      background-color: #eef;
-    }
-
-    /* Buttons wrapper to align search + back buttons */
-    .buttons-wrapper {
-      display: flex;
-      gap: 4px;
-      align-items: stretch;
-    }
-
-    /* Search and back button style */
-    #myBtn, .close-button {
-      padding: 0 10px;
-      font-family: 'MS Sans Serif', Arial, sans-serif;
-      font-size: 14px;
-      border: 2px outset #ccc;
-      background-color: #ddd;
-      color: #000;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 24px;
-      box-sizing: border-box;
-    }
-
-    #myBtn:active, .close-button:active {
-      border: 2px inset #ccc;
-      background-color: #bbb;
-    }
-
     .close-button {
+      display: none;
+      font-size: 51px;
+      border: 1px solid #E1F3DA;
+      color: #1a0dab;
       text-decoration: none;
-      display: none; /* controlled by JS */
+      cursor: pointer;
+      white-space: nowrap;
+      z-index: 10;
     }
 
-    /* Stretch input fully in top layout */
-    body.top #search-container {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      width: 100%;
+    body.top .close-button {
+      display: inline;
     }
 
-    body.top #mySearch {
-      flex-grow: 1;
-      min-width: 0;
-    }
 
-    /* Top layout adjustments */
     body.top {
       justify-content: flex-start;
       align-items: stretch;
@@ -162,7 +103,7 @@
     }
 
     body.top .close-button {
-      display: inline-flex; /* controlled by JS */
+      display: inline;
     }
 
     #search-results-container {
@@ -174,8 +115,7 @@
       display: none;
     }
 
-    body.top #search-results-container,
-    body.show-results #search-results-container {
+    body.top #search-results-container {
       display: block;
     }
 
@@ -189,46 +129,65 @@
       flex-direction: column;
       gap: 8px;
     }
+@media (max-width: 767px) {
+body {
+justify-content: flex-start;
+min-height: auto;
+align-items: stretch;
+}
+}
+body.top .top-container {
+flex-direction: row;
+align-items: flex-start;
+padding: 10px 30px;
+border-bottom: 1px solid #ddd;
+max-width: 100%;
+}
+body.top .image-container {
+margin: 0;
+margin-right: 20px;
+margin-top: 5px;
+width: 250px;
+flex-shrink: 0;
+}
+body.top .image-container img {
+width: 100%;
+height: auto;
+}
+body.top .content {
+flex-grow: 1;
+max-width: none;
+}
+body.top .close-button {
+display: inline;
+}
+@media (max-width: 767px) {
+  body.mobile-centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+}
+#search-results-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 20px auto 40px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  display: none;
+}
 
-    /* Mobile responsiveness */
-    @media (max-width: 767px) {
-      #search-container {
-        flex-direction: column;
-        gap: 4px;
-        width: 90%;
-      }
-      #mySearch, #myBtn, .close-button {
-        width: 100%;
-      }
-      body.mobile-centered {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
-    }
+body.top #search-results-container,
+body.show-results #search-results-container {
+  display: block;
+}
+
 
     * {
       box-sizing: border-box;
     }
-
-    .gsc-input-box { display: none !important; }
-    .gsc-control-cse,
-    .gsc-control-cse .gsc-input-box,
-    .gsc-control-cse .gsc-input,
-    .gsc-control-cse .gsc-search-button {
-      border: none !important;
-      box-shadow: none !important;
-      background: transparent !important;
-    }
-
-    .gsc-search-button {
-      opacity: 0;
-      position: absolute;
-      pointer-events: auto;
-    }
-
   </style>
   <script async src="https://cse.google.com/cse.js?cx=e5f2098c8d4d941ed"></script>
 </head>
@@ -237,107 +196,114 @@
     <div class="image-container" id="logo-container">
       <img src="https://admin-iget.github.io/test/uvik.png" alt="Uvík Vyhledávač" />
     </div>
-
     <div class="content" id="search-container">
       <gcse:search linktarget="_self"></gcse:search>
-      <input id="mySearch" type="text" placeholder="Search UvíkOS…" />
-<div class="buttons-wrapper">
-  <button id="myBtn">Search</button>
-  <button class="close-button" id="backBtn">←</button>
-</div>
-
     </div>
+    <a class="close-button" href="https://admin-iget.github.io/test/UvikSearch.html">←</a>
   </div>
 
   <div id="search-results-container"></div>
 
   <div class="footer-links">
-    <a href="#">Vyzkoušet UvíkOS</a>
-    <a href="#">UvíkAsistent AI (BETA)</a>
+    <a href="https://admin-iget.github.io/test/uvikos.html">Vyzkoušet UvíkOS</a>
+    <a href="https://admin-iget.github.io/test/UvikAsistent.html">UvíkAsistent AI (BETA)</a>
   </div>
-
+  
 <script>
+  function isMobileDevice() {
+  return window.innerWidth < 768;
+}
+
+function updateBodyClasses(isMobile, hasResults) {
+  if (hasResults) {
+    if (isMobile) {
+      document.body.classList.add('show-results');
+      document.body.classList.remove('top');
+      document.body.classList.remove('mobile-centered');
+    } else {
+      document.body.classList.add('top');
+      document.body.classList.remove('show-results');
+      document.body.classList.remove('mobile-centered');
+    }
+  } else {
+    if (isMobile) {
+      document.body.classList.add('mobile-centered');
+      document.body.classList.remove('top');
+      document.body.classList.remove('show-results');
+    } else {
+      document.body.classList.remove('mobile-centered');
+      document.body.classList.remove('top');
+      document.body.classList.remove('show-results');
+    }
+  }
+}
+
 window.__gcse = {
   callback: function () {
+    const input = document.querySelector('input.gsc-input');
+    const searchBtn = document.querySelector('button.gsc-search-button');
     const resultsContainer = document.getElementById('search-results-container');
-    const backBtn = document.querySelector('.close-button');
-    const myInput = document.getElementById('mySearch');
-    const myBtn = document.getElementById('myBtn');
-
-    function isMobileDevice() { return window.innerWidth < 768; }
-    const backBtn = document.getElementById('backBtn');
-
-    backBtn.onclick = () => {
-      myInput.value = '';             
-      showBackButton(false);             
-      resultsContainer.innerHTML = '';   
-      updateBodyClasses(isMobileDevice(), false);
-    };
-
-    function updateBodyClasses(isMobile, hasResults) {
-      if(hasResults) {
-        if(isMobile) { document.body.classList.add('show-results'); document.body.classList.remove('top','mobile-centered'); }
-        else { document.body.classList.add('top'); document.body.classList.remove('show-results','mobile-centered'); }
-      } else {
-        if(isMobile) { document.body.classList.add('mobile-centered'); document.body.classList.remove('top','show-results'); }
-        else { document.body.classList.remove('mobile-centered','top','show-results'); }
-      }
-    }
 
     function moveResultsContainer(force) {
       const results = document.querySelector('.gsc-results-wrapper-visible');
-      if(results && resultsContainer && !resultsContainer.contains(results)) resultsContainer.appendChild(results);
-      else if(force) setTimeout(() => moveResultsContainer(true), 200);
+      if (results && resultsContainer && !resultsContainer.contains(results)) {
+        resultsContainer.appendChild(results);
+      } else if (force) {
+        setTimeout(() => moveResultsContainer(true), 200);
+      }
     }
-
-    function showBackButton(show) { backBtn.style.display = show ? 'inline-flex' : 'none'; }
-
+    
     function updateLayoutAfterSearch() {
-      const gInput = document.querySelector('input.gsc-input');
       const isMobile = isMobileDevice();
       moveResultsContainer(true);
-      updateBodyClasses(isMobile,true);
-      showBackButton(true);
-      window.scrollTo({top:0,behavior:'smooth'});
-      const query = gInput?.value?.trim();
-      if(query && document.title !== query+' - Uvík Vyhledávač') document.title = query+' - Uvík Vyhledávač';
+      updateBodyClasses(isMobile, true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+      const query = input?.value?.trim();
+      if (query && document.title !== query + ' - Uvík Vyhledávač') {
+        document.title = query + ' - Uvík Vyhledávač';
+      }
     }
 
-    function triggerGSCSearch(query){
-      const gInput = document.querySelector('input.gsc-input');
-      const gBtn = document.querySelector('button.gsc-search-button');
-      if(!gInput || !gBtn) return;
-      gInput.value = query;
-      gInput.dispatchEvent(new Event('input',{bubbles:true}));
-      gBtn.click();
-      updateLayoutAfterSearch();
+    function resetLayoutBeforeSearch() {
+      const isMobile = isMobileDevice();
+      updateBodyClasses(isMobile, false);
     }
 
-    myBtn.onclick = () => triggerGSCSearch(myInput.value);
-    myInput.addEventListener('keydown', e => { if(e.key==='Enter') triggerGSCSearch(myInput.value); });
+    resetLayoutBeforeSearch();
 
-    backBtn.onclick = () => {
-      myInput.value = '';
-      showBackButton(false);
-      resultsContainer.innerHTML='';
-      updateBodyClasses(isMobileDevice(),false);
-    };
+    if (input) {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') updateLayoutAfterSearch();
+      });
+    }
 
-    const gSearchBtn = document.querySelector('button.gsc-search-button');
-    if(gSearchBtn) gSearchBtn.addEventListener('click', updateLayoutAfterSearch);
+    if (searchBtn) {
+      searchBtn.addEventListener('click', updateLayoutAfterSearch);
+    }
 
-    const observer = new MutationObserver(() => { if(document.querySelector('.gsc-results-wrapper-visible')) updateLayoutAfterSearch(); });
-    observer.observe(document.body,{childList:true,subtree:true});
-
-    window.addEventListener('resize', ()=> {
-      const hasResults = !!document.querySelector('.gsc-results-wrapper-visible');
-      updateBodyClasses(isMobileDevice(),hasResults);
+    const observer = new MutationObserver(() => {
+      const results = document.querySelector('.gsc-results-wrapper-visible');
+      if (results) {
+        updateLayoutAfterSearch();
+      }
     });
 
-    // initial layout
-    updateBodyClasses(isMobileDevice(),false);
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    
+    window.addEventListener('resize', () => {
+      const isMobile = isMobileDevice();
+      const results = document.querySelector('.gsc-results-wrapper-visible');
+      const hasResults = !!results;
+      updateBodyClasses(isMobile, hasResults);
+    });
   }
 };
+
 </script>
 </body>
 </html>
