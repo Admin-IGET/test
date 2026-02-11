@@ -10,7 +10,7 @@
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
-      overflow-x: hidden;
+      /*overflow-x: hidden;*/
     }
 
     body {
@@ -186,16 +186,17 @@ body.show-results #search-results-container {
 
 .warning {
   position: fixed;
-  inset: 0 auto auto 0; 
   top: 0;
   left: 0;
-  right: 0;
+  right: 0;           
+  max-width: 100vw;   
   color: black;
   text-align: center;
   padding: 10px;
   font-weight: bold;
   z-index: 10;
 }
+
 
 
 body.top .top-container,
