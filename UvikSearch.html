@@ -184,7 +184,23 @@ body.show-results #search-results-container {
   display: block;
 }
 
+  .warning {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%; 
+    background-color: #ffcc00; 
+    color: black;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    z-index: 1000; 
+  }
 
+
+  .content {
+    margin-top: 50px;
+  }
     * {
       box-sizing: border-box;
     }
@@ -192,6 +208,7 @@ body.show-results #search-results-container {
   <script async src="https://cse.google.com/cse.js?cx=e5f2098c8d4d941ed"></script>
 </head>
 <body>
+  <div class="warning">UvíkVyhledávač bude brzy nefunkční. Doporučujeme použít jiný vyhledávač jako je Google nebo DuckDuckGo.</div>
   <div class="top-container">
     <div class="image-container" id="logo-container">
       <img src="https://admin-iget.github.io/test/uvik.png" alt="Uvík Vyhledávač" />
