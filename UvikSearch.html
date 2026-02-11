@@ -54,20 +54,85 @@
       transition: all 0.3s ease;
     }
 
-    .close-button {
-      display: none;
-      font-size: 51px;
-      border: 1px solid #E1F3DA;
-      color: #1a0dab;
-      text-decoration: none;
-      cursor: pointer;
-      white-space: nowrap;
-      z-index: 10;
-    }
+/* Container for search input + button to make them inline and flexible */
+#search-container {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* space between input and button */
+  width: 100%;
+  max-width: 700px;
+}
 
-    body.top .close-button {
-      display: inline;
-    }
+/* Custom search input — Windows 95 style */
+#mySearch {
+  flex-grow: 1; /* auto expand to available width */
+  padding: 4px 6px;
+  font-family: 'MS Sans Serif', Arial, sans-serif;
+  font-size: 14px;
+  border: 2px inset #ccc; /* classic 3D inset */
+  background-color: #fff;
+  color: #000;
+  box-sizing: border-box;
+  outline: none; /* remove focus outline, we’ll do custom */
+}
+
+#mySearch:focus {
+  border: 2px inset #999; /* darker inset on focus */
+  background-color: #eef; /* subtle Windows focus effect */
+}
+
+/* Custom search button — Windows 95 style */
+#myBtn {
+  padding: 4px 10px;
+  font-family: 'MS Sans Serif', Arial, sans-serif;
+  font-size: 14px;
+  border: 2px outset #ccc; /* classic 3D button */
+  background-color: #ddd;
+  color: #000;
+  cursor: pointer;
+}
+
+#myBtn:active {
+  border: 2px inset #ccc; /* pressed button effect */
+  background-color: #bbb;
+}
+
+/* Back button — Windows 95 style */
+.close-button {
+  padding: 2px 6px;
+  font-family: 'MS Sans Serif', Arial, sans-serif;
+  font-size: 14px;
+  border: 2px outset #ccc;
+  background-color: #ddd;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.close-button:active {
+  border: 2px inset #ccc;
+  background-color: #bbb;
+}
+
+/* Optional: make input + buttons the same height */
+#mySearch, #myBtn, .close-button {
+  height: 24px;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 767px) {
+  #search-container {
+    flex-direction: column;
+    gap: 4px;
+    width: 90%;
+  }
+
+  #mySearch, #myBtn, .close-button {
+    width: 100%;
+  }
+}
+
 
 
     body.top {
@@ -224,7 +289,7 @@ body.show-results #search-results-container {
     <button id="myBtn">Search</button>
 
     </div>
-    <a class="close-button" href="https://admin-iget.github.io/test/UvikSearch.html">←</a>
+    <a class="close-button" href="https://admin-iget.github.io/test/UvikSearch.html">←</a> //this is the back button
   </div>
 
   <div id="search-results-container"></div>
