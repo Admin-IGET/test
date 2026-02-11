@@ -187,15 +187,18 @@ body.show-results #search-results-container {
 .warning {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;           
+  left: 50%;    
+  transform: translateX(-50%); 
   max-width: 90vw;   
+  background-color: #ffcc00;
   color: black;
   text-align: center;
   padding: 10px;
   font-weight: bold;
   z-index: 10;
+  box-sizing: border-box;
 }
+
 
 body.top .top-container,
 body.mobile-centered .top-container {
