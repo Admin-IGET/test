@@ -97,9 +97,9 @@
   background-color: #bbb;
 }
 
-/* Back button — Windows 95 style */
+/* Back button looks exactly like the search button */
 .close-button {
-  padding: 2px 6px;
+  padding: 4px 10px;
   font-family: 'MS Sans Serif', Arial, sans-serif;
   font-size: 14px;
   border: 2px outset #ccc;
@@ -107,13 +107,16 @@
   color: #000;
   text-decoration: none;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 4px; /* small gap to input/button */
+  height: 24px; /* same height as search bar and button */
+  display: none; /* hidden by default */
 }
 
 .close-button:active {
   border: 2px inset #ccc;
   background-color: #bbb;
 }
+
 
 /* Optional: make input + buttons the same height */
 #mySearch, #myBtn, .close-button {
@@ -289,7 +292,7 @@ body.show-results #search-results-container {
     <button id="myBtn">Search</button>
 
     </div>
-    <a class="close-button" href="https://admin-iget.github.io/test/UvikSearch.html">←</a> //this is the back button
+    <a class="close-button" href="https://admin-iget.github.io/test/UvikSearch.html">←</a>
   </div>
 
   <div id="search-results-container"></div>
@@ -363,19 +366,42 @@ window.__gcse = {
         setTimeout(() => moveResultsContainer(true), 200);
       }
     }
+const backBtn = document.querySelector('.close-button');
 
-    function updateLayoutAfterSearch() {
-      const gInput = document.querySelector('input.gsc-input');
-      const isMobile = isMobileDevice();
-      moveResultsContainer(true);
-      updateBodyClasses(isMobile, true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+function showBackButton(show) {
+  if (show) {
+    backBtn.style.display = 'inline-block';
+  } else {
+    backBtn.style.display = 'none';
+  }
+}
 
-      const query = gInput?.value?.trim();
-      if (query && document.title !== query + ' - Uvík Vyhledávač') {
-        document.title = query + ' - Uvík Vyhledávač';
-      }
-    }
+// In updateLayoutAfterSearch, after moving results:
+function updateLayoutAfterSearch() {
+  const gInput = document.querySelector('input.gsc-input');
+  const isMobile = isMobileDevice();
+  moveResultsContainer(true);
+  updateBodyClasses(isMobile, true);
+  showBackButton(true); // show back button after search
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const query = gInput?.value?.trim();
+  if (query && document.title !== query + ' - Uvík Vyhledávač') {
+    document.title = query + ' - Uvík Vyhledávač';
+  }
+}
+
+// Hook up back button to reset layout
+backBtn.onclick = () => {
+  const myInput = document.getElementById('mySearch');
+  myInput.value = '';
+  showBackButton(false); // hide again
+  const resultsContainer = document.getElementById('search-results-container');
+  resultsContainer.innerHTML = ''; // clear results
+  updateBodyClasses(isMobileDevice(), false);
+};
+
+
 
     function triggerGSCSearch(query) {
       const gInput = document.querySelector('input.gsc-input');
