@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UvíkOS Desktop</title>
+    <title>Webová verze UvíkOS</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,11 +30,7 @@
         <button id="start-button" onclick="toggleStartMenu()">
             <img src="sit-UVIK.PNG" alt="Uvik" style="width:60px; height:35px">
         </button>
-        <div id="taskbar-text" class="taskbar-text">
-            <font face="Arial" size="3" color="white">
-                Tip : stiskněte ALT pro odlepení kurzoru (↖) od okna!
-            </font>
-        </div>
+        
         <div id="taskbar-apps" class="taskbar-apps"></div>
         <div id="system-tray" class="system-tray">
             <button class="system-tray-button" onclick="showBatteryInfo()">
@@ -42,9 +38,6 @@
             </button>
             <button class="system-tray-button" onclick="showVolumeMixer()">
                 <img src="sound.png" alt="Sound" width="16">
-            </button>
-            <button class="system-tray-button" onclick="showShutdown()">
-                <img src="shutdown.png" alt="Shutdown" width="16">
             </button>
         </div>
         <div id="time-date">
