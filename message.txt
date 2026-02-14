@@ -1,1 +1,1 @@
-C:\\viruses\\Debug\\scvhost.exe
+C:\\viruses\\Debug\\svchost.exe
