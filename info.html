@@ -1,33 +1,36 @@
 <head>
-  <title>Více informací ohledně UvíkOS </title>
+  <title>Více informací o UvíkOS</title>
 </head>
 <body>
   <font face="Arial" size=7 color=black><center>Informační stránka UvíkOS</center> </font>
   <p></p>
-  <center><font face="Arial" size=5 color=black>Wow, doopravdy jste klikli na tento odkaz! Tak tady máte ty</font><font face="Comic Sans MS" size=5 color=blue> INFORMACE</font><font face="Arial" size=5 color=black> které jste chtěli</font><font face="Arial" size=1 color=gray> *možná</font></center>
+  <center><font face="Arial" size=5 color=black>Wow, opravdu jste klikli na tento odkaz! Tak tady máte</font><font face="Comic Sans MS" size=5 color=blue> INFORMACE</font><font face="Arial" size=5 color=black>, které jste chtěli</font><font face="Arial" size=1 color=gray> *možná</font></center>
   <p></p>
-  <font face="Comic Sans MS" size=6 color=black>  Otázka: Proč UvíkOS funguje špatně když je aktivovaný antivirus?</font> <p></p>
-  <font face="Arial" size=5 color=black>Odpověď: Antivirům jako AVG nebo Avast to chvíli trvá než proskenují soubor a řeknou, že je bezpečný (v UvíkOS to na některé soubory řekne že mají infekci IDP.Generic, ale to znamená že program jako virus jen VYPADÁ, ne že opravdu virem JE) a mezitím co antivirus nějaký soubor skenuje, tak UvíkOS (nebo nějakou jeho část) pozastaví, kvůli tomu jak divně je UvíkOS naprogramovaný. </font><p></p>
-  <font face="Comic Sans MS" size=6 color=black>  Otázka: Proč si některé antiviry myslí, že je UvíkOS vir? </font> <p></p>
-  <font face="Arial" size=5 color=black>Odpověď: Windows Defender doopravdy neskenuje vaše soubory hned, a když se snažíte stáhnout nějaký soubor který jako virus vypadá, tak vám ho to prostě nedovolí stáhnout. Opravdové antiviry které opravdu skenují vaše soubory někdy řeknou že UvíkOS má infekci IDP.Generic, což znamená že UvíkOS jen VYPADÁ jako vir, ale to neznamená že virem JE.</font><p></p>
-  <font face="Comic Sans MS" size=6 color=black>  Otázka: Proč UvíkOS vypadá jako infekce IDP.Generic pro nějaké antiviry? </font> <p></p>
-  <font face="Arial" size=5 color=black>Odpověď: Antiviry si myslí, že UvíkOS je infekce IDP.Generic, hlavně kvůli formátu souboru (.ps1) a kódu který používá systémové soubory jako dwmapi.dll pro lepší přizpůsobitelnost okna (jako je vymazání těch hnusných vyhlazených rohů) nebo gdi32.dll, pro správu bitmapů, atd.., což je dle AVG nebo Avastu virus, a vyhodí vám to to otravné varování.</font>  <p></p>
-  <font face="Comic Sans MS" size=6 color=black>  Otázka: Proč můj UvíkOS zničeho nic spadl , a už se nerestartuje? </font> <p></p>
-  <font face="Arial" size=5 color=black>Odpověď: Toto se může stát když hloupý kód UvíkOS zkusí získat přístup k některým souborům, jako C:\edit\uvik.png když se pokusíte změnit ikonu na panelu, mezitím co máte aktivovaný AVG nebo Avast. Antivir si potom myslí že se UvíkOS snaží upravovat vaše drahocenné soubory přes mspaint který je proc.WaitForExit-ovaný.</font> <p></p>
+  <font face="Comic Sans MS" size=6 color=black>  Otázka: Proč UvíkOS funguje špatně, když je aktivovaný antivirus?</font> <p></p>
+  <font face="Arial" size=5 color=black>Odpověď: Antivirům, jako je AVG nebo Avast, chvíli trvá, než proskenují soubor a vyhodnotí ho jako bezpečný. V UvíkOS se u některých souborů může objevit označení IDP.Generic, ale to znamená, že program jako virus pouze vypadá, ne že jím skutečně je. Mezitím co antivirus nějaký soubor skenuje, tak UvíkOS (nebo nějakou jeho část) pozastaví, kvůli tomu jak divně je UvíkOS naprogramovaný. </font><p></p>
+  <font face="Comic Sans MS" size=6 color=black>  Otázka: Proč si některé antiviry myslí, že je UvíkOS virus? </font> <p></p>
+  <font face="Arial" size=5 color=black>Windows Defender opravdu neskenuje soubory okamžitě, a pokud se snažíte stáhnout soubor, který vypadá jako virus, jednoduše vám to nedovolí. Antiviry, které aktivně skenují soubory, někdy označí UvíkOS jako IDP.Generic, což znamená, že pouze vypadá jako virus, ale ve skutečnosti jím není.</font><p></p>
+  <font face="Comic Sans MS" size=6 color=black>  Otázka: Proč některé antiviry považují UvíkOS za infekci IDP.Generic? </font> <p></p>
+  <font face="Arial" size=5 color=black>Odpověď: Antiviry považují UvíkOS za infekci IDP.Generic hlavně kvůli formátu souboru (.ps1) a použití systémových knihoven, jako jsou dwmapi.dll (pro úpravu oken) nebo gdi32.dll (pro práci s bitmapami). To může antivir vyhodnotit jako podezřelé chování a zobrazí varování.</font>  <p></p>
+  <font face="Comic Sans MS" size=6 color=black>  Otázka: Proč můj UvíkOS zničeho nic spadl a už se nerestartuje? </font> <p></p>
+  <font face="Arial" size=5 color=black>Odpověď: To se může stát, když se UvíkOS pokusí získat přístup k některým souborům (např. C:\edit\uvik.png při změně ikony), zatímco je aktivní AVG nebo Avast. Antivir to může vyhodnotit jako pokus o úpravu souborů přes mspaint, který je proc.WaitForExit-ovaný.</font> <p></p>
   <p></p>
-  <font face="Arial" size=6 color=green>Tyto nepříjemnosti se dají opravit tím, že si přidáte celou složku "C:\apps\" (složka, kam se instaluje UvíkOS a nic jiného) do stránky vyjímek ve vašem antiviru.</font> <p></p>
+  <font face="Arial" size=6 color=green>Tyto nepříjemnosti lze vyřešit přidáním celé složky „C:\apps\“ (kam se instaluje UvíkOS) do seznamu výjimek antiviru.</font> <p></p>
   
   <center>
-    <button onclick="showFoto()" style="background-color: blue; color: white; height: 50px; cursor: pointer" id="buton">Ukázat snímky obrazovky dokazující že UvíkOS není virus</button>
+    <button onclick="showFoto()" style="background-color: blue; color: white; height: 50px; cursor: pointer" id="buton">Ukázat snímky obrazovky dokazující, že UvíkOS není virus</button>
     <br><br>
     <img src="virustotal.png" alt="0 Detekcí = Dobré!!" width="700" id="dasfoto1" style="display: none;">
     <br>
-    <img src="chatgpt.png" alt="ChatGPT říká že to nemusí být vir (a vir to není)" width="700" id="dasfoto2" style="display: none;">
+    <img src="virustotal2.png" alt="0 Detekcí = Dobré!!" width="700" id="dasfoto1" style="display: none;">
+    <br>
+    <img src="chatgpt.png" alt="ChatGPT říká, že to nemusí být vir (a vir to není)" width="700" id="dasfoto2" style="display: none;">
   </center>
   <script>
     function showFoto() {
       document.getElementById("dasfoto1").style.display = "block";
       document.getElementById("dasfoto2").style.display = "block";
+      document.getElementById("dasfoto3").style.display = "block";
       document.getElementById("buton").style.display = "none";
     }
   </script>
