@@ -1,33 +1,36 @@
 <head>
-  <title>More info about UvikOS</title>
+  <title>More Info About UvikOS</title>
 </head>
 <body>
   <font face="Arial" size=7 color=black><center>UvikOS Information page</center> </font>
   <p></p>
-  <center><font face="Arial" size=5 color=black>Woah, you actually clicked on the link! Well, heres the</font><font face="Comic Sans MS" size=5 color=blue> INFORMATION</font><font face="Arial" size=5 color=black> you wanted!</font><font face="Arial" size=1 color=gray> *maybe</font></center>
+  <center><font face="Arial" size=5 color=black>Whoa, you actually clicked the link! Well, here's the </font><font face="Comic Sans MS" size=5 color=blue> INFORMATION</font><font face="Arial" size=5 color=black> you wanted!</font><font face="Arial" size=1 color=gray> *maybe</font></center>
   <p></p>
-  <font face="Comic Sans MS" size=6 color=black>  Question: Why does UvikOS not work well with an antivirus? </font> <p></p>
-  <font face="Arial" size=5 color=black>Answer: Antiviruses like AVG or Avast take a little time to ACTUALLY scan the file, and then say its safe (or in UvikOS, it sometimes says that some files have IDP.Generic infection, but that just means the software LOOKS like malware, not that it IS malware) and while the antivirus is scanning, it pauses UvikOS (or some part of it), because of how crappilly UvikOS is coded. </font><p></p>
+  <font face="Comic Sans MS" size=6 color=black>  Question: Why doesn’t UvikOS work well with antivirus software? </font> <p></p>
+  <font face="Arial" size=5 color=black>Answer: Antiviruses like AVG or Avast need some time to scan files and determine whether they are safe. In UvikOS, some files may be flagged as IDP.Generic, but that only means the software looks like malware, not that it actually is. While the antivirus is scanning, it may pause UvikOS (or parts of it) due to how it is implemented.</font><p></p>
   <font face="Comic Sans MS" size=6 color=black>  Question: Why is UvikOS being flagged as a virus? </font> <p></p>
-  <font face="Arial" size=5 color=black>Answer:  Windows Defender doesn't actually scan your files immediately, and if you download a file that seems suspicious, it doesn't let you download it, or open it. Proper antiviruses that actually scan your files may say that some files have the IDP.Generic infection, which means it LOOKS like malware, not that it IS malware.</font><p></p>
-  <font face="Comic Sans MS" size=6 color=black>  Question: Why does UvikOS look like an IDP.Generic infection to some Antiviruses? </font> <p></p>
-  <font face="Arial" size=5 color=black>Answer:  UvikOS gets often flagged as IDP.Generic, mainly because of the file format (.ps1) and the code that accesses some system DLLs, like dwmapi.dll for window customization (remove ugly rounded corners) or gdi32.dll for managing bitmaps, ect. which AVG or Avast think have malicious intents, and warn you about it. </font>  <p></p>
-  <font face="Comic Sans MS" size=6 color=black>  Question: Why did my UvikOS randomly crash and doesn't go back again? </font> <p></p>
-  <font face="Arial" size=5 color=black>Answer: This can happen when the trashy code of UvikOS tries to access some files, like C:\edit\uvik.png like when you try to edit an icon on your panel, while you have AVG or Avast antivirus installed. They just think that UvikOS is editing or deleting your precious files through mspaint that is being proc.WaitForExit-ed.</font> <p></p>
+  <font face="Arial" size=5 color=black>Answer: Windows Defender doesn't actually scan your files immediately, and if you download a file that seems suspicious, it doesn’t let you download or open it. Proper antiviruses that actually scan your files may say that some files have the IDP.Generic infection, which means it LOOKS like malware, not that it IS malware.</font><p></p>
+  <font face="Comic Sans MS" size=6 color=black>  Question: Why does UvikOS look like an IDP.Generic infection to some antiviruses? </font> <p></p>
+  <font face="Arial" size=5 color=black>Answer: UvikOS is often flagged as IDP.Generic mainly because of its file format (.ps1) and code that accesses system DLLs, such as dwmapi.dll (for window customization) or gdi32.dll (for bitmap handling), etc. These actions may be considered suspicious by antiviruses like AVG or Avast, which then display a warning. </font>  <p></p>
+  <font face="Comic Sans MS" size=6 color=black>  Question: Why did my UvikOS randomly crash and won’t start again?</font> <p></p>
+  <font face="Arial" size=5 color=black>Answer: This can happen when UvikOS tries to access certain files (e.g., C:\edit\uvik.png when changing an icon) while AVG or Avast is active. The antivirus may interpret this as an attempt to modify files through mspaint, which is proc.WaitForExit-ed.</font> <p></p>
   <p></p>
-  <font face="Arial" size=6 color=green>You can fix these inconveniences by putting the whole "C:\apps\" folder (the folder where UvikOS is installed and nothing else) to the exceptions page in your antivirus.</font> <p></p>
+  <font face="Arial" size=6 color=green>You can fix these inconveniences by putting the whole "C:\apps\" folder (the folder where UvikOS is installed and nothing else) to the exceptions list in your antivirus.</font> <p></p>
   
   <center>
-    <button onclick="showFoto()" style="background-color: blue; color: white; height: 50px; cursor: pointer" id="buton">Show screenshots proving UvikOS is safe</button>
+    <button onclick="showFoto()" style="background-color: blue; color: white; height: 50px; cursor: pointer" id="buton">Show screenshots proving UvikOS is not a virus</button>
     <br><br>
     <img src="virustotal.png" alt="0 Detections = Good" width="700" id="dasfoto1" style="display: none;">
     <br>
-    <img src="chatgpt.png" alt="ChatGPT says it’s can be safe ( and it is ) " width="700" id="dasfoto2" style="display: none;">
+    <img src="virustotal2.png" alt="0 Detections = Good" width="700" id="dasfoto3" style="display: none;">
+    <br>
+    <img src="chatgpt.png" alt="ChatGPT says it can be safe (and it is) " width="700" id="dasfoto2" style="display: none;">
   </center>
   <script>
     function showFoto() {
       document.getElementById("dasfoto1").style.display = "block";
       document.getElementById("dasfoto2").style.display = "block";
+      document.getElementById("dasfoto3").style.display = "block";
       document.getElementById("buton").style.display = "none";
     }
   </script>
