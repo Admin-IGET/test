@@ -1,0 +1,19 @@
+body {
+    background-color: lightgray;
+}
+
+h1 {
+    color: darkblue;
+    font-family: arial
+}
+h2 {
+    font-family: arial;
+}
+h3 {
+    font-family: arial;
+}
+p {
+    color: green;
+    font-weight: bold;
+}
+

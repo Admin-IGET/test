@@ -1,0 +1,48 @@
+#creator {
+    font-size: 10px;
+    font-family: "Arial";
+}
+
+p {
+    font-family: "Arial";
+}
+
+#title {
+    font-family: "Comic Sans MS";
+    text-align : center;
+}
+
+#aside {
+    position: fixed;
+    width: 180px;
+    background-color: lightblue;
+    float: left;
+    height: calc(100vh - 20px);
+}
+
+#main {
+    float: right;
+    width: calc(100vw - 225px);
+}
+
+#whitecolor {
+    background-color: white;
+    white-space: pre-line;
+}
+
+#whitecolor2 {
+    background-color: white;
+}
+
+.obraz1 {
+    text-align: center;
+}
+
+#brnews {
+    font-family:arial;
+    color: red
+}
+
+#brnewstext {
+    color: black;
+}
