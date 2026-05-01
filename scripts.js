@@ -186,7 +186,7 @@ function openSettings() {
                     <input type="file" id="custom-wallpaper" accept="image/*" style="margin: 5px;">
                     <button onclick="changeWallpaper('custom')" style="padding: 8px 16px; margin: 5px;">Použít vlastní tapetu</button>
                     <p></p>
-                    <i> PS : na Windows verzi je nastavení více, a je tam i více programů, stáhněte si ji pokud možno!!</i>
+                    <i> PS : na Windows verzi je nastavení více a je tam i více programů, stáhněte si ji pokud možno!!</i>
                 </div>
             </div>
         </div>
