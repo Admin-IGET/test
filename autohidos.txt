@@ -1,0 +1,13 @@
+$p='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';
+$v=(Get-ItemProperty -Path $p).Settings;
+$v[8]=3;
+Set-ItemProperty -Path $p -Name Settings -Value $v;
+Stop-Process -Name explorer -Force
+
+revert is 
+
+$p='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';
+$v=(Get-ItemProperty -Path $p).Settings;
+$v[8]=2;
+Set-ItemProperty -Path $p -Name Settings -Value $v;
+Stop-Process -Name explorer -Force
