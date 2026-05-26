@@ -44,9 +44,8 @@
             if (!file) return;
 
             const fileReader = new FileReader();
-            viewer.innerHTML = ""; // Clear previous content
+            viewer.innerHTML = ""; 
 
-            // Check file type and handle accordingly
             if (file.type.startsWith("image/")) {
                 fileReader.onload = () => {
                     const img = document.createElement("img");
@@ -74,7 +73,6 @@
                     textarea.value = fileReader.result;
                     viewer.appendChild(textarea);
 
-                    // If HTML file, also show renderd content
                     if (file.name.endsWith(".html")) {
                         const iframe = document.createElement("iframe");
                         iframe.srcdoc = fileReader.result;
