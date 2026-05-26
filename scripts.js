@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
 let isAltPressed = false;
 let isDragging = false;
 
-// handlee alt key for window dragging
+//handlee alt key for window dragging
 document.addEventListener('keydown', function(event) {
     if (event.altKey) {
         document.body.classList.add('alt-pressed');
@@ -38,13 +38,13 @@ document.addEventListener('keydown', function(event) {
         if (activeResizeCancel) activeResizeCancel();
     }
     
-    // reset icons when ctrl + alt is pressed
+    //reset icons when ctrl alt pressed
     if (event.ctrlKey && event.altKey) {
         localStorage.removeItem('desktopIcons');
         loadDesktopIcons();
     }
 });
-
+//gav up on cmenting
 document.addEventListener('keyup', function(event) {
     if (!event.altKey) {
         document.body.classList.remove('alt-pressed');
@@ -154,7 +154,7 @@ function enableTwilightMode() {
     const twilightWallpaper = "https://admin-iget.github.io/test/twilight.PNG";
     document.body.style.backgroundImage = `url("${twilightWallpaper}")`;
     localStorage.setItem('uvikTwilight', "true");
-    console.log("Twilight mode enabled. Wallpaper is now locked.");
+    console.log("!");
 }
 
 function disableTwilightMode() {
@@ -165,7 +165,7 @@ function disableTwilightMode() {
     } else {
         changeWallpaper('default');
     }
-    console.log("Twilight mode disabled. Wallpaper settings are restored.");
+    console.log("?");
 }
 
 function toggleStartMenu() {
@@ -186,7 +186,7 @@ function openSettings() {
                     <input type="file" id="custom-wallpaper" accept="image/*" style="margin: 5px;">
                     <button onclick="changeWallpaper('custom')" style="padding: 8px 16px; margin: 5px;">Použít vlastní tapetu</button>
                     <p></p>
-                    <i> PS : na Windows verzi je nastavení více a je tam i více programů, stáhněte si ji pokud možno!!</i>
+                    <i> PS: na Windows verzi je nastavení více a je tam i více programů, stáhněte si ji pokud možno!</i>
                 </div>
             </div>
         </div>
@@ -202,26 +202,26 @@ function toggleWindowVisibility(windowDiv) {
 }
 
 window.UvikOS = {
-    openApp: function(appName) {
+    openApp: function(appName) {//whoa function in function
         const validApps = ["notepad", "internet", "youtube", "game", "apps", "vid", "UvikChat", "calc", "paint"]
         if (validApps.includes(appName)) {
             openApp(appName);
         } else {
-            console.warn(`Invalid app name: "${appName}". Valid names are: ${validApps.join(", ")}`);
+            console.warn(`INVALID PROGRAM NAME: "${appName}". Valid names: ${validApps.join(", ")}`);
         }
     },
     setWallpaper: function(url) {
         if (localStorage.getItem('uvikTwilight') === "true") {
-            console.warn("Twilight mode is active. Cannot change wallpaper.");
+            console.warn("!!!");
             return;
         }
 
         if (url && typeof url === "string") {
             document.body.style.backgroundImage = `url("${url}")`;
             localStorage.setItem('uvikWallpaper', url);
-            console.log("Wallpaper updated!");
+            console.log("OK");
         } else {
-            console.error("Invalid wallpaper URL. Please provide a valid string.");
+            console.error("error");
         }
     },
     twilight: function(state) {
@@ -243,14 +243,14 @@ Available UvikOS commands:
     }
 };
 
-console.log("Welcome to UvikOS Console! Type UvikOS.help() for a list of available commands.");
+console.log("Welcome to UvikOS Console! Type UvikOS.help() for a list of commands.");
 
 function redirectToMobile() {
     window.location.href = "https://admin-iget.github.io/test/UvikMobile.html";
 }
 
 function openApp(appName) {
-    // clsoe start
+    //clsoe start
     var startMenu = document.getElementById('start-menu');
     if (!startMenu.classList.contains('hidden')) {
         startMenu.classList.add('hidden');
@@ -288,7 +288,7 @@ function openApp(appName) {
             createWindow('Aplikace', '<iframe src="https://admin-iget.github.io/test/UvikObchod" style="width: 100%; height: 100%; border: none;"></iframe>');
             break;
         case 'vid':
-            createWindow('VideoPřehrávač', '<iframe src="https://admin-iget.github.io/test/vid" style="width: 100%; height: 100%; border: none;"></iframe>');
+            createWindow('Video přehrávač', '<iframe src="https://admin-iget.github.io/test/vid" style="width: 100%; height: 100%; border: none;"></iframe>');
             break;
         default:
             console.error(`Neplatný název aplikace: ${appName}`);
@@ -301,8 +301,8 @@ function createWindow(title, content, width = 600, height = 400) {
     windowDiv.className = 'window';
     windowDiv.id = 'window-' + Date.now();
     
-    // window center
-    const centerX = (window.innerWidth - width) / 2; //
+    //window center
+    const centerX = (window.innerWidth - width) / 2; 
     const centerY = (window.innerHeight - height) / 2;
     windowDiv.style.left = centerX + 'px';
     windowDiv.style.top = centerY + 'px';
@@ -356,7 +356,7 @@ function maximizeWindow(button) {
     const windowDiv = button.closest('.window');
     
     if (windowDiv.classList.contains('maximized')) {
-        // Unmaximize
+        //UNMAXI
         windowDiv.classList.remove('maximized');
         
         windowDiv.style.left = windowDiv.dataset.prevLeft;
@@ -364,22 +364,20 @@ function maximizeWindow(button) {
         windowDiv.style.width = windowDiv.dataset.prevWidth;
         windowDiv.style.height = windowDiv.dataset.prevHeight;
         
-        button.innerHTML = '&#x2610;'; // icon for maximize
+        button.innerHTML = '&#x2610;';
     } else {
-        // save
         windowDiv.dataset.prevLeft = windowDiv.style.left;
         windowDiv.dataset.prevTop = windowDiv.style.top;
         windowDiv.dataset.prevWidth = windowDiv.style.width;
         windowDiv.dataset.prevHeight = windowDiv.style.height;
 
-        // maximize
         windowDiv.classList.add('maximized');
         windowDiv.style.left = '0';
         windowDiv.style.top = '0';
         windowDiv.style.width = '100%';
         windowDiv.style.height = 'calc(100vh - 40px)';
         
-        button.innerHTML = '&#x2611;'; // icon for restore
+        button.innerHTML = '&#x2611;';
     }
 
     bringToFront(windowDiv);
@@ -447,7 +445,7 @@ function bringToFront(element) {
 
 function changeWallpaper(type) {
     if (localStorage.getItem('uvikTwilight') === "true") {
-        console.log("Twilight mode is active. Cannot change wallpaper.");
+        console.log("!!");
         return;
     }
 
@@ -577,7 +575,7 @@ function enableIframes() {
 }
 
 function openFileExplorer() {
-    // close start window / menu
+    
     var startMenu = document.getElementById('start-menu');
     if (!startMenu.classList.contains('hidden')) {
         startMenu.classList.add('hidden');
@@ -600,7 +598,6 @@ function openFileExplorer() {
             } else if (file.type === 'text/plain') {
                 var reader = new FileReader();
                 reader.onload = function(e) {
-                    // Create notepad window
                     const windowDiv = createWindow(file.name, '', 600, 400);
                     const contentDiv = windowDiv.querySelector('.window-content');
                     contentDiv.innerHTML = `
@@ -632,7 +629,6 @@ function openFileExplorer() {
                         <textarea id="notepad" spellcheck="false" style="width: 100%; height: calc(100% - 32px); border: none; resize: none; padding: 10px; font-size: 14px; outline: none; box-sizing: border-box; font-family: 'Consolas', 'Courier New', monospace;"></textarea>
                     `;
                     
-                    // Set the file content
                     const textarea = contentDiv.querySelector('#notepad');
                     textarea.value = e.target.result;
                     currentFileName = file.name;
@@ -658,7 +654,6 @@ function showDesktop() {
     openFileExplorer();
 }
 
-// Notepad functions
 let lastSearchIndex = 0;
 let currentFileName = '';
 let fileHandle = null;
@@ -759,7 +754,7 @@ function saveAsFile(windowElement) {
     const text = textarea.value;
     let filename = prompt("Zadejte název souboru:", currentFileName.replace(/\.[^/.]+$/, "") || "filename");
 
-    if (!filename) return; // user cancelled
+    if (!filename) return;
 
     filename = filename.trim();
     if (!filename.toLowerCase().endsWith('.txt')) {
@@ -779,7 +774,6 @@ function saveAsFile(windowElement) {
     currentFileName = filename;
 }
 
-// Add keyboard shortcuts for notepad
 document.addEventListener("keydown", function(event) {
     if (event.altKey) {
         const activeWindow = document.querySelector('.window.active-window:not(.minimized)');
@@ -813,7 +807,6 @@ document.addEventListener("keydown", function(event) {
     }
 });
 
-// desktop icons that show up by default
 const defaultIcons = [
     { id: 'notepad', name: 'Textový editor', icon: './notepad.png', x: 20, y: 20 },
     { id: 'calc', name: 'Kalkulačka', icon: './calc.png', x: 20, y: 140 },
@@ -821,20 +814,17 @@ const defaultIcons = [
 ];
 
 function loadDesktopIcons() {
-    // clear existing icons first
     const desktopIcons = document.getElementById('desktop-icons');
     desktopIcons.innerHTML = '';
     
     const savedIcons = localStorage.getItem('desktopIcons');
     const icons = savedIcons ? JSON.parse(savedIcons) : defaultIcons;
-    
-    // create icons
+	
     icons.forEach(icon => {
         createDesktopIcon(icon);
     });
 }
 
-// save icon positions
 function saveDesktopIcons() {
     try {
         const icons = Array.from(document.querySelectorAll('.desktop-icon')).map(icon => {
@@ -855,7 +845,6 @@ function saveDesktopIcons() {
     }
 }
 
-// create a icon
 function createDesktopIcon(iconData) {
     const icon = document.createElement('div');
     icon.className = 'desktop-icon';
@@ -870,7 +859,6 @@ function createDesktopIcon(iconData) {
         </div>
     `;
     
-    // doubleclick = open
     icon.addEventListener('dblclick', () => {
         if (iconData.id.startsWith('file')) {
             openFile(iconData.id);
@@ -879,8 +867,7 @@ function createDesktopIcon(iconData) {
         }
     });
 
-    // right click to delete
-    icon.addEventListener('contextmenu', (e) => {
+	icon.addEventListener('contextmenu', (e) => {
         e.preventDefault();
         icon.remove();
         saveDesktopIcons();
@@ -890,7 +877,6 @@ function createDesktopIcon(iconData) {
     document.getElementById('desktop-icons').appendChild(icon);
 }
 
-// make icons draggable
 function makeIconDraggable(icon) {
     let isDragging = false;
     let startX, startY;
