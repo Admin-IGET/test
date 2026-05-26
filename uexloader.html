@@ -26,7 +26,6 @@ openBtn.onclick=()=>{
   i.onchange=e=>{
     let f=e.target.files[0];if(!f)return;
 
-    // check file extension
     if(!f.name.toLowerCase().endsWith(".uex")){
       alert(cz?"Neplatný typ souboru!":"Invalid file type!");
       return;
