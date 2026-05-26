@@ -37,12 +37,11 @@
     <h1>UvíkOS Přehrávač videí a zvuku</h1>
     <input type="file" id="fileInput" accept="audio/*,video/*">
     
-    <!-- Video element for playing video files -->
+
     <video id="videoPlayer" controls style="display: none;">
         Váš prohlížeč nepodporuje přehrávání videa.
     </video>
 
-    <!-- Audio element for playing audio files -->
     <audio id="audioPlayer" controls style="display: none;">
         Váš prohlížeč nepodporuje přehrávání zvuku.
     </audio>
@@ -57,7 +56,6 @@
             if (file) {
                 const fileURL = URL.createObjectURL(file);
 
-                // Check the file type and choose the appropriate player
                 if (file.type.startsWith('video')) {
                     videoPlayer.src = fileURL;
                     videoPlayer.style.display = 'block';
