@@ -101,7 +101,6 @@
                 downloadLink.href = canvas.toDataURL('image/png');
                 downloadLink.style.display = 'inline-block';
 
-                // Set default filename with timestamp
                 const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
                 filenameInput.value = `screenshot-${timestamp}`;
             } catch (err) {
@@ -113,14 +112,12 @@
         document.getElementById('downloadBtn').addEventListener('click', () => {
             const filenameInput = document.getElementById('filenameInput');
             const downloadLink = document.getElementById('downloadLink');
-            
-            // Get filename from input or use default
+
             let filename = filenameInput.value.trim();
             if (!filename) {
                 filename = 'screenshot';
             }
             
-            // Ensure filename ends with .png
             if (!filename.toLowerCase().endsWith('.png')) {
                 filename += '.png';
             }
