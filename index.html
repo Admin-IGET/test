@@ -62,18 +62,50 @@
 		</div>
 
 		<div style="margin-top: 10px;">
-		  <a href="https://drive.usercontent.google.com/download?id=1Mh-NAmiG8T1xlc3UYoSRnzMrh6bBnDDJ&export=download" 
-			 onclick="gtag('event', 'download_click', { 'event_category': 'Downloads', 'event_label': 'GoogleDriveExe' });" 
-			 target="_blank"
-			 style="font-size: 59px; text-decoration: underline; color: blue; padding: 10px 20px; display:inline-block; margin-top:5px;">
-			 STÁHNOUT
-		  </a>
+            <a href="https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/uvikos.zip"
+               onclick="showPopup()">
+              STÁHNOUT
+            </a>
 		</div>
 	  </div>
 	</font>
 		<br>
-		  <font face="Arial" size="5" color="black">Odkaz výše stáhne samorozbalovací archiv (spustitelný soubor). Otevřete jej, klikněte na „Extract“ (Rozbalit), poté otevřete složku „uvikos“ a v ní spusťte soubor „Nainstalovat UvíkOS“</font>
+		  <font face="Arial" size="5" color="black">Odkaz výše stáhne archiv ZIP. Odblokujte jej (kliknutím pravým tlačítkem myši → <i>Vlastnosti</i> → <i>Odblokovat</i>, aby se nezobrazovala varování SmartScreen), poté jej extrahujte (kliknutím pravým tlačítkem myši → <i>Extrahovat</i>) a spusťte soubor „Nainstalovat UvíkOS“.</font>
 	<p></p>
+        <div id="backdrop"
+             style="display:none;
+                    position:fixed;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:100%;
+                    background:rgba(0,0,0,0.3);
+                    z-index:999;"
+             onclick="hidePopup()">
+        </div>
+        <div id="popup"
+             style="display:none;
+                    position:fixed;
+                    top:50%;
+                    left:50%;
+                    transform:translate(-50%, -50%);
+                    background:#f2f2f2;
+                    color:#000;
+                    padding:20px 30px;
+                    border:1px solid #999;
+                    z-index:9999;
+                    font-family:Arial, sans-serif;
+                    font-size:14px;">
+          <center><font face="Comic Sans MS" size=6 color="green">Děkujeme, že jste si stáhli UvíkOS!</font></center>
+          <font face="Arial" size=4 color="black">
+            <p>Právě se stahuje soubor ZIP.</p><p>Abyste se vyhnuli varování SmartScreen, klikněte na soubor v Průzkumníku pravým tlačítkem myši, vyberte možnost <i>Vlastnosti</i> a zaškrtněte volbu <i>Odblokovat</i>.</p><p>Poté soubor extrahujte (klikněte pravým tlačítkem myši a vyberte možnost <i>Rozbalit / Extrahovat vše</i> a poté klikněte na <i>Extrahovat</i>) a v extrahované složce spusťte soubor „Nainstalovat UvíkOS“.</p></font>
+
+          <font face="Arial" size=3 color="black">
+            <p></p>Soubor se nestahuje? <a href="https://github.com/Admin-IGET/test/releases/tag/UvikOS_CZ-ENG">Stáhnout manuálně</a>.</font>
+
+
+            <hr><button onclick="hidePopup()" style="background-color: blue; color: white; height: 30px; cursor: pointer;" id="buton">OK</button>
+        </div>
 	<font face="Arial" size="5" color="blue">
 		
 		<p>
@@ -81,7 +113,7 @@
 		Potřebujete alespoň PowerShell 5.1 a .NET 4.6.
 		</p>
 		<p>
-		Pokud to nemáte, stáhněte si Update Pack <a href="https://drive.google.com/file/d/1w1pdC1iKHtmOaiYmJlinL5_RAK8kCNmX/view?usp=sharing" target="_blank">ZDE!</a> (Windows 10 a 11 to již obsahují.)
+		Pokud to nemáte, stáhněte si aktualizace pro systém Windows <a href="https://drive.google.com/file/d/1w1pdC1iKHtmOaiYmJlinL5_RAK8kCNmX/view?usp=sharing" target="_blank">zde</a>. (Windows 10 a 11 to již obsahují.)
 		</p>
 	</font>
 		<font face="Arial" size="5" color="black">
@@ -112,5 +144,22 @@
     document.getElementById("buton").style.display = "block";
     document.getElementById("hide").style.display = "none";
   }
+
+    function showPopup() {
+      document.getElementById("popup").style.display = "block";
+      document.getElementById("backdrop").style.display = "block";
+    }
+
+    function hidePopup() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("backdrop").style.display = "none";
+    }
+    window.onload = function () {
+      if (window.location.hash === "#popup") {
+        window.location.href = "https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/uvikos.zip";
+        showPopup();
+      }
+    };
   </script>
-</p></body>
+</p>
+</body>
