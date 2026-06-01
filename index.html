@@ -1,5 +1,12 @@
 <!doctype HTML>
-
+<style>#warnBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}</style>
 <head>
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-6C196FPFPL"></script>
 	<script>
@@ -16,7 +23,7 @@
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
-"><a href="engindex.html"> English version</a> &nbsp; <a href="https://github.com/Admin-IGET/test"> Přejít na stránku Github (pouze anglicky)</a>
+"><a href="engindex.html"> English version</a> &nbsp; <a href="https://github.com/Admin-IGET/test"> Přejít na stránku Github (pouze anglicky)</a> <img id="warnBtn" src="https://admin-iget.github.io/test/frame1.png" onclick="fuckms()">
 <center>
 <font face="Arial" size="7" color="green">Instalace </font><font face="Comic Sans MS" size="7" color="red">Uvík</font><font face="Comic Sans MS" size="7" color="black">OS</font>
 <p>
@@ -127,16 +134,25 @@
                     color:#000;
                     padding:20px 30px;
                     border:1px solid #999;
-                    z-index:9999;
+                    z-index:99999;
                     font-family:Arial, sans-serif;
                     font-size:14px;">
           <center><font face="Comic Sans MS" size=6 color="red">Varování</font></center>
-            <font face="Arial" size=5 color="black">Prosíme, přečtěte si všechny informace před pokračováním.</font>
           <font face="Arial" size=4 color="black">
-            <p>UvíkOS je antiviry označován jako „nebezpečný“, i když se o virus nejedná.</p>
-        <p>Tento problém jsem se snažil řešit několik měsíců, ale už na to nemám mentální kapacitu ani energii.</p>
-        <p>Pokud si i přesto chcete UvíkOS stáhnout, zavřete toto okno a pokračujte jako normálně. Počítejte ale s tím, že program Windows Defender pravděpodobně soubor smaže hned po stažení. Pokud ne, tak to plně respektuji. Prostě tuto stránku zavřete a pokračujte se svým životem.</p></font>
-<!-The antivirus will pull the fucking error message out of its ass hole>
+            <p>
+<font face="Arial" size="4" color="black">
+Některé antivirové programy mohou nesprávně označit instalační archiv (ZIP) UvíkOS jako podezřelý. UvíkOS obsahuje více spustitelných programů, skriptů a podpůrných souborů, což může u heuristické detekce antiviru někdy vyvolat varování, i když se nejedná o škodlivý software.
+
+Služby jako VirusTotal mohou u větších archivů ZIP někdy zobrazit výsledky, které se vztahují k samotnému archivu, ne vždy ke všem jednotlivým souborům uvnitř.
+
+<p></p>
+
+Pokud váš antivirus zobrazí varování, můžete si soubor zkontrolovat a sami se rozhodnout, zda chcete ve stahování pokračovat.
+
+
+<p></p>
+
+Pokud se rozhodnete, že si UvíkOS nechcete stáhnout, můžete zkusit alternativu <a href="https://cairoshell.com/">Cairo Shell</a>. Je však více zaměřená na technickou stránku a je méně přizpůsobitelná než UvíkOS.</font><!-The antivirus will pull the fucking error message out of its ass hole>
            <hr><button onclick="hideAndFUckMS()" style="background-color: blue; color: white; height: 30px; cursor: pointer;" id="buton">Zavřít</button>
         </div>
 
@@ -201,11 +217,21 @@ showPopup();}
       document.getElementById("backdrop").style.display = "none";
       document.getElementById("bgfuckms").style.display = "none";
     }
+
+const frames = ["https://admin-iget.github.io/test/frame1.png", "https://admin-iget.github.io/test/frame2.png"];
+let i = 0;
+
+setInterval(() => {
+    i = (i + 1) % frames.length;
+    document.getElementById("warnBtn").src = frames[i];
+}, 1099);
+
+
     window.onload = function () {
       if (window.location.hash === "#popup") {
-        fuckms();
-        fuckmicrosft = true;
-      } else {fuckms();}
+        window.location.href = "https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/uvikos.zip";
+        showPopup();
+      }
     };
   </script>
 </p>
