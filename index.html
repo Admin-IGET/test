@@ -142,9 +142,8 @@
             <p>
 <font face="Arial" size="4" color="black">
 Některé antivirové programy mohou nesprávně označit instalační archiv (ZIP) UvíkOS jako podezřelý. UvíkOS obsahuje více spustitelných programů, skriptů a podpůrných souborů, což může u heuristické detekce antiviru někdy vyvolat varování, i když se nejedná o škodlivý software.
-
-Služby jako VirusTotal mohou u větších archivů ZIP někdy zobrazit výsledky, které se vztahují k samotnému archivu, ne vždy ke všem jednotlivým souborům uvnitř.
-
+<br>
+Služby jako VirusTotal mohou u větších ZIP archivů někdy zobrazit výsledky, které se vztahují k samotnému archivu, ne vždy ke všem jednotlivým souborům uvnitř, což může u některých opatrnějších antivirových programů vést k falešným poplachům.
 <p></p>
 
 Pokud váš antivirus zobrazí varování, můžete si soubor zkontrolovat a sami se rozhodnout, zda chcete ve stahování pokračovat.
@@ -205,6 +204,7 @@ Pokud se rozhodnete, že si UvíkOS nechcete stáhnout, můžete zkusit alternat
     function fuckms() {
       document.getElementById("fuckmicrosoft").style.display = "block";
       document.getElementById("bgfuckms").style.display = "block";
+document.getElementById("warnBtn").style.display = "none";
     }
     function hideAndFUckMS() {
         hidePopup();

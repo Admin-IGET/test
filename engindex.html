@@ -135,9 +135,8 @@
           <center><font face="Comic Sans MS" size=6 color="red">Warning</font></center><br>
 <font face="Arial" size="4" color="black">
 Some antivirus programs may incorrectly mark the UvikOS installation archive (ZIP) as suspicious. UvikOS contains multiple executable programs, scripts, and supporting files, which can sometimes trigger heuristic antivirus detections even when no malicious software is present.
-
-Services such as VirusTotal may also show results for ZIP archives that reflect the archive as a whole, rather than accurately representing every individual file inside it.
-
+<br>
+Services such as VirusTotal may also show results for ZIP archives that reflect the archive as a whole rather than each individual file inside it, which can sometimes trigger heuristic antivirus detections.
 <p></p>
 
 If your antivirus displays a warning, you may review the file and decide for yourself whether you wish to continue with the download.
@@ -194,6 +193,7 @@ If you decide not to download UvikOS, you can try an alternative called <a href=
     function fuckms() {
       document.getElementById("fuckmicrosoft").style.display = "block";
       document.getElementById("bgfuckms").style.display = "block";
+        document.getElementById("warnBtn").style.display = "none";
     }
     function hideAndFUckMS() {
         hidePopup();
