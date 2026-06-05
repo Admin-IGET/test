@@ -1,0 +1,15 @@
+@echo off
+echo POKUD SE VAM POCITAC NEVRATIL ZPET DO WINDOWS,
+echo TAK POCKEJTE 10s. JESTLI SE VRATI DO WINDOWS, 
+echo ZAVRETE TOTO OKNO, JESTLI NE, STISKNETE JAKEKOLIV
+echo TLACITKO PRO DRUHY POKUS VRACENI DO WINDOWS.
+pause > nul
+echo.
+echo.
+echo CEKEJTE PROSIM...
+start explorer.exe
+timeout 3 > nul
+ping 2 > nul
+cls
+echo DOUFAM ZE JSTE VE WINDOWS.
+exit
