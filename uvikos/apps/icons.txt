@@ -1,0 +1,4 @@
+GRIDSIZE|89|105
+C:\apps\Kalkulačka.lnk|89|0|file|89|105
+C:\apps\Koš.lnk|0|0|file|89|105
+C:\apps\Textový Editor.lnk|0|105|file|89|105
