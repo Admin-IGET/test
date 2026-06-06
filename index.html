@@ -52,8 +52,8 @@
 		<center><a href="https://www.youtube.com/watch?v=KVJzwWPIeLY" target="_blank">Klikněte sem pro video návod</a></center>
 	</font>
 	<p></p>
-	<center><font face="Comic Sans MS" size="20" color="black">
-	  <div style="text-align:center; font-family: 'Comic Sans MS'; color: black;">
+	<center><font face="Comic Sans MS" size="20" color="blue">
+	  <div style="text-align:center; font-family: 'Comic Sans MS'; color: blue;">
 		<center>
 		  <button onclick="showFoto()" style="background-color: blue; color: white; height: 50px; cursor: pointer;" id="buton">Obrázky UvíkOS</button>
 		  <button onclick="hideFoto()" style="background-color: blue; color: white; height: 50px; cursor: pointer; display: none;" id="hide">Schovat obrázky</button>
@@ -67,11 +67,11 @@
 		</div>
 
 		<div style="margin-top: 10px;">
-           <del> <!--<a href="https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/uvikos.zip"
-               onclick="showPopup()">
+           <a href="https://drive.google.com/drive/folders/18M_msjfwK1IOhH_5TreRNcr6Dc4URSup?usp=sharing"
+               target="_blank">
               STÁHNOUT
-            </a>-->STÁHNOUT</del>
-<br><font size=4 face="Arial">Protože Microsoft Windows blokuje stažení souboru, UvíkOS nelze stáhnout.</font>
+            </a>
+<br><font size=4 face="Arial" color="black">Potřebujete pomoc se stažením? <a href="https://admin-iget.github.io/test/helpcz.html" target="_blank">Jak stáhnout</a></font> 
 		</div>
 	  </div>
 	</font>
@@ -197,43 +197,7 @@ Pokud se rozhodnete, že si UvíkOS nechcete stáhnout, můžete zkusit alternat
     document.getElementById("buton").style.display = "block";
     document.getElementById("hide").style.display = "none";
   }
-    let fuckmicrosft = false;
-    function showPopup() {
-      document.getElementById("popup").style.display = "block";
-      document.getElementById("backdrop").style.display = "block";
-    }
-    function fuckms() {
-      document.getElementById("fuckmicrosoft").style.display = "block";
-      document.getElementById("bgfuckms").style.display = "block";
-document.getElementById("warnBtn").style.display = "none";
-    }
-    function hideAndFUckMS() {
-        hidePopup();
-        if (fuckmicrosft) {        window.location.href = "https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/uvikos.zip";
-showPopup();}
-    }
-    function hidePopup() {
-      document.getElementById("popup").style.display = "none";
-        document.getElementById("fuckmicrosoft").style.display = "none";
-      document.getElementById("backdrop").style.display = "none";
-      document.getElementById("bgfuckms").style.display = "none";
-    }
 
-const frames = ["https://admin-iget.github.io/test/frame1.png", "https://admin-iget.github.io/test/frame2.png"];
-let i = 0;
-
-setInterval(() => {
-    i = (i + 1) % frames.length;
-    document.getElementById("warnBtn").src = frames[i];
-}, 1099);
-
-
-    window.onload = function () {
-      if (window.location.hash === "#popup") {
-        window.location.href = "https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/uvikos.zip";
-        showPopup();
-      }
-    };
   </script>
 </p>
 </body>
