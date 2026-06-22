@@ -199,6 +199,19 @@ Pokud se rozhodnete, že si UvíkOS nechcete stáhnout, můžete zkusit alternat
     document.getElementById("hide").style.display = "none";
   }
 
+
+    const img = document.getElementById("warnBtn");
+
+    const frame1 = "https://admin-iget.github.io/test/frame1.png";
+    const frame2 = "https://admin-iget.github.io/test/frame2.png";
+
+    let toggle = false;
+
+    setInterval(() => {
+      img.src = toggle ? frame1 : frame2;
+      toggle = !toggle;
+    }, 1000);
+
   </script>
 </p>
 </body>

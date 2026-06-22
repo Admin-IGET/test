@@ -187,6 +187,16 @@ If you decide not to download UvikOS, you can try an alternative called <a href=
     document.getElementById("buton").style.display = "block";
     document.getElementById("hide").style.display = "none";
   }
+    const img = document.getElementById("warnBtn");
 
+    const frame1 = "https://admin-iget.github.io/test/frame1.png";
+    const frame2 = "https://admin-iget.github.io/test/frame2.png";
+
+    let toggle = false;
+
+    setInterval(() => {
+      img.src = toggle ? frame1 : frame2;
+      toggle = !toggle;
+    }, 1000);
   </script>
 <div style="font-size=0px; display: none">i do not wnta to live anymore</div>
