@@ -1,0 +1,61 @@
+<!DOCTPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>viefisoifhjdfvzhu</title>
+<style>
+    html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        overflow: hidden;
+        font-family: sans-serif;
+    }
+
+    #filepickar {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 100;
+    }
+
+    #video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+        background: black;
+        display: block;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<input id="filepickar" type="file" accept="video/*">
+<video id="video" disablePictureInPicture></video>
+<script>
+const video = document.getElementById("video");
+const filepickar = document.getElementById("filepickar");
+
+filepickar.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
+    video.src = url;
+    video.play();
+});
+
+video.addEventListener("click", () => {
+    if (video.paused) {
+        video.play();
+    } else {
+        video.pause();
+    }
+});
+
+</script>
+
+</body>
+</html>
