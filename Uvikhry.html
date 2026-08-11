@@ -123,6 +123,7 @@ iframe {
 	<button class="game-button" onclick="showTitleScreen('UvíkJump: 3D Platformer (Jen PC)', 'https://admin-iget.github.io/test/NejakejPlatformerHTML/')">UvíkJump (Jen PC)</button>
 	<button class="game-button" onclick="showTitleScreen('Rozmotat', 'https://admin-iget.github.io/test/RozmotatTitle.html')">Rozmotat (PC Doporučen)</button>
 	<button class="game-button" onclick="showTitleScreen('Nakreslit', 'https://admin-iget.github.io/test/NakreslitTitle.html')">Nakreslit (PC Doporučen)</button>
+	<a href="https://drive.google.com/file/d/1Hb5fRw3b6eqc7SN6q5lalQe81vAyZVsh/view?usp=sharing" style="display: none;" id="bladisbasic">Baldis Coding Class</a>
     <font face="Arial" size=3><center>Jsem si vědom překlepu "Stisněte" v některých hrách, nemohu to opravit protože kompilace kódu trvá dvě století. Také se předem omlouvám za typografické či gramatické chyby v textu.</center></font>
 
 </div>
@@ -162,6 +163,20 @@ iframe {
 	<button class="close-button" id="clos" style="display: none;" onclick="closeIframe()">X</button>
 	
     <script>
+		const secret = "bmod";
+		let typed = "";
+		
+		document.addEventListener("keydown", (event) => {
+		    typed += event.key;
+		    if (typed.length > secret.length) {
+		        typed = typed.slice(-secret.length);
+		    }
+		    if (typed === secret) {
+				document.getElementById('bladisbasic').style.display = 'block';
+		        typed = "";
+		    }
+		});
+		
         let currentGameUrl = '';
 
     function showTitleScreen(gameName, gameUrl) {
