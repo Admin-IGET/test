@@ -123,6 +123,7 @@ iframe {
 	<button class="game-button" onclick="showTitleScreen('UvíkJump: 3D Platformer (Jen PC)', 'https://admin-iget.github.io/test/NejakejPlatformerHTML/')">UvíkJump (Jen PC)</button>
 	<button class="game-button" onclick="showTitleScreen('Rozmotat', 'https://admin-iget.github.io/test/RozmotatTitle.html')">Rozmotat (PC Doporučen)</button>
 	<button class="game-button" onclick="showTitleScreen('Nakreslit', 'https://admin-iget.github.io/test/NakreslitTitle.html')">Nakreslit (PC Doporučen)</button>
+	<button class="game-button" onclick="showTitleScreen('Bludiště 3D 2', 'https://admin-iget.github.io/test/CornMazeHTML/index.html')">Bludiště 3D 2 (jen pro PC)</button>
 	<a href="https://drive.google.com/file/d/1Hb5fRw3b6eqc7SN6q5lalQe81vAyZVsh/view?usp=sharing" style="display: none;" id="bladisbasic">Baldis Coding Class</a>
     <font face="Arial" size=3><center>Jsem si vědom překlepu "Stisněte" v některých hrách, nemohu to opravit protože kompilace kódu trvá dvě století. Také se předem omlouvám za typografické či gramatické chyby v textu.</center></font>
 
@@ -147,6 +148,11 @@ iframe {
             <p style="color: white;">Chcete si ukládat stavby v BlockBuildu? Stáhněte si plnou verzi! 
                 <a href="https://drive.google.com/file/d/1F7xiyTDgMbwxuM39kTGK9-75uEsl1H5k/view?usp=sharing" target="_blank" style="color: #4CAF50; text-decoration: underline;">Stáhnout</a>
                 <p>Tady si můžete nějaké kódy stáhnout!: <a href="blockbuild.html" target="_blank" style="color: #4CAF50; text-decoration: underline;">Save kódy pro BlockBuild (ke stažení)</a></p>
+            </p>
+        </div>
+		<div id="tut" style="display: none; margin-top: 20px;">
+            <p style="color: white;">
+				V této hře máte za úkol najít všechny klíče v náhodně vygenerovaném kukuřičném bludišti. Poté se stačí dostat k vlajce.
             </p>
         </div>
 		<div id="sorrymsg" style="display: none; margin-top: 20px;">
@@ -184,10 +190,16 @@ iframe {
         currentGameUrl = gameUrl;
         document.getElementById('title-screen').style.display = 'flex';
         const promo = document.getElementById('blockbuild-promo');
+		const tutor = document.getElementById('tut');
         if (gameName.includes('BlockBuild')) {
             promo.style.display = 'block';
         } else {
             promo.style.display = 'none';
+        }
+        if (gameName.includes('Bludiště 3D 2')) {
+            tutor.style.display = 'block';
+        } else {
+            tutor.style.display = 'none';
         }
 		const srry = document.getElementById('sorrymsg');
         if (gameName.includes('UvíkJump')) {
