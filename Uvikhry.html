@@ -4,94 +4,278 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uvíkhry</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f0f0;
-        }
-        .game-button {
-            padding: 15px;
-            margin: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 0px;
-        }
-        .game-button:hover {
-            background-color: #45a049;
-        }
-        .title-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .title-screen h1 {
-            margin-bottom: 20px;
-        }
-        .play-button {
-            padding: 15px 30px;
-            font-size: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 0px;
-            cursor: pointer;
-        }
-        .play-button:hover {
-            background-color: #45a049;
-        }
-        .resolution-select {
-            margin: 15px;
-            padding: 10px;
-            font-size: 18px;
-        }
-        .iframe-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transform: translate(-50%, -50%);
-            padding: 10px;
-            border-radius: 10px;
-        }
-iframe {
-    border: none;
-}
-.close-button {
-    position: fixed; 
-    top: 30px;
-    right: 10px;
-    font-size: 25px;
-    display: flex;
-    color: white;
-    background: rgba(255, 0, 0, 0.7);
-    border: none;
-    border-radius: 0%;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 1100; 
-}
+<style>
 
-.close-button:hover {
-    background: rgba(255, 0, 0, 1);
-}
-    </style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        min-height: 100%;
+    }
+
+    body {
+        font-family: "Comic Sans MS", sans-serif;
+        text-align: center;
+
+
+        background-color: #fefefe;
+
+        color: #000;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+
+        overflow-x: hidden;
+    }
+
+
+    button,
+    select,
+    input {
+        font-family: "", serif;
+        image-rendering: pixelated;
+    }
+
+    .game-button {
+        padding: 8px 18px;
+        margin: 6px;
+
+        font-family: "Segoe UI", sans-serif;
+        font-size: 18px;
+
+        color: #fff;
+        background: #00b500;
+
+        border: 1px solid;
+        border-top-color: #000000;
+        border-left-color: #000000;
+        border-right-color: #000000;
+        border-bottom-color: #000000;
+
+        border-radius: 0;
+
+        box-shadow: 2px 2px 0 #555555;
+    }
+
+    .game-button:hover {
+        background: #0000ff;
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 #555555;
+    }
+
+    .game-button:active {
+        border-top-color: #404040;
+        border-left-color: #404040;
+        border-right-color: #ffffff;
+        border-bottom-color: #ffffff;
+
+        transform: translate(2px, 2px);
+        box-shadow: none;
+    }
+
+    .title-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        background: #008080;
+
+        color: #000;
+
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        z-index: 1000;
+
+        background-color: #ffffff;
+    }
+
+    .title-screen h1 {
+        margin: 0 0 20px 0;
+
+        min-width: 320px;
+        padding: 8px 12px;
+
+        color: #ffffff;
+        background: #000080;
+
+        font-family: "Comic Sans MS", sans-serif;
+        font-size: 26px;
+        font-weight: bold;
+
+        border: 2px solid;
+        border-top-color: #aaaaaa;
+        border-left-color: #aaaaaa;
+        border-right-color: #000000;
+        border-bottom-color: #000000;
+
+        text-shadow: 2px 2px #000;
+    }
+
+
+    .close-button {
+        position: fixed;
+
+        top: 15px;
+        right: 15px;
+
+        min-width: 32px;
+        min-height: 30px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-family: "Segoe UI", sans-serif;
+        font-size: 18px;
+
+        color: #fff;
+        background: #00b500;
+
+        border: 1px solid;
+        border-top-color: #000000;
+        border-left-color: #000000;
+        border-right-color: #000000;
+        border-bottom-color: #000000;
+
+        border-radius: 0;
+        z-index: 999999999999999999999999999;
+        box-shadow: 2px 2px 0 #555555;
+    }
+
+    .close-button:hover {
+        background: #0000ff;
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 #555555;
+    }
+
+    .close-button:active {
+        border-top-color: #404040;
+        border-left-color: #404040;
+        border-right-color: #ffffff;
+        border-bottom-color: #ffffff;
+
+        transform: translate(2px, 2px);
+        box-shadow: none;
+    }
+
+    .play-button {
+        padding: 8px 18px;
+        margin: 6px;
+
+        font-family: "Segoe UI", sans-serif;
+        font-size: 18px;
+
+        color: #fff;
+        background: #00b500;
+
+        border: 1px solid;
+        border-top-color: #000000;
+        border-left-color: #000000;
+        border-right-color: #000000;
+        border-bottom-color: #000000;
+
+        border-radius: 0;
+
+        box-shadow: 2px 2px 0 #555555;
+    }
+
+    .play-button:hover {
+        background: #0000ff;
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 #555555;
+    }
+
+    .play-button:active {
+        border-top-color: #404040;
+        border-left-color: #404040;
+        border-right-color: #ffffff;
+        border-bottom-color: #ffffff;
+
+        transform: translate(2px, 2px);
+        box-shadow: none;
+    }
+
+    .resolution-select {
+        margin: 15px;
+        padding: 5px 8px;
+
+        font-family: "Lucida Sans", sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+
+        color: #000;
+        background: #eaeaea;
+
+        border: 2px solid;
+        border-top-color: #404040;
+        border-left-color: #404040;
+        border-right-color: #cacaca;
+        border-bottom-color: #cacaca;
+
+        border-radius: 0;
+
+        outline: none;
+
+
+    }
+
+    .iframe-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        color: #000;
+
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        z-index: 10;
+
+        background-color: #0a0a0a;
+    }
+
+    iframe {
+        display: block;
+
+        border: 2px solid #404040;
+
+        background: #999999;
+
+        image-rendering: pixelated;
+    }
+
+    @media (max-width: 600px) {
+        .title-screen h1 {
+            min-width: auto;
+            width: 85%;
+            font-size: 20px;
+        }
+
+        .iframe-container {
+            max-width: 95vw;
+            max-height: 90vh;
+        }
+
+        iframe {
+            max-width: 90vw;
+            max-height: 80vh;
+        }
+    }
+</style>
 </head>
 <body>
 
@@ -142,21 +326,21 @@ iframe {
             <option value="fullscreen">Obří</option>
         </select>
 
-        <button class="play-button" onclick="startGame()">▶</button>
+        <button class="play-button" onclick="startGame()">Spustit</button>
         <button class="close-button" onclick="closeTitleScreen()">X</button>
         <div id="blockbuild-promo" style="display: none; margin-top: 20px;">
-            <p style="color: white;">Chcete si ukládat stavby v BlockBuildu? Stáhněte si plnou verzi! 
+            <p style="color: black;">Chcete si ukládat stavby v BlockBuildu? Stáhněte si plnou verzi! 
                 <a href="https://drive.google.com/file/d/1F7xiyTDgMbwxuM39kTGK9-75uEsl1H5k/view?usp=sharing" target="_blank" style="color: #4CAF50; text-decoration: underline;">Stáhnout</a>
-                <p>Tady si můžete nějaké kódy stáhnout!: <a href="blockbuild.html" target="_blank" style="color: #4CAF50; text-decoration: underline;">Save kódy pro BlockBuild (ke stažení)</a></p>
+                <p style="color: black;">Tady si můžete nějaké kódy stáhnout!: <a href="blockbuild.html" target="_blank" style="color: #4CAF50; text-decoration: underline;">Save kódy pro BlockBuild (ke stažení)</a></p>
             </p>
         </div>
 		<div id="tut" style="display: none; margin-top: 20px;">
-            <p style="color: white;">
+            <p style="color: black;">
 				V této hře máte za úkol najít všechny klíče v náhodně vygenerovaném kukuřičném bludišti. Poté se stačí dostat k vlajce.
             </p>
         </div>
 		<div id="sorrymsg" style="display: none; margin-top: 20px;">
-            <p style="color: white;">
+            <p style="color: black;">
 				Poznámka: Při programování této hry se program Unity rozhodl celou hru vymazat. Po krátkém depresivním záchvatu a mírném přehodnocení mých životních rozhodnutí jsem se rozhodl hru předělat. Proto je tak krátká, ale možná se v budoucnosti zvětší.
             </p>
         </div>
