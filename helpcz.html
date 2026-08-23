@@ -6,23 +6,29 @@
 
     <p id="whitecolor">Nejprve otevřete odkaz pro stažení UvíkOS: <a href="https://drive.google.com/drive/folders/1gMB49hdeKjepfSdSOJ0l-2AgboAXtnQX?usp=drive_link" target="_blank">UvíkOS - Disk Google</a>.
     A klikněte pravým tlačítkem myši na složku <i>UvíkOS</i> a vyberte možnost <i>Stáhnout</i>.
-    <center><img src="pic1.png" alt="Obrázek webu Disk Google" width="750px"></img></center>
+    <center><div class="obrazek-container"><img src="pic1.png" alt="Obrázek webu Disk Google" width="750px" onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Obrázek: </t></img></div></center>
     <p id="whitecolor">
     Poté vyčkejte, než se stáhne archiv ZIP (například „UvíkOS-20260607T093549Z-3-001.zip“).
     Po dokončení stahování soubor najděte v Průzkumníku souborů. To můžete jednoduše udělat kliknutím na ikonu složky vedle staženého souboru.
-    <center><img src="pic2.png" alt="Stahování UvíkOS - microsoft edge" width="450px"></img></center>
+    <center><div class="obrazek-container"><img src="pic2.png" alt="Stahování UvíkOS - microsoft edge" width="450px"><t id="ObrazekTitul">Obrázek: </t></img></div></center>
     <p id="whitecolor">
     Stažený archiv ZIP extrahujte. To můžete udělat tím, že kliknete na soubor pravým tlačítkem myši, vyberete možnost <i>Extrahovat vše</i> a poté kliknete na <i>Extrahovat</i>.
-    <center><img src="pic3.png" alt="Extrahovat archiv" width="628"> </img><img src="pic4.png" alt="Extrahování souboru 2" width="499px"></img></center>
+    <center><div class="obrazek-container"><img src="pic3.png" alt="Extrahovat archiv" width="628"><t id="ObrazekTitul">Obrázek: </t></img></div><div class="obrazek-container"><img src="pic4.png" alt="Extrahování souboru 2" width="499px"><t id="ObrazekTitul">Obrázek: </t></img></div></center>
     <p id="whitecolor">
     Poté najděte rozbalenou složku a spusťte soubor „Nainstalovat UvíkOS“. Protože UvíkOS nemá placený certifikát, může se zobrazit varování SmartScreen. Stačí kliknout na <i>Další informace</i> a poté na <i>Přesto spustit</i>.
-    <center><img src="pic5.png" alt="Nainstalovat UvíkOS" width="450px"></p></center>
+    <center><div class="obrazek-container"><img src="pic5.png" alt="Nainstalovat UvíkOS" width="450px"><t id="ObrazekTitul">Obrázek: </t></img></div></center>
     <p id="whitecolor">
     Pokud chcete ušetřit místo na úložišti, můžete soubor „Spustit UvíkOS“ přesunout do jiné složky a poté smazat stažený ZIP archiv i rozbalenou složku.
 </main>
 
 
-</body><style>body {
+</body>
+<script>
+ function TotoJeJenObrazekTyMnoukadlo() {
+  alert("Toto je jen obrázek! Není interaktivní. Postupujte podle textu v návodu. Pomůže vám přepínání mezi kartami."); // and can you make this user friendlyer? so it like tells them but not in an alert
+ }
+</script>
+<style>body {
     background-color: white;
 }
 img {
@@ -32,7 +38,23 @@ img {
         0 0 6px rgba(120,170,220,0.3);
     border-radius: 0px;
     margin: 1px;
-}
+}
+.obrazek-container {
+    position: relative;
+    display: inline-block;
+    padding: 10px 0px 0px 0px;
+}
+
+#ObrazekTitul {
+    position: absolute;
+    top: -12px;
+    left: -7px;
+    font-style: italic;
+    color: black;
+    padding: 3px 6px 3px 6px;
+    font-family: Arial;
+    font-size: 16px;
+}
 h1 {
     color: darkblue;
     font-family: arial
