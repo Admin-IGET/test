@@ -6,24 +6,30 @@
 
     <p id="whitecolor">First, open the UvikOS download link (preferably in a different window): <a href="https://drive.google.com/drive/folders/1t4ofcZHtMKVe1rZaMaXrRHKqBKMrqRt2?usp=sharing" target="_blank">UvikOS - Google Drive</a>.
     Then right-click the <i>UvikOS_en</i> folder and then select the <i>Download</i> option.
-    <center><img src="pic1en.png" alt="Google Drive website screenshot" width="750px"></img></center>
+    <center><div class="obrazek-container"><img src="pic1en.png" alt="Google Drive website screenshot" width="750px"onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Picture: </t></img></div></center>
     <p id="whitecolor">
     Wait for the ZIP archive to download (for example, "UvikOS_en-20260607T091612Z-3-001.zip").
     After the download is complete, locate the file in File Explorer. You can do this by clicking the folder icon next to the downloaded file.
-    <center><img src="pic2en.png" alt="Downloading UvikOS - Microsoft Edge" width="450px"></img></center>
+    <center><div class="obrazek-container"><img src="pic2en.png" alt="Downloading UvikOS - Microsoft Edge" width="450px"onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Picture: </t></img></div></center>
     <p id="whitecolor">
     Extract the downloaded ZIP archive. You can do this by right-clicking the file, selecting <i>Extract All</i>, and then clicking <i>Extract</i>. 
-    <center><img src="pic3en.png" alt="Extract archive" width="628px"></img><img src="pic4en.png" alt="Extracting file 2" width="499px"></img></center>
+    <center><div class="obrazek-container"><img src="pic3en.png" alt="Extract archive" width="628px"onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Picture: </t></img></div><div class="obrazek-container"><img src="pic4en.png" onclick="TotoJeJenObrazekTyMnoukadlo()" alt="Extracting file 2" width="499px"><t id="ObrazekTitul">Picture: </t></img></div></center>
     <p id="whitecolor">
     Next, locate the extracted folder and run the "Install UvikOS" file. Because UvikOS doesn't have a paid certificate, Windows may show a SmartScreen warning. Just click <i>More info</i> and then <i>Run anyway</i> to run the file.
-    <center><img src="pic5en.png" alt="Install UvikOS" width="450px"></p></center>
+    <center><div class="obrazek-container"><img src="pic5en.png" alt="Install UvikOS" width="450px"onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Picture: </t></img></div></center>
     <p id="whitecolor">
     If you want to save storage space, move the “Start UvikOS” file to another folder, then delete the downloaded ZIP archive and the extracted folder.
     <t style="opacity: 0">La at m t t la  dat</t>
 </main>
 
 
-</body><style>body {
+</body>
+<script>
+ function TotoJeJenObrazekTyMnoukadlo() {
+  alert("This is just an image! It is not interactive. Follow the text in these instructions. Switching between tabs will help.");
+ }
+</script>
+<style>body {
     background-color: white;
 }
 img {
@@ -34,7 +40,22 @@ img {
     border-radius: 0px;
     margin: 1px;
 }
+.obrazek-container {
+    position: relative;
+    display: inline-block;
+    padding: 10px 0px 0px 0px;
+}
 
+#ObrazekTitul {
+    position: absolute;
+    top: -12px;
+    left: -7px;
+    font-style: italic;
+    color: black;
+    padding: 3px 6px 3px 6px;
+    font-family: Arial;
+    font-size: 16px;
+}
 h1 {
     color: darkblue;
     font-family: arial
