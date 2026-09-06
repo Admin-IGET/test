@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Viewer</title>
+</head>
+<body>
+
+    <input type="file" id="fileInput" accept=".html,.htm">
+
+    <iframe id="viewer" style="width: 480px; height: 360px; border: 1px solid #ccc; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); margin: 30px;"></iframe>
+
+    <script>
+        const fileInput = document.getElementById("fileInput");
+        const viewer = document.getElementById("viewer");
+
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files[0];
+
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                viewer.srcdoc = reader.result;
+            };
+
+            reader.readAsText(file);
+        });
+    </script>
+
+</body>
+</html>
+
