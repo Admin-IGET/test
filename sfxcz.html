@@ -3,13 +3,20 @@
 <main id="main">
     <h1 id="title">Jak stáhnout UvíkOS</h1>
 <center><div id="welcome">Vítejte v návodu ke stažení UvíkOS.</div><div id="tentonavod">Tento návod vás provede stažením UvíkOS pomocí samorozbalovacího archivu. Obsahuje také obrázky.</div></center>
-    <p id="whitecolor"><font face="Arial" color=red style="font-size: 22;"><center><b><u><img src="warn.gif" style="border: 0; box-shadow: none;"></img>VAROVÁNÍ: Windows Defender může v některých případech nesprávně označit samorozbalovací archiv UvíkOS jako nebezpečný. Pokud se tato chyba objeví, zkuste soubor stáhnout znovu za několik dní.</b></u></font></a>
+    <p id="whitecolor"><font face="Arial" color=red style="font-size: 22;"><center><b><u><img src="warn.gif" style="border: 0; box-shadow: none;"></img>VAROVÁNÍ: Windows Defender může v některých případech samorozbalovací archiv UvíkOS nesprávně detekovat jako hrozbu. Pokud k tomu dojde, můžete soubor zkusit stáhnout znovu později.</b></u></font></a>
+    <div id="NONMSEDGE"><p id="whitecolor" style="font-size: 20;"><img src="warn.gif" style="border: 0; box-shadow: none;"></img>Pokud používáte Microsoft Edge, klikněte <button onclick="msedgeIsBad()">sem</button>.</div>
     <p id="whitecolor">Nejprve si stáhněte Samorozbalovací archiv UvíkOS: <a href="https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/Samorozbalovaci_archiv_UvikOS.exe" target="_blank">Stáhnout</a>.
-    Po stažení souboru jej otevřete.
+    <div id="MSEDGEONLY" style="display: none"><p id="whitecolor" id=""><img src="warn.gif" style="border: 0; box-shadow: none;"></img>Protože UvikOS není často stahován, Microsoft Edge může zobrazit varování „Tento soubor se běžně nestahuje“. Pokud se toto varování zobrazí, klikněte na tlačítko <i>...</i>, poté na <i>Ponechat</i>, poté na tlačítko ▼ vedle tlačítka <i>Odstranit</i> a nakonec na <i>Přesto zachovat</i>.</p>
+    <center><div class="obrazek-container"><img src="FuckMicrosoft1.png" alt="Obcházení varování“ warning." onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Obrázek: </t></img></div></center><br>
+    <center><div class="obrazek-container"><img src="FuckMicrosoft2.png" alt="Obcházení varování" onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Obrázek: </t></img></div></center></div>
+    <p id="whitecolor">Po stažení souboru jej otevřete.
     <center><div class="obrazek-container"><img src="sfx1cz.png" alt="Stažený soubor Samorozbalovaci_archiv_UvikOS.exe" onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Obrázek: </t></img></div></center>
     <p id="whitecolor">
-    Po pokračování klikněte na tlačítko <i>Pokračovat</i>.
-    Poté vyčkejte, než program rozbalí potřebné soubory systému UvíkOS, a stiskněte tlačítko <i>OK</i>.
+    Protože UvíkOS není často stahován a nemá digitální certifikát, SmartScreen může zobrazit varování. Pokud se toto varování zobrazí, klikněte na <i>Další informace</i> a poté na <i>Přesto spustit</i>.
+    <center><div class="obrazek-container"><img src="stupidscreenCZ.png" alt="Bypassing smartscreen warning" onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Obrázek: </t></img></div></center>
+    <p id="whitecolor">
+    Otevře se Samorozbalovací archiv UvíkOS. Pro rozbalení souborů potřebných pro UvíkOS klikněte na tlačítko <i>Pokračovat</i>.
+    Poté vyčkejte, než program rozbalí potřebné soubory, a stiskněte tlačítko <i>OK</i>.
     <center><div class="obrazek-container"><img src="sfx2cz.png" alt="Samorozbalovací archiv UvíkOS rozbaluje soubory"  onclick="TotoJeJenObrazekTyMnoukadlo()"><t id="ObrazekTitul">Obrázek: </t></img></div></center>
     <p id="whitecolor">
     Program otevře instalační program systému UvíkOS. Pokud instalační program nevidíte, zkontrolujte hlavní panel (dolní lišta), nebo spusťte program „Nainstalovat UvíkOS“ v otevřené složce.
@@ -24,6 +31,10 @@
 <script>
  function TotoJeJenObrazekTyMnoukadlo() {
   alert("Toto je jen obrázek! Není interaktivní. Postupujte podle textu v návodu. Pomůže vám přepínání mezi kartami.");
+ }
+ function msedgeIsBad() {
+    document.getElementById("NONMSEDGE").style.display = "none";
+    document.getElementById("MSEDGEONLY").style.display = "block";
  }
 </script>
 <style>body {
