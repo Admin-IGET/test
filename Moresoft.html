@@ -1,72 +1,338 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Extra software</title>
-    <style>
-        html, body {height:100%;margin:0;}
-        body {display:flex;flex-direction:column;font-family:Arial;}
-        main {flex:1;padding:20px;text-align:center;}
-        footer {padding:10px;text-align:center;}
-        .cz {display:inline;}
-        .en {display:none;}
-        #toggleBtn {position:absolute;top:10px;left:10px;padding:5px 10px;cursor:pointer;background-color : blue; color : white;}
-    </style>
-</head>
-<body>
-<button id="toggleBtn">Česky / English</button>
-<main>
-<p></p>
-    <h1 class="cz">Extra software</h1>
-    <h1 class="en">Extra software</h1>
-	
-	<p>
-        <a href="https://admin-iget.github.io/test/UvikSnip.zip" target="_blank">
-            <span class="cz">UvíkSnip (Česky, bezpečné, od StarLaeTech)</span>
-            <span class="en">UvikSnip (English, safe to use, by StarLaeTech)</span>
-        </a>
-    </p>
-	
-	<p>
-        <a href="https://admin-iget.github.io/test/Theme%20Pack%20Loader.zip" target="_blank">
-            <span class="cz">UvíkOS Motivy (Česky, bezpečné, od AdminIGET)</span>
-            <span class="en">UvikOS Theme pack loader (English, safe to use, by AdminIGET)</span>
-        </a>
-    </p>
-	
-	<p>
-        <a href="https://drive.google.com/file/d/1W6rmUjEAvJav1bTs-nwAmWDV6CrdwTvl/view?usp=sharing" target="_blank">
-            <span class="cz">UvíkOS HTML Editor (Jen česky, bezpečné, od AdminIGET)</span>
-            
-        </a>
-    </p>
-	
-    <p>
-        <a href="https://admin-iget.github.io/test/FolderLocker.exe" target="_blank">
-            <span class="cz">FolderLocker (Jen anglicky, bezpečné, od StarLaeTech)</span>
-            <span class="en">FolderLocker (Only English, safe to use, by StarLaeTech)</span>
-        </a>
-    </p>
 
-</main>
-<footer>
-    <span class="cz">Chcete přidat další program? Napište mi e-mail na <a href="mailto:dmnigetyt@centrum.cz">dmnigetyt@centrum.cz</a>.</span>
-	<span class="en">Do you want to add a program? Write me an e-mail to <a href="mailto:dmnigetyt@centrum.cz">dmnigetyt@centrum.cz</a>.</span>
-</footer>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Extra software</title>
+
+<style>
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 12px;
+    color: #000;
+    font-family: Verdana, Arial, sans-serif;
+    background: #c0c0c0;
+    text-align: center;
+}
+
+#displayarea {
+    position: relative;
+    min-height: 100vh;
+    width: 90%;
+    margin: auto;
+    background: #d9ecd9;
+    border-left: 1px solid #666;
+    border-right: 1px solid #666;
+    text-align: left;
+}
+
+#topbar {
+    height: 45px;
+    background: #8fbc8f;
+    border-bottom: 1px solid #357a35;
+    padding: 3px 0;
+}
+
+#logo {
+    text-align: center;
+    margin-top: 4px;
+}
+
+#logo img {
+    height: auto;
+}
+
+#screen {
+    padding: 8px 10px 50px 10px;
+}
+
+.bar {
+    background: #8fbc8f;
+    border-top: 1px solid #357a35;
+    border-bottom: 1px solid #75a875;
+    padding: 5px 8px;
+    margin-top: 7px;
+    font-weight: bold;
+}
+
+.barbody {
+    background: #eaf5ea;
+    border-left: 1px solid #75a875;
+    border-right: 1px solid #75a875;
+    border-bottom: 1px solid #75a875;
+    padding: 7px 8px;
+}
+
+.software {
+    background: #eaf5ea;
+    border: 1px solid #75a875;
+    border-top: 1px solid #5d995d;
+    margin-bottom: 7px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.software:hover {
+    background: #f1f9f1;
+}
+
+.software-title {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+a {
+    color: #006600;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #005500;
+}
+
+a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+#toggleBtn {
+    position: absolute;
+    right: 4px;
+    margin: 4px 6px 0 0;
+    padding: 3px 7px;
+    cursor: pointer;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 11px;
+    color: #000;
+    background: #b5d1b5;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #357a35;
+    border-bottom: 1px solid #357a35;
+}
+
+#toggleBtn:active {
+    border-top: 1px solid #357a35;
+    border-left: 1px solid #357a35;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+
+#footbar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 5px 0;
+    background: #8fbc8f;
+    border-top: 1px solid #357a35;
+    text-align: center;
+}
+
+.cz {
+    display: inline;
+}
+
+.en {
+    display: none;
+}
+
+.clean {
+    clear: both;
+    height: 1px;
+    font-size: 1px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="displayarea">
+
+<div id="topbar">
+
+<button id="toggleBtn">Česky / English</button>
+
+<div id="logo">
+    <h1 style="font-size: 22px; margin: 8px 0 0 0;">
+        <span class="cz">Extra software</span>
+        <span class="en">Extra software</span>
+    </h1>
+</div>
+
+<div class="clean"></div>
+
+</div>
+
+<div id="screen">
+
+<div class="bar">
+    <span class="cz">Programy</span>
+    <span class="en">Software</span>
+</div>
+
+<div class="barbody">
+
+    <div class="software" data-url="https://admin-iget.github.io/test/UvikSnip.zip">
+
+        <div class="software-title">
+            <a href="https://admin-iget.github.io/test/UvikSnip.zip" target="_blank">
+                UvíkSnip
+            </a>
+        </div>
+
+        <span class="cz">
+            Česky, bezpečné, od StarLaeTech
+        </span>
+
+        <span class="en">
+            English, safe to use, by StarLaeTech
+        </span>
+
+    </div>
+
+
+    <div class="software" data-url="https://admin-iget.github.io/test/Theme%20Pack%20Loader.zip">
+
+        <div class="software-title">
+            <a href="https://admin-iget.github.io/test/Theme%20Pack%20Loader.zip" target="_blank">
+                UvíkOS Motivy
+            </a>
+        </div>
+
+        <span class="cz">
+            Česky, bezpečné, od AdminIGET
+        </span>
+
+        <span class="en">
+            UvikOS Theme pack loader, English, safe to use, by AdminIGET
+        </span>
+
+    </div>
+
+
+    <div class="software" data-url="https://drive.google.com/file/d/1W6rmUjEAvJav1bTs-nwAmWDV6CrdwTvl/view?usp=sharing">
+
+        <div class="software-title">
+            <a href="https://drive.google.com/file/d/1W6rmUjEAvJav1bTs-nwAmWDV6CrdwTvl/view?usp=sharing" target="_blank">
+                UvíkOS HTML Editor
+            </a>
+        </div>
+
+        <span class="cz">
+            Jen česky, bezpečné, od AdminIGET
+        </span>
+
+        <span class="en">
+            Only available in Czech, safe to use, by AdminIGET
+        </span>
+
+    </div>
+
+
+    <div class="software" data-url="https://admin-iget.github.io/test/FolderLocker.exe">
+
+        <div class="software-title">
+            <a href="https://admin-iget.github.io/test/FolderLocker.exe" target="_blank">
+                FolderLocker
+            </a>
+        </div>
+
+        <span class="cz">
+            Jen anglicky, bezpečné, od StarLaeTech
+        </span>
+
+        <span class="en">
+            Only English, safe to use, by StarLaeTech
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="bar">
+    <span class="cz">Informace</span>
+    <span class="en">Information</span>
+</div>
+
+<div class="barbody">
+
+    <center>
+
+        <span class="cz">
+            Chcete přidat další program?
+            Napište mi e-mail na
+            <a href="mailto:dmnigetyt@centrum.cz">dmnigetyt@centrum.cz</a>.
+        </span>
+
+        <span class="en">
+            Do you want to add a program?
+            Write me an e-mail at
+            <a href="mailto:dmnigetyt@centrum.cz">dmnigetyt@centrum.cz</a>.
+        </span>
+
+    </center>
+
+</div>
+
+</div>
+
+<div id="footbar">
+
+<span class="cz">
+    Děkujeme, že používáte UvíkOS!
+</span>
+
+<span class="en">
+    Thank you for using UvikOS!
+</span>
+
+</div>
+
+</div>
 
 <script>
-let czVisible=true;
-document.getElementById("toggleBtn").onclick=function(){
-  czVisible=!czVisible;
-  document.querySelectorAll(".cz").forEach(e=>e.style.display=czVisible?"inline":"none");
-  document.querySelectorAll(".en").forEach(e=>e.style.display=czVisible?"none":"inline");
-}
+
+let czVisible = true;
+
+document.getElementById("toggleBtn").onclick = function() {
+
+    czVisible = !czVisible;
+
+    document.querySelectorAll(".cz").forEach(function(e) {
+        e.style.display = czVisible ? "inline" : "none";
+    });
+
+    document.querySelectorAll(".en").forEach(function(e) {
+        e.style.display = czVisible ? "none" : "inline";
+    });
+
+};
+
+
+document.querySelectorAll(".software").forEach(function(box) {
+
+    box.onclick = function(e) {
+
+        if (e.target.tagName.toLowerCase() === "a") {
+            return;
+        }
+
+        window.open(box.getAttribute("data-url"), "_blank");
+
+    };
+
+});
+
 </script>
+
 </body>
 </html>
-
-
-
-
-
-
