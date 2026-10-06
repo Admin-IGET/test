@@ -1,296 +1,402 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UvikSearch</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      /*overflow-x: hidden;*/
-    }
 
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #fff;
-      /*transition: all 0.3s ease;*/
-    }
+<meta charset="UTF-8">
+<title>Uvík Vyhledávač</title>
 
-    .top-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      /*transition: all 0.3s ease;*/
-      width: 100%;
-      max-width: 900px;
-      padding: 0 15px;
-      box-sizing: border-box;
-      position: relative;
-    }
+<style>
 
-    .image-container {
-      margin-bottom: 30px;
-      flex-shrink: 0;
-    }
+html, body {
+    margin: 0;
+    padding: 0;
+}
 
-    .image-container img {
-      width: 320px;
-      height: auto;
-      max-width: 100%;
-      /*transition: width 0.3s ease;*/
-    }
-
-    .content {
-      width: 100%;
-      max-width: 700px;
-      position: relative;
-      top: -12px;
-      /*transition: all 0.3s ease;*/
-    }
-
-    .close-button {
-      display: none;
-      font-size: 20px;
-      color: #1a0dab;
-      text-decoration: none;
-      cursor: pointer;
-      white-space: nowrap;
-      z-index: 10;
-    }
-
-    body.top .close-button {
-      display: inline;
-    }
-
-
-    body.top {
-      justify-content: flex-start;
-      align-items: stretch;
-      min-height: auto;
-    }
-
-    body.top .top-container {
-      flex-direction: row;
-      align-items: flex-start;
-      padding: 10px 30px;
-      border-bottom: 1px solid #ddd;
-      max-width: 100%;
-    }
-
-    body.top .image-container {
-      margin: 0;
-      margin-right: 20px;
-      margin-top: 5px;
-      width: 250px;
-      flex-shrink: 0;
-    }
-
-    body.top .image-container img {
-      width: 100%;
-      height: auto;
-    }
-
-    body.top .content {
-      flex-grow: 1;
-      max-width: none;
-    }
-
-    body.top .close-button {
-      display: inline;
-    }
-
-    body.top #search-results-container {
-      display: block;
-    }
-
-    .footer-links {
-      width: 100%;
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 0 15px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-@media (max-width: 767px) {
 body {
-justify-content: flex-start;
-min-height: auto;
-align-items: stretch;
+    font-size: 12px;
+    color: #000;
+    font-family: Verdana, Arial, sans-serif;
+    background: #c0c0c0;
+    text-align: center;
 }
-}
-body.top .top-container {
-flex-direction: row;
-align-items: flex-start;
-padding: 10px 30px;
-border-bottom: 1px solid #ddd;
-max-width: 100%;
-}
-body.top .image-container {
-margin: 0;
-margin-right: 20px;
-margin-top: 5px;
-width: 250px;
-flex-shrink: 0;
-}
-body.top .image-container img {
-width: 100%;
-height: auto;
-}
-body.top .content {
-flex-grow: 1;
-max-width: none;
-}
-body.top .close-button {
-display: inline;
-}
-@media (max-width: 767px) {
-  body.mobile-centered {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+#displayarea {
+    position: relative;
     min-height: 100vh;
-  }
+    width: 90%;
+    margin: auto;
+    background: #d9ecd9;
+    border-left: 1px solid #666;
+    border-right: 1px solid #666;
+    text-align: left;
 }
+
+#topbar {
+    height: 76px;
+    background: #8fbc8f;
+    border-bottom: 1px solid #357a35;
+    padding: 3px 0 3px 0;
+}
+
+#logo {
+
+    text-align: center;
+    margin-top: 4px;
+}
+
+#logo img {
+    height: auto;
+}
+
+#topmenu {
+    margin-left: 215px;
+    padding-top: 7px;
+    text-align: left;
+}
+
+.menuitem {
+    display: inline;
+    margin-right: 12px;
+    padding-left: 11px;
+    background-image: url("data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=");
+    background-repeat: no-repeat;
+}
+
+#searchbar {
+    margin-left: 410px;
+    margin-right: 3px;
+    margin-top: 4px;
+    height: 59px;
+    padding: 3px 6px 5px 6px;
+    background: #b7d8b7;
+    border-top: 1px solid #5d995d;
+    text-align: center;
+}
+
+#screen {
+    padding: 8px 10px 50px 10px;
+}
+
+#searchbox {
+    background: #8fbc8f;
+    margin-bottom: 7px;
+    padding: 5px;
+    border-top: 1px solid #357a35;
+    border-left: 1px solid #357a35;
+    border-right: 1px solid #75a875;
+    border-bottom: 1px solid #75a875;
+}
+
+#searchbox-title {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px 5px 5px 5px;
+}
+
+#searchbox-body {
+    background: #d9ecd9;
+    border-left: 1px solid #75a875;
+    border-bottom: 1px solid #75a875;
+    padding: 7px 10px 8px 10px;
+}
+
+.gsc-control-cse {
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+}
+
+.gsc-control-cse table {
+    border: 0 !important;
+}
+
+.gsc-control-wrapper-cse,
+.gsc-search-box,
+.gsc-search-box-tools {
+    width: 100% !important;
+}
+
+.gsc-input-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border: 1px solid #000 !important;
+    background: #f7fff7 !important;
+}
+
+input.gsc-input {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border: 0 !important;
+    background: #f7fff7 !important;
+    font-family: Verdana, Arial, sans-serif !important;
+    font-size: 12px !important;
+}
+
+button.gsc-search-button {
+    border: 1px solid #000 !important;
+    background: #b5d1b5 !important;
+    border-radius: 0 !important;
+    margin-left: 2px !important;
+}
+
+button.gsc-search-button:hover {
+    background: #cce5cc !important;
+}
+
 #search-results-container {
-  max-width: 1000px;
-  width: 100%;
-  margin: 20px auto 40px;
-  padding: 0 15px;
-  box-sizing: border-box;
-  display: none;
+    width: 700px;
+    margin: 0 0 7px 0;
+    padding: 0;
 }
 
-body.top #search-results-container,
-body.show-results #search-results-container {
-  display: block;
+.gsc-results-wrapper-visible {
+    width: 100% !important;
 }
-    * {
-      box-sizing: border-box;
-    }
-  </style>
-  <script async src="https://cse.google.com/cse.js?cx=e5f2098c8d4d941ed"></script>
+
+.gsc-results {
+    width: 100% !important;
+}
+
+.gsc-webResult.gsc-result {
+    background: #eaf5ea !important;
+    border: 1px solid #75a875 !important;
+    border-top: 1px solid #5d995d !important;
+    margin-bottom: 7px !important;
+    padding: 7px !important;
+}
+
+.gsc-webResult.gsc-result:hover {
+    background: #f1f9f1 !important;
+}
+
+.gsc-result {
+    border-bottom: 0 !important;
+}
+
+.gs-title {
+    color: #006600 !important;
+}
+
+.gs-title b {
+    color: #000 !important;
+}
+
+.gs-visibleUrl,
+.gs-visibleUrl-short {
+    color: #357a35 !important;
+}
+
+.gs-snippet {
+    color: #222 !important;
+}
+
+.gsc-url-top {
+    color: #357a35 !important;
+}
+
+
+.bar {
+    background: #8fbc8f;
+    border-top: 1px solid #357a35;
+    border-bottom: 1px solid #75a875;
+    padding: 5px 8px;
+    margin-top: 7px;
+    font-weight: bold;
+}
+
+.barbody {
+    background: #eaf5ea;
+    border-left: 1px solid #75a875;
+    border-right: 1px solid #75a875;
+    border-bottom: 1px solid #75a875;
+    padding: 7px 8px;
+}
+
+a {
+    color: #006600;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #005500;
+}
+
+a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+#footbar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 5px 0;
+    background: #8fbc8f;
+    border-top: 1px solid #357a35;
+    text-align: center;
+}
+
+#footbar a {
+    margin: 0 10px;
+}
+
+.close-button {
+    display: none;
+    float: right;
+    margin-right: 8px;
+    margin-top: 3px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.clean {
+    clear: both;
+    height: 1px;
+    font-size: 1px;
+}
+
+</style>
+
+<script async src="https://cse.google.com/cse.js?cx=e5f2098c8d4d941ed"></script>
+
 </head>
+
 <body>
-  <div class="top-container">
-    <div class="image-container" id="logo-container">
-      <img src="https://admin-iget.github.io/test/uvikeng.png" alt="UvikSearch" />
-    </div>
-    <div class="content" id="search-container">
-      <gcse:search linktarget="_self"></gcse:search>
-    </div>
-    <a class="close-button" href="https://admin-iget.github.io/test/Uvikeng.html">X</a>
-  </div>
 
-  <div id="search-results-container"></div>
+<div id="displayarea">
 
-  <div class="footer-links">
-    <a href="https://admin-iget.github.io/test/engindex.html">UvikOS Download Page</a>
-    <a href="https://admin-iget.github.io/test/UvikAsistent.html">UvíkAsistent (NOT TRANSLATED)</a>
-  </div>
-    <center>UvikSearch will soon not work anymore. We recommend using a different search engine, like <a href="https://www.google.com/">Google</a> or <a href="https://duckduckgo.com/">DuckDuckGo</a>.</center>
+    <div id="topbar">
+
+        <div id="logo">
+            <img
+                src="https://admin-iget.github.io/test/uvikeng.png"
+                alt="Uvik Search"
+            >
+        </div>
+
+        <div class="clean"></div>
+
+    </div>
+
+
+    <div id="screen">
+
+        <div id="searchbox">
+
+            <div id="searchbox-title">
+                Search
+            </div>
+
+            <div id="searchbox-body">
+<center>
+<div style="margin-top: 8px"></div>
+                <gcse:search linktarget="_self"></gcse:search>
+<div id="search-results-container"></div>
+</center>
+            </div>
+            
+        </div>
+
+        
+
+        <div class="bar">
+            Information
+        </div>
+
+        <div class="barbody"><center>
+
+            Uvik Search will soon not work anymore. We recommend using a different search engine, like
+            <a href="https://www.google.com/">Google</a>
+            or
+            <a href="https://duckduckgo.com/">DuckDuckGo</a>.
+            <br>
+        </center></div>
+
+
+
+        
+
+
+        <div class="bar">
+            Links
+        </div>
+
+        <div class="barbody">
+
+            <a href="https://admin-iget.github.io/test/engindex.html">
+                UvikOS download page
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div id="footbar">
+        Děkujeme za návštěvu webu!
+    </div>
+
+</div>
+
+
 <script>
-  function isMobileDevice() {
-  return window.innerWidth < 768;
-}
-
-function updateBodyClasses(isMobile, hasResults) {
-  if (hasResults) {
-    if (isMobile) {
-      document.body.classList.add('show-results');
-      document.body.classList.remove('top');
-      document.body.classList.remove('mobile-centered');
-    } else {
-      document.body.classList.add('top');
-      document.body.classList.remove('show-results');
-      document.body.classList.remove('mobile-centered');
-    }
-  } else {
-    if (isMobile) {
-      document.body.classList.add('mobile-centered');
-      document.body.classList.remove('top');
-      document.body.classList.remove('show-results');
-    } else {
-      document.body.classList.remove('mobile-centered');
-      document.body.classList.remove('top');
-      document.body.classList.remove('show-results');
-    }
-  }
-}
 
 window.__gcse = {
-  callback: function () {
-    const input = document.querySelector('input.gsc-input');
-    const searchBtn = document.querySelector('button.gsc-search-button');
-    const resultsContainer = document.getElementById('search-results-container');
 
-    function moveResultsContainer(force) {
-      const results = document.querySelector('.gsc-results-wrapper-visible');
-      if (results && resultsContainer && !resultsContainer.contains(results)) {
-        resultsContainer.appendChild(results);
-      } else if (force) {
-        setTimeout(() => moveResultsContainer(true), 200);
-      }
+    callback: function () {
+
+        var resultsContainer =
+            document.getElementById('search-results-container');
+
+
+        function moveResultsContainer() {
+
+            var results =
+                document.querySelector('.gsc-results-wrapper-visible');
+
+            if (
+                results &&
+                resultsContainer &&
+                !resultsContainer.contains(results)
+            ) {
+
+                resultsContainer.appendChild(results);
+
+            }
+
+        }
+
+
+        function updateResults() {
+
+            moveResultsContainer();
+
+        }
+
+
+        updateResults();
+
+
+        var observer =
+            new MutationObserver(function () {
+
+                moveResultsContainer();
+
+            });
+
+
+        observer.observe(
+            document.body,
+            {
+                childList: true,
+                subtree: true
+            }
+        );
+
     }
 
-    function updateLayoutAfterSearch() {
-      const isMobile = isMobileDevice();
-      moveResultsContainer(true);
-      updateBodyClasses(isMobile, true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-      const query = input?.value?.trim();
-      if (query && document.title !== query + ' - UvikSearch') {
-        document.title = query + ' - UvikSearch';
-      }
-    }
-
-    function resetLayoutBeforeSearch() {
-      const isMobile = isMobileDevice();
-      updateBodyClasses(isMobile, false);
-    }
-
-    resetLayoutBeforeSearch();
-
-    if (input) {
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') updateLayoutAfterSearch();
-      });
-    }
-
-    if (searchBtn) {
-      searchBtn.addEventListener('click', updateLayoutAfterSearch);
-    }
-
-    const observer = new MutationObserver(() => {
-      const results = document.querySelector('.gsc-results-wrapper-visible');
-      if (results) {
-        updateLayoutAfterSearch();
-      }
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-
-    
-    window.addEventListener('resize', () => {
-      const isMobile = isMobileDevice();
-      const results = document.querySelector('.gsc-results-wrapper-visible');
-      const hasResults = !!results;
-      updateBodyClasses(isMobile, hasResults);
-    });
-  }
 };
 
 </script>
