@@ -1,314 +1,280 @@
 <!DOCTYPE html>
+
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <title>UvíkAsistent AI BETA</title>
-  <style>
+<meta charset="UTF-8">
+<title>UvikAssistant Shutdown</title>
+
+<style>
+
 html, body {
-  margin: 0;
-  padding: 0;
-  background-color: #008080;
-  font-family: Tahoma, Arial, sans-serif;
-  height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-.app {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+body {
+    font-size: 12px;
+    color: #000;
+    font-family: Verdana, Arial, sans-serif;
+    background: #c0c0c0;
+    text-align: center;
 }
 
-.header {
-  background: linear-gradient(#c0c0c0, #8c8c8c);
-  padding: 8px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 18px;
-  font-weight: bold;
-  color: #000;
-  border-bottom: 2px solid #000;
-  box-shadow: inset 0 1px 0 #fff;
+#displayarea {
+    position: relative;
+    min-height: 100vh;
+    width: 90%;
+    margin: auto;
+    background: #d9ecd9;
+    border-left: 1px solid #666;
+    border-right: 1px solid #666;
+    text-align: left;
 }
 
-.title-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+#topbar {
+    height: 45px;
+    background: #8fbc8f;
+    border-bottom: 1px solid #357a35;
+    padding: 3px 0;
 }
 
-.beta {
-  font-size: 18px;
-  font-weight: bold;
-
-  background: linear-gradient(#EEEE00, #FFFF00);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+#logo {
+    text-align: center;
+    margin-top: 4px;
 }
 
-.creator {
-  font-size: 10px;
-  color: black;
-}
-.chyby {
-  font-size: 11px;
-  color: black;
-  background-color: linear-gradient(#c0c0c0, #8c8c8c);
-  padding: 2px 8px;
-  margin: 0;
+#logo img {
+    height: auto;
 }
 
-.warn {
-  background-color: linear-gradient(#c0c0c0, #8c8c8c);
-  padding: 6px 0;
-  margin: 0;
-  text-align: center;
+#screen {
+    padding: 8px 10px 50px 10px;
 }
 
-.uvik {
-  font-size: 25px;
-  font-family: "Comic Sans MS";
-  color: red;
+.bar {
+    background: #8fbc8f;
+    border-top: 1px solid #357a35;
+    border-bottom: 1px solid #75a875;
+    padding: 5px 8px;
+    margin-top: 7px;
+    font-weight: bold;
 }
 
-.assistent {
-  font-size: 23px;
-  color: white;
+.barbody {
+    background: #eaf5ea;
+    border-left: 1px solid #75a875;
+    border-right: 1px solid #75a875;
+    border-bottom: 1px solid #75a875;
+    padding: 7px 8px;
 }
 
-.btn-delete {
-  border: 2px outset #fff;
-  background-color: #c0c0c0;
-  padding: 4px 10px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #000;
+.software {
+    background: #eaf5ea;
+    border: 1px solid #75a875;
+    border-top: 1px solid #5d995d;
+    margin-bottom: 7px;
+    padding: 8px;
+    cursor: pointer;
 }
 
-.btn-delete:hover {
-  border: 2px inset #fff;
+.software:hover {
+    background: #f1f9f1;
 }
 
-.powered {
-  font-size: 12px;
-  margin-left: 10px;
+.software-title {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 4px;
 }
 
-.chat-area {
-  flex: 1;
-  padding: 16px;
-  overflow-y: auto;
-  font-size: 14px;
-  background-color: #c0c0c0;
-  border-left: 2px solid #fff;
-  border-right: 2px solid #fff;
-  border-bottom: 2px solid #fff;
+a {
+    color: #006600;
+    text-decoration: none;
 }
 
-.message {
-  margin-bottom: 12px;
-  white-space: pre-wrap;
-  padding: 10px;
-  background-color: #fff;
-  border: 2px solid #000;
-  box-shadow: 2px 2px 0 #000;
+a:visited {
+    color: #005500;
 }
 
-.message.user {
-  background-color: #cfe4ff;
+a:hover {
+    color: #000;
+    text-decoration: underline;
 }
 
-.message.assistant {
-  background-color: #d8ffd0;
+#toggleBtn {
+    position: absolute;
+    right: 4px;
+    margin: 4px 6px 0 0;
+    padding: 3px 7px;
+    cursor: pointer;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 11px;
+    color: #000;
+    background: #b5d1b5;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #357a35;
+    border-bottom: 1px solid #357a35;
 }
 
-.message.system {
-  background-color: #fff3cd;
-  border-left: 5px solid #e6c200;
-  font-style: italic;
+#toggleBtn:active {
+    border-top: 1px solid #357a35;
+    border-left: 1px solid #357a35;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
 }
 
-.footer-box {
-  position: relative;
-  border-top: 2px solid #000;
-  background: linear-gradient(#c0c0c0, #8c8c8c);
-  padding: 10px;
+#footbar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 5px 0;
+    background: #8fbc8f;
+    border-top: 1px solid #357a35;
+    text-align: center;
 }
 
-.footer-input {
-  width: 100%;
-  padding: 8px 38px 8px 8px;
-  font-size: 14px;
-  border: 2px inset #fff;
-  box-sizing: border-box;
-  outline: none;
-  background: #fff;
+.cz {
+    display: inline;
 }
 
-.send-btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
-  border: 2px outset #fff;
-  background-color: #c0c0c0;
-  color: #000;
-  cursor: pointer;
-  font-size: 16px;
+.en {
+    display: none;
 }
 
-.send-btn:hover {
-  border: 2px inset #fff;
+.clean {
+    clear: both;
+    height: 1px;
+    font-size: 1px;
 }
 
-.footer {
-  background: linear-gradient(#a0a0a0, #707070);
-  padding: 12px;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: bold;
-  border-top: 2px solid #000;
-  user-select: none;
-  color: white;
-}
-.footer:hover {
-  background: linear-gradient(#b0b0b0, #808080);
-}
-  </style>
+</style>
+
 </head>
+
 <body>
-  <div class="app">
-    <div class="header">
-      <div class="title-left">
-        <span class="uvik">Uvík</span><span class="assistent">Asistent</span>
-        <span class="beta">BETA!</span>
-		<small class="creator"> od StarLaeTech</small>
-      </div>
-	  <div class="warn" id="warn"><center><small class="chyby">UvíkAsistent může dělat chyby. Ověřujte si důležité informace.</small></center></div>
-      <div>
-        <button class="btn-delete" onclick="confirmClear()">Smazat Chat</button>
-        <span class="powered">Powered by Groq 3</span>
-      </div>
-    </div>
 
-    <div id="chat" class="chat-area"></div>
-	
-	
-    <div id="footer" class="footer" onclick="activateInput()">
-      Klikněte sem pro poslání zprávy pro UvíkAsistenta
-    </div>
-  </div>
+<div id="displayarea">
 
-  <script>
-  
-	const conversation = [
-	  { role: "system", content: "Jmenuješ se UvíkAsistent. Mluv česky, pokud není řečeno jinak. Pokud dostaneš otázku na UvíkOS nebo BadgerOS/JezevecOS (či jména podobně napsané),a není to otázka na aktualizaci/stažení uvíkos, jen a pouze řekni 'Já jsem zatím v BETA fázi a nemůžu vám pomoci s UvíkOS. Můžu vám pomoci jinak?'. pro stažení uvíkos dej link na bit.ly/uvikos a pro aktualizaci řekni 'Klikněte pravým tlačítkem na UvíkPanel a vyberte možnost Stáhnout Aktualizace.'" }
-	];
+<div id="topbar">
 
-	
-    const WORKER_URL = "https://uvikasistentbackend.ondrametodej.workers.dev/";
+<button id="toggleBtn">Česky / English</button>
 
-    const chatEl = document.getElementById('chat');
+<div id="logo">
+    <h1 style="font-size: 22px; margin: 8px 0 0 0;">
+        <span class="cz">Upozornění o ukončení UvíkAsistenta</span>
+        <span class="en">UvikAssistant shutdown notice</span>
+    </h1>
+</div>
 
-	function addMessage(text, from) {
-	  const cleaned = text
-		.replace(/```[a-zA-Z0-9]*\s*\r?\n/g, "") 
-		.replace(/```/g, "");   
+<div class="clean"></div>
 
-	  const div = document.createElement('div');
-	  div.className = 'message ' + from;
-	  div.textContent =
-		from === 'user' ? 'Vy: ' + cleaned :
-		from === 'assistant' ? 'UvíkAsistent: ' + cleaned :
-		'Systém: ' + cleaned;
+</div>
 
-	  chatEl.appendChild(div);
-	  chatEl.scrollTop = chatEl.scrollHeight;
-	  return div;
-	}
-	function confirmClear() {
-	  if (confirm("Vymazat chat?")) {
-		chatEl.innerHTML = '';
+<div id="screen">
 
-		conversation.length = 0;
-		conversation.push({
-		  role: "system",
-		  content: "Jmenuješ se UvíkAsistent. Mluv česky, pokud není řečeno jinak. Pokud dostaneš otázku na UvíkOS nebo BadgerOS/JezevecOS (či jména podobně napsané),a není to otázka na aktualizaci/stažení uvíkos, jen a pouze řekni 'Já jsem zatím v BETA fázi a nemůžu vám pomoci s UvíkOS. Můžu vám pomoci jinak?'. pro stažení uvíkos dej link na bit.ly/uvikos a pro aktualizaci řekni 'Klikněte pravým tlačítkem na UvíkPanel a vyberte možnost Stáhnout Aktualizace.'"
-		});
-		const msg = addMessage('Chat byl vymazán', 'system');
-		setTimeout(() => msg.remove(), 3000);
-	  }
-	}
+<div class="bar">
+    <span class="cz">Informace</span>
+    <span class="en">Information</span>
+</div>
 
-    function activateInput() {
-      const footer = document.getElementById('footer');
-      footer.outerHTML = `
-        <div id="footer" class="footer-box">
-          <input id="footerInput" class="footer-input" placeholder="Napište zprávu..." autofocus>
-          <button class="send-btn" onclick="sendMessage()">✓</button>
-        </div>
-      `;
+<div class="barbody">
 
-      const input = document.getElementById('footerInput');
-      input.focus();
+    <center>
 
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') sendMessage();
-      });
-    }
+        <span class="cz">
+            UvíkAsistent byl z technických důvodů ukončen.
+            Děkujeme, že jste ho používali.
+        </span>
 
-    async function sendMessage() {
-      const input = document.getElementById('footerInput');
-      if (!input) return;
+        <span class="en">
+            UvikAsistent was shut down because of its technical problems.
+            Thank you for using UvikAssistent.
+        </span>
 
-      const text = input.value.trim();
-      if (!text) return;
+    </center>
 
-      addMessage(text, 'user');
-	  conversation.push({ role: "user", content: text });
+</div>
 
-      const footer = document.getElementById('footer');
-      footer.outerHTML = `
-        <div id="footer" class="footer" onclick="activateInput()">
-          Klikněte sem pro poslání zprávy pro UvíkAsistenta
-        </div>
-      `;
+<div class="bar">
+    <span class="cz">Možnosti</span>
+    <span class="en">Options</span>
+</div>
 
-      const typingMsg = addMessage("Čekejte prosím...", "assistant");
+<div class="barbody">
 
-      try {
-		conversation.push({ role: "user", content: text });
+    <span class="cz">
+            <a href="https://admin-iget.github.io/test/uvikos.html">Hlavní stránka</a>
+            <a href="https://uvikos.github.io/cz.html">Nabídka funkcí</a>
+        </span>
 
-		const res = await fetch(WORKER_URL, {
-		  method: "POST",
-		  headers: { "Content-Type": "application/json" },
-		  body: JSON.stringify({ messages: conversation })
-		});
+        <span class="en">
+            <a href="https://uvikos.github.io/en.html">Main page</a>
+        </span>
+</div>
 
-        if (!res.ok) {
-          typingMsg.remove();
-          addMessage("Chyba serveru: " + res.status, "system");
-          return;
+<div class="barbody">
+
+    <span class="cz">
+            <a href="https://admin-iget.github.io/test/index.html">Stažení UvíkOS pro Windows</a>
+        </span>
+
+        <span class="en">
+            <a href="https://admin-iget.github.io/test/engindex.html">Download UvikOS for Windows</a>
+        </span>
+</div>
+
+
+</div>
+
+<div id="footbar">
+
+<span class="cz">
+    Děkujeme, že používáte UvíkOS!
+</span>
+
+<span class="en">
+    Thank you for using UvikOS!
+</span>
+
+</div>
+
+</div>
+
+<script>
+
+let czVisible = true;
+
+document.getElementById("toggleBtn").onclick = function() {
+
+    czVisible = !czVisible;
+
+    document.querySelectorAll(".cz").forEach(function(e) {
+        e.style.display = czVisible ? "inline" : "none";
+    });
+
+    document.querySelectorAll(".en").forEach(function(e) {
+        e.style.display = czVisible ? "none" : "inline";
+    });
+
+};
+
+
+document.querySelectorAll(".software").forEach(function(box) {
+
+    box.onclick = function(e) {
+
+        if (e.target.tagName.toLowerCase() === "a") {
+            return;
         }
 
-        const reply = await res.text();
-		conversation.push({ role: "assistant", content: reply });
+        window.open(box.getAttribute("data-url"), "_blank");
 
-        typingMsg.textContent = "UvíkAsistent: " + reply;
+    };
 
-      } catch (err) {
-        typingMsg.remove();
-        addMessage("Systém: Error 404", "system");
-      }
-    }
-  </script>
+});
+
+</script>
+
 </body>
 </html>
-
-
