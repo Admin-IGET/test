@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+<meta charset="UTF-8">
+<title>UvikOS</title>
+
+<style>
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 12px;
+    color: #FF0000;
+    font-family: "Comic Sans MS", cursive;
+    background: #c0c0c0;
+    text-align: center;
+}
+
+#displayarea {
+    position: relative;
+    min-height: 100vh;
+    width: 90%;
+    margin: auto;
+    background: #d9ecd9;
+    border-left: 1px solid #666;
+    border-right: 1px solid #666;
+    text-align: left;
+}
+
+#topbar {
+    min-height: 45px;
+    background: #8fbc8f;
+    border-bottom: 1px solid #357a35;
+    padding: 3px 0;
+}
+
+#logo {
+    text-align: center;
+    margin-top: 4px;
+}
+
+#logo h1 {
+    font-size: 22px;
+    margin: 8px 0 0 0;
+    font-weight: bold;
+}
+
+#screen {
+    padding: 8px 10px 50px 10px;
+}
+
+.bar {
+    background: #8fbc8f;
+    border-top: 1px solid #357a35;
+    border-bottom: 1px solid #75a875;
+    padding: 5px 8px;
+    margin-top: 7px;
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+.barbody {
+    background: #eaf5ea;
+    border-left: 1px solid #75a875;
+    border-right: 1px solid #75a875;
+    border-bottom: 1px solid #75a875;
+    padding: 7px 8px;
+}
+
+.software {
+    background: #eaf5ea;
+    border: 1px solid #75a875;
+    border-top: 1px solid #5d995d;
+    margin-bottom: 7px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.software:hover {
+    background: #f1f9f1;
+}
+
+.software-title {
+    font-family: "Tahoma", sans;
+    font-size: 10pt;
+    font-weight: normal;
+    margin-bottom: 4px;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #101010;
+}
+
+a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+#footbar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: "Tahoma", sans;
+    font-size: 10pt;
+    color: black;
+    padding: 5px 0;
+    background: #8fbc8f;
+    border-top: 1px solid #357a35;
+    text-align: center;
+}
+
+.clean {
+    clear: both;
+    height: 1px;
+    font-size: 1px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="displayarea">
+
+    <div id="topbar">
+        <div id="logo">
+            <h1><b><font face="Arial" color=black>Welcome to Webpages of <font face="Comic Sans MS" color=red>Uvik</font>OS</font></b></h1>
+        </div>
+        <div class="clean"></div>
+    </div>
+
+    <div id="screen">
+
+        <div class="bar">
+            <font face="Tahoma" color=black>Select a Webpage</font>
+        </div>
+
+        <div class="barbody">
+
+            <div class="software"
+                 data-url="https://admin-iget.github.io/test/index.html">
+
+                <div class="software-title">
+                    <a href="https://admin-iget.github.io/test/index.html">
+                        Download UvikOS for Windows
+                    </a>
+                </div>
+
+            </div>
+
+
+            <div class="software"
+                 data-url="https://admin-iget.github.io/test/UvikMobile.html">
+
+                <div class="software-title">
+                    <a href="https://admin-iget.github.io/test/UvikMobile.html">
+                        UvikOS for Mobile Phones (beta)
+                    </a>
+                </div>
+
+            </div>
+
+            
+            <div class="software"
+                 data-url="https://admin-iget.github.io/test/UvikSearch.html">
+
+                <div class="software-title">
+                    <a href="https://admin-iget.github.io/test/UvikSearch.html">
+                        Uvik Search
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="software"
+                 data-url="https://admin-iget.github.io/test/Moresoft.html">
+
+                <div class="software-title">
+                    <a href="https://admin-iget.github.io/test/Moresoft.html">
+                        Extra Software for UvikOS
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="footbar">
+        Some options included in the Czech landing page are missing here, because they do not support English.
+    </div>
+
+    <div id="footbar">
+        Thank you for choosing/using UvikOS!
+    </div>
+
+</div>
+
+<script>
+
+document.querySelectorAll(".software").forEach(function(box) {
+
+    box.onclick = function(e) {
+
+        if (e.target.closest("a")) {
+            return;
+        }
+
+        window.location.href = box.getAttribute("data-url");
+
+    };
+
+});
+
+</script>
+
+</body>
+</html>
