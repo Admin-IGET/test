@@ -1,9 +1,45 @@
 <head><title>Jak nainstalovat UvíkOS</title></head><body>
 <sidebar>
 <main id="main">
+
+        <div id="backdrop"
+             style="display:block;
+                    position:fixed;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:100%;
+                    background:rgba(0,0,0,0.3);
+                    z-index:999;"
+             onclick="hidePopup()">
+        </div>
+        <div id="popup"
+             style="display:block;
+                    position:fixed;
+                    top:50%;
+                    left:50%;
+                    transform:translate(-50%, -50%);
+                    background:#f2f2f2;
+                    color:#000;
+                    padding:20px 30px;
+                    border:1px solid #999;
+                    z-index:9999;
+                    font-family:Arial, sans-serif;
+                    font-size:14px;">
+<center><font face="Comic Sans MS" size=6 color=black><b>Více informací</b></font>
+<hr>
+<font face="Arial" size=4 color=Black>
+Pokaždé, když vyjde nová aktualizace systému UvíkOS, se samorozbalovací archiv UvíkOS změní. Windows Defender jej poté považuje za zcela nový soubor, takže jej nesprávně označí jako hrozbu. Proto musí být soubor nahrán na službu <a href="https://www.microsoft.com/en-us/wdsi/filesubmission">WDSI</a> od Microsoftu, kde lze požádat o odstranění chybné detekce. Odstranění detekce ale může trvat až jeden den, takže se mezitím upozornění na hrozbu stále zobrazuje.
+</font>
+<hr><button onclick="hidePopup()" style="background-color: blue; color: white; height: 30px; cursor: pointer;" id="buton">OK</button>
+</center>
+</div>
+
+
+
     <h1 id="title">Jak stáhnout UvíkOS</h1>
 <center><div id="welcome">Vítejte v návodu ke stažení UvíkOS.</div><div id="tentonavod">Tento návod vás provede stažením UvíkOS pomocí samorozbalovacího archivu. Obsahuje také obrázky.</div></center>
-    <p id="whitecolor"><font face="Arial" color=red style="font-size: 22;"><center><b><u><img src="warn.gif" style="border: 0; box-shadow: none;"></img>VAROVÁNÍ: Windows Defender může v některých případech samorozbalovací archiv UvíkOS nesprávně detekovat jako hrozbu. Pokud k tomu dojde, můžete soubor zkusit stáhnout znovu později.</b></u></font></a>
+    <p id="whitecolor"><font face="Arial" color=red style="font-size: 22;"><center><b><u><img src="warn.gif" style="border: 0; box-shadow: none;"></img>VAROVÁNÍ: Windows Defender může v některých případech samorozbalovací archiv UvíkOS nesprávně označit jako hrozbu. Pokud k tomu dojde, můžete soubor zkusit stáhnout znovu později. <a href onclick="showPopup()">Více informací</a></b></u></font></a>
     <div id="NONMSEDGE"><p id="whitecolor" style="font-size: 20;"><img src="warn.gif" style="border: 0; box-shadow: none;"></img>Pokud používáte Microsoft Edge, klikněte <button onclick="msedgeIsBad()">sem</button>.</div>
     </center><p id="whitecolor">Nejprve si stáhněte Samorozbalovací archiv UvíkOS: <a href="https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/Samorozbalovaci_archiv_UvikOS.exe" target="_blank">Stáhnout</a>.
     <div id="MSEDGEONLY" style="display: none"><p id="whitecolor" id=""><center><img src="warn.gif" style="border: 0; box-shadow: none;"></img></center><domeasp>Protože UvíkOS není často stahován, Microsoft Edge může zobrazit varování „Tento soubor se běžně nestahuje“. Pokud se toto varování zobrazí, klikněte na tlačítko&nbsp;<i>...</i>, poté na <i>Ponechat</i>, poté na tlačítko&nbsp;▼ vedle tlačítka <i>Odstranit</i> a nakonec na <i>Přesto zachovat</i>.</domeasp></p>
@@ -26,7 +62,6 @@
     Pokud chcete ušetřit místo na úložišti, můžete soubor „Spustit UvíkOS“ přesunout do jiné složky a poté smazat Samorozbalovací archiv UvíkOS (Samorozbalovaci_archiv_UvikOS.exe) i rozbalenou složku.
 </main>
 
-
 </body>
 <script>
  function TotoJeJenObrazekTyMnoukadlo() {
@@ -36,6 +71,17 @@
     document.getElementById("NONMSEDGE").style.display = "none";
     document.getElementById("MSEDGEONLY").style.display = "block";
  }
+
+function showPopup() {
+document.getElementById("popup").style.display = "block";		
+		  document.getElementById("backdrop").style.display = "block";
+	  }
+
+	  function hidePopup() {
+document.getElementById("popup").style.display = "none";	
+	document.getElementById("backdrop").style.display = "none";	  
+	  }
+
 </script>
 <style>body {
     background-color: white;
