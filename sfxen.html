@@ -1,9 +1,45 @@
 <head><title>How to Download UvikOS</title></head><body>
 <sidebar>
 <main id="main">
+
+
+        <div id="backdrop"
+             style="display:none;
+                    position:fixed;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:100%;
+                    background:rgba(0,0,0,0.3);
+                    z-index:999;"
+             onclick="hidePopup()">
+        </div>
+        <div id="popup"
+             style="display:none;
+                    position:fixed;
+                    top:50%;
+                    left:50%;
+                    transform:translate(-50%, -50%);
+                    background:#f2f2f2;
+                    color:#000;
+                    padding:20px 30px;
+                    border:1px solid #999;
+                    z-index:9999;
+                    font-family:Arial, sans-serif;
+                    font-size:14px;">
+<center><font face="Comic Sans MS" size=6 color=black><b>More information</b></font>
+<hr>
+<font face="Arial" size=4 color=Black>
+Every time a UvikOS update is released, the UvikOS self-extracting archive file changes. As a result, Windows Defender treats it as a completely new file and incorrectly identifies it as malware.<br><br>To have the detection removed, we (the developers) must submit the file through Microsoft's WDSI website and request a review (and subsequent removal) of the detection.<br><br>However, the removal of the detection can take up to a day. Until it is removed, Windows Defender may continue to flag the file on any system.
+</font>
+<hr><button onclick="hidePopup()" style="background-color: blue; color: white; height: 30px; cursor: pointer;" id="buton">OK</button>
+</center>
+</div>
+
+
     <h1 id="title">How to Download UvikOS</h1>
 <center><div id="welcome">Welcome to the UvikOS download guide.</div><div id="tentonavod">This guide will walk you through downloading UvikOS using the self-extracting archive. It also includes images.</div></center>
-    <p id="whitecolor"><font face="Arial" color=red style="font-size: 22;"><center><b><u><img src="warn.gif" style="border: 0; box-shadow: none;"></img> WARNING: Windows Defender may incorrectly identify the UvikOS self-extracting archive as malware in certain situations. If you encounter this error, try downloading UvikOS again in a few days.</b></u></font></a>
+    <p id="whitecolor"><font face="Arial" color=red style="font-size: 22;"><center><b><u><img src="warn.gif" style="border: 0; box-shadow: none;"></img> WARNING: Windows Defender may incorrectly identify the UvikOS self-extracting archive as malware in certain situations. If you encounter this error, try downloading UvikOS again later.</b></u><br><button onclick="showPopup()"><b>Show more information</b></button></font></a>
     <div id="NONMSEDGE"><p id="whitecolor" style="font-size: 20;"><img src="warn.gif" style="border: 0; box-shadow: none;"></img>If you are using Microsoft Edge, click <button onclick="msedgeIsBad()">here</button>.</div>
     </center><p id="whitecolor">First, download the UvikOS self-extracting archive: <a href="https://github.com/Admin-IGET/test/releases/download/UvikOS_CZ-ENG/UvikOS_self-extracting_archive.exe" target="_blank">Download</a>.
     <div id="MSEDGEONLY" style="display: none"><p id="whitecolor" id=""><center><img src="warn.gif" style="border: 0; box-shadow: none;"></img></center><iu>Because UvikOS is <!--very unfortunatelly im putting my bloodtearsandsweaat in this progmarmsnadnobodycares--> not <!--very popular--> commonly downloaded, Microsoft Edge may show a <i>”this file isn't commonly downloaded“</i> warning. To bypass this warning, click the&nbsp;<i>...</i> button, then click&nbsp;<i>Keep</i>, then click the&nbsp;<i>▼</i> button next to the <i>Delete</i> button, and finally click <i>Keep anyway</i>.</iu></p>
@@ -34,6 +70,15 @@
     document.getElementById("NONMSEDGE").style.display = "none";
     document.getElementById("MSEDGEONLY").style.display = "block";
  }
+function showPopup() {
+document.getElementById("popup").style.display = "block";		
+		  document.getElementById("backdrop").style.display = "block";
+	  }
+
+	  function hidePopup() {
+document.getElementById("popup").style.display = "none";	
+	document.getElementById("backdrop").style.display = "none";	  
+	  }
 </script>
 <style>body {
     background-color: white;
