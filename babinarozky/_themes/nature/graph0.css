@@ -1,0 +1,59 @@
+.mstheme{
+separator-image:url(narule.gif);
+list-image-1:url(nabull1.gif);
+list-image-2:url(nabull2.gif);
+list-image-3:url(nabull3.gif);
+nav-banner-image:url(nabnr.gif);
+navbutton-horiz-normal:url(naphb.gif);
+navbutton-horiz-pushed:url(naphbp.gif);
+navbutton-vert-normal:url(napvb.gif);
+navbutton-vert-pushed:url(napvbp.gif);
+navbutton-home-normal:url(nahome.gif);
+navbutton-next-normal:url(nanext.gif);
+navbutton-prev-normal:url(naprev.gif);
+navbutton-up-normal:url(naup.gif);
+}
+UL{
+list-style-image:url(nabull1.gif);
+}
+UL UL{
+list-style-image:url(nabull2.gif);
+}
+UL UL UL{
+list-style-image:url(nabull3.gif);
+}
+.mstheme-bannertxt{
+font-family:Arial,Helvetica;
+font-size:5;
+color:#000000;
+}
+.mstheme-horiz-navtxt{
+font-family:"trebuchet ms",arial,helvetica;
+font-size:2;
+color:#000000;
+}
+.mstheme-vert-navtxt{
+font-family:"trebuchet ms",arial,helvetica;
+font-size:2;
+color:#000000;
+}
+.mstheme-navtxthome{
+font-family:"trebuchet ms",arial,helvetica;
+font-size:1;
+color:#000000;
+}
+.mstheme-navtxtup{
+font-family:"trebuchet ms",arial,helvetica;
+font-size:1;
+color:#000000;
+}
+.mstheme-navtxtprev{
+font-family:"trebuchet ms",arial,helvetica;
+font-size:1;
+color:#000000;
+}
+.mstheme-navtxtnext{
+font-family:"trebuchet ms",arial,helvetica;
+font-size:1;
+color:#000000;
+}
